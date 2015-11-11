@@ -1,0 +1,11 @@
+{
+  "db": {
+    "name": "db",
+    "connector": "memory",
+    "file": "db.json"
+  },
+  "newDatasource": {
+    "name": "newDatasource",
+    "connector": "mysql"
+  }
+}
