@@ -1,5 +1,3 @@
-var loopback = require('loopback');
-
 module.exports = function (Monitor) {
     Monitor.beforeRemote('create', function (context, user, next) {
         var req = context.req;
