@@ -18,6 +18,7 @@ module.exports = function (Monitor) {
         req.body.modifiedDate = Date.now();
         req.body.userId = context.req.accessToken.userId;
         req.body.startSecond = getRandomInt(0, 59);
+        req.body.up = false;
         next();
     });
 

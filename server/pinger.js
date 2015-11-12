@@ -1,9 +1,8 @@
-
-
-module.exports.start = function (app) {
-
-    //var Monitor = require();
+module.exports.start = function (app, debug) {
     var request = require('request');
+    var Monitor = app.models.Monitor;
+    var MonitorEvent = app.models.MonitorEvent;
+    var MonitorPing = app.models.MonitorPing;
 
     /**
      * @todo performance hangup after response header and before body is transferred
@@ -23,8 +22,8 @@ module.exports.start = function (app) {
             /**
              * @todo performance write these in batches more slowly?
              */
-            app.models.MonitorPing.create(pingData);
-            console.log(pingData);
+            MonitorPing.create(pingData);
+            console.log('pingSuccess', monitor.url, pingData);
 
             if (monitor.up != pingData.up) {
                 changeMonitorUp(monitor, pingData.up, reason)
@@ -38,7 +37,7 @@ module.exports.start = function (app) {
          */
         monitor.up = newUp;
         monitor.save();
-        monitorEvent.create({
+        MonitorEvent.create({
             date: Date.now(),
             type: newUp ? 'u' : 'd',
             reason: reason
@@ -50,10 +49,15 @@ module.exports.start = function (app) {
      * @param startSecond
      */
     function pingMonitors(startSecond) {
-        console.log(app.models);
-        app.models.Monitor.find(
-            {where: {startSecond: startSecond, status: ''}},
+        Monitor.find(
+            {where: {startSecond: startSecond, enabled: true}},
             function (err, monitors) {
+                if (err) {
+                    console.error(err);
+                }
+                if (!monitors) {
+                    return;
+                }
                 for (var i = 0, len = monitors.length; i < len; i++) {
                     pingMonitor(monitors[i]);
                 }
@@ -62,8 +66,12 @@ module.exports.start = function (app) {
     }
 
     var second = 0;
-    setTimeout(function () {
-        second++;
-        pingMonitors(second)
-    }, 1);
+    setInterval(function () {
+            second++;
+            if (second == 60) {
+                second = 0;
+            }
+            pingMonitors(second)
+        },
+        debug ? 20 : 1000);
 };
