@@ -32,7 +32,19 @@
     "dataSource": "db",
     "public": false
   },
-  "monitor": {
+  "Monitor": {
+    "dataSource": "db",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
+  },
+  "MonitorEvent": {
+    "dataSource": "db",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
+  },
+  "MonitorPing": {
     "dataSource": "db",
     "public": true,
     "$promise": {},

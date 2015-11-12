@@ -1,5 +1,5 @@
 {
-  "name": "monitor",
+  "name": "Monitor",
   "base": "PersistedModel",
   "strict": true,
   "idInjection": false,
@@ -18,6 +18,24 @@
     "url": {
       "type": "string",
       "required": true
+    },
+    "interval": {
+      "type": "number",
+      "required": true,
+      "default": 5
+    },
+    "startSecond": {
+      "type": "number",
+      "required": true
+    },
+    "up": {
+      "type": "boolean",
+      "required": false
+    },
+    "enabled": {
+      "type": "boolean",
+      "required": true,
+      "default": true
     },
     "modifiedDate": {
       "type": "date",
