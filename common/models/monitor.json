@@ -18,6 +18,10 @@
     "url": {
       "type": "string",
       "required": true
+    },
+    "modifiedDate": {
+      "type": "date",
+      "required": true
     }
   },
   "validations": [],
@@ -38,15 +42,22 @@
     {
       "accessType": "WRITE",
       "principalType": "ROLE",
-      "principalId": "$everyone",
+      "principalId": "$authenticated",
       "permission": "ALLOW",
       "property": "create"
     },
     {
-      "accessType": "*",
+      "accessType": "READ",
       "principalType": "ROLE",
       "principalId": "$owner",
       "permission": "ALLOW"
+    },
+    {
+      "accessType": "WRITE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": "updateAttributes"
     }
   ],
   "methods": {}

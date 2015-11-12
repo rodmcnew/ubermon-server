@@ -1,31 +1,18 @@
 var loopback = require('loopback');
 
 module.exports = function (Monitor) {
-    Monitor.observe('before save', function filterProperties(ctx, next) {
-        var context = loopback.getCurrentContext();
+    Monitor.beforeRemote('create', function (context, user, next) {
+        var req = context.req;
+        req.body.modifiedDate = Date.now();
+        req.body.userId = context.req.accessToken.userId;
+        next();
+    });
 
-        /**
-         * For posts only, demand that the monitor
-         * be owned by current user.
-         */
-        if (ctx.instance && ctx.instance.userId != context.active.accessToken.userId) {
-            var err = new Error("userId must be the logged in user.");
-            err.statusCode = 400;
-            next(err);
-            return;
-        }
-
-        /**
-         * For puts only, do not allow the userId to
-         * be modified.
-         */
-        if (ctx.data && ctx.data.userId && ctx.data.userId != ctx.currentInstance.userId) {
-            var err = new Error("userId cannot be modified");
-            err.statusCode = 400;
-            next(err);
-            return;
-        }
-
+    Monitor.beforeRemote('prototype.updateAttributes', function (context, user, next) {
+        var req = context.req;
+        req.body.modifiedDate = Date.now();
+        delete(req.body.userId);
+        delete(req.body.createdDate);
         next();
     });
 };
