@@ -12,7 +12,6 @@ module.exports = function (Monitor) {
         var req = context.req;
         req.body.modifiedDate = Date.now();
         delete(req.body.userId);
-        delete(req.body.createdDate);
         next();
     });
 };
