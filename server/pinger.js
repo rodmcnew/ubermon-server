@@ -64,11 +64,11 @@ module.exports.start = function (app, debug) {
 
     /**
      * @todo performance pull from db in separate spot instead of every second
-     * @param secondOffset
+     * @param intraminuteOffset
      */
-    function pingMonitors(secondOffset) {
+    function pingMonitors(intraminuteOffset) {
         Monitor.find(
-            {where: {secondOffset: secondOffset, enabled: true}},
+            {where: {intraminuteOffset: intraminuteOffset, enabled: true}},
             function (err, monitors) {
                 if (err) {
                     console.error(err);
@@ -83,16 +83,16 @@ module.exports.start = function (app, debug) {
         );
     }
 
-    var secondOffset = 0;
+    var intraminuteOffset = 0;
     var minute = 0;
     setInterval(
         function () {
-            secondOffset++;
-            if (secondOffset == 20) {
-                secondOffset = 0;
+            intraminuteOffset++;
+            if (intraminuteOffset == 20) {
+                intraminuteOffset = 0;
                 minute++;
             }
-            pingMonitors(secondOffset, minute)
+            pingMonitors(intraminuteOffset, minute)
         },
         debug ? 300 : 3000 //Debug mode runs 10x faster
     );

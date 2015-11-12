@@ -1,7 +1,7 @@
 /**
  * @TODO add keyword, ping, and port monitor types
  * @todo validate user emails
- * @param min
+ * @par min
  * @param max
  * @returns {*}
  */
@@ -17,9 +17,10 @@ module.exports = function (Monitor) {
     Monitor.beforeRemote('create', function (context, user, next) {
         var req = context.req;
         req.body.modifiedDate = Date.now();
-        req.body.userId = context.req.accessToken.userId;
-        req.body.secondOffset = getRandomInt(0, 19);
+        req.body.userId = req.accessToken.userId;
+        req.body.intraminuteOffset = getRandomInt(0, 19);
         req.body.up = false;
+        req.body.type = 'h';
         next();
     });
 
@@ -28,8 +29,30 @@ module.exports = function (Monitor) {
         req.body.modifiedDate = Date.now();
         //Do not allow these values to be changed
         delete(req.body.userId);
-        delete(req.body.secondOffset);
+        delete(req.body.intraminuteOffset);
         delete(req.body.up);
+        delete(req.body.type);
         next();
     });
+
+    Monitor.listMine = function (accessToken, cb) {
+        Monitor.find(
+            {where: {userId: accessToken.accessToken.userId}},
+            function (err, monitors) {
+                if (err) {
+                    console.error(err);
+                }
+                cb(null, monitors);
+            }
+        );
+    };
+
+    Monitor.remoteMethod(
+        'listMine',
+        {
+            accepts: {arg: 'accessToken', type: 'object', http: {source: 'req'}},
+            returns: {arg: 'monitors', type: 'array'},
+            http: {verb: 'GET'}
+        }
+    );
 };
