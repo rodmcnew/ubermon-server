@@ -82,4 +82,3 @@ module.exports.start = function (app, debug) {
         },
         debug ? 20 : 1000);
 }
-;
