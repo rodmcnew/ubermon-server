@@ -9,7 +9,10 @@ module.exports.start = function (app, debug) {
      * @param monitor
      */
     function pingMonitor(monitor) {
-        var pingData = {date: Date.now()};
+        var pingData = {
+            monitorId: monitor.id,
+            date: Date.now()
+        };
         request(monitor.url, function (error, response, body) {
             pingData.latency = Date.now() - pingData.date;
             var reason = 'OK (200)';
@@ -23,7 +26,7 @@ module.exports.start = function (app, debug) {
              * @todo performance write these in batches more slowly?
              */
             MonitorPing.create(pingData);
-            console.log('pingSuccess', monitor.url, pingData);
+            console.log('MonitorPing.create', pingData);
 
             if (monitor.up != pingData.up) {
                 changeMonitorUp(monitor, pingData.up, reason)
@@ -37,11 +40,15 @@ module.exports.start = function (app, debug) {
          */
         monitor.up = newUp;
         monitor.save();
-        MonitorEvent.create({
+        var eventData = {
+            monitorId: monitor.id,
             date: Date.now(),
             type: newUp ? 'u' : 'd',
             reason: reason
-        })
+        };
+
+        console.log('MonitorEvent.create', eventData);
+        MonitorEvent.create(eventData)
     }
 
     /**
@@ -74,4 +81,5 @@ module.exports.start = function (app, debug) {
             pingMonitors(second)
         },
         debug ? 20 : 1000);
-};
+}
+;
