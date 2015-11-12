@@ -1,0 +1,35 @@
+<div class="row">
+    <div class="col-sm-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Create Monitor</h3>
+            </div>
+            <form ng-submit="createMonitor(newMonitor)" role="form">
+                <div class="form-group">
+                    <label for="type">Type</label>
+                    <select ng-model="newMonitor.type" id="type">
+                        <option value="h">HTTP(s)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="name">Friendly Name</label>
+                    <input ng-model="newMonitor.name" type="text" class="form-control" id="name">
+                </div>
+                <div class="form-group">
+                    <label for="url">URL (or IP)</label>
+                    <input ng-model="newMonitor.url" type="text" class="form-control" id="url">
+                </div>
+                <div class="form-group">
+                    <label for="interval">Monitoring Interval (minutes)</label>
+                    <input ng-model="newMonitor.interval" type="text" class="form-control" id="interval">
+                </div>
+                <button type="submit" class="btn btn-default">Create Monitor</button>
+            </form>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="panel panel-default">
+
+        </div>
+    </div>
+</div>

@@ -24,7 +24,7 @@
       "required": true,
       "default": 5
     },
-    "startSecond": {
+    "secondOffset": {
       "type": "number",
       "required": true
     },

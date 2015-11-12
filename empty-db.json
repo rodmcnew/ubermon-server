@@ -1,0 +1,31 @@
+{
+  "ids": {
+    "User": 17,
+    "AccessToken": 13,
+    "ACL": 1,
+    "RoleMapping": 1,
+    "Role": 1,
+    "monitor": 51,
+    "Monitor": 5,
+    "MonitorPing": 410,
+    "MonitorEvent": 47
+  },
+  "models": {
+    "User": {
+
+    },
+    "AccessToken": {
+
+    },
+    "ACL": {},
+    "RoleMapping": {},
+    "Role": {},
+    "Monitor": {
+
+    },
+    "MonitorEvent": {
+
+    },
+    "MonitorPing": {}
+  }
+}

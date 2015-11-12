@@ -18,6 +18,10 @@
     "latency": {
       "type": "number",
       "required": true
+    },
+    "reason": {
+      "type": "string",
+      "required": true
     }
   },
   "validations": [],

@@ -1,3 +1,9 @@
+/**
+ * @todo delete pings older than 24 hours
+ * @todo confirm detected downs from another server
+ * @param app
+ * @param debug
+ */
 module.exports.start = function (app, debug) {
     var request = require('request');
     var Monitor = app.models.Monitor;
@@ -13,51 +19,56 @@ module.exports.start = function (app, debug) {
             monitorId: monitor.id,
             date: Date.now()
         };
-        request(monitor.url, function (error, response, body) {
+        request(monitor.url, function (err, res, body) {
             pingData.latency = Date.now() - pingData.date;
-            var reason = 'OK (200)';
-            pingData.up = true;
-            if (error || response.statusCode != 200) {
+            if (err) {
                 pingData.up = false;
-                reason = "Unknown";
+                pingData.reason = err.code;
+            } else {
+                pingData.up = res.statusCode == 200;
+                pingData.reason = 'Returned ' + res.statusCode;
             }
 
-            /**
-             * @todo performance write these in batches more slowly?
-             */
-            MonitorPing.create(pingData);
-            console.log('MonitorPing.create', pingData);
+            if (debug) {
+                console.log(
+                    'ping',
+                    monitor.url,
+                    pingData.reason,
+                    '(' + pingData.latency + 'ms' + ')'
+                );
+            }
+
+            ///**
+            // * @todo performance write these in batches more slowly?
+            // */
+            //MonitorPing.create(pingData);
 
             if (monitor.up != pingData.up) {
-                changeMonitorUp(monitor, pingData.up, reason)
+                /**
+                 * @todo performance write these in batches more slowly?
+                 */
+                monitor.up = pingData.up;
+                monitor.save();
+                var eventData = {
+                    monitorId: monitor.id,
+                    date: Date.now(),
+                    type: pingData.up ? 'u' : 'd',
+                    reason: pingData.reason
+                };
+
+                console.log('MonitorEvent.create', eventData);
+                MonitorEvent.create(eventData)
             }
         });
     }
 
-    function changeMonitorUp(monitor, newUp, reason) {
-        /**
-         * @todo performance write these in batches more slowly?
-         */
-        monitor.up = newUp;
-        monitor.save();
-        var eventData = {
-            monitorId: monitor.id,
-            date: Date.now(),
-            type: newUp ? 'u' : 'd',
-            reason: reason
-        };
-
-        console.log('MonitorEvent.create', eventData);
-        MonitorEvent.create(eventData)
-    }
-
     /**
      * @todo performance pull from db in separate spot instead of every second
-     * @param startSecond
+     * @param secondOffset
      */
-    function pingMonitors(startSecond) {
+    function pingMonitors(secondOffset) {
         Monitor.find(
-            {where: {startSecond: startSecond, enabled: true}},
+            {where: {secondOffset: secondOffset, enabled: true}},
             function (err, monitors) {
                 if (err) {
                     console.error(err);
@@ -72,13 +83,17 @@ module.exports.start = function (app, debug) {
         );
     }
 
-    var second = 0;
-    setInterval(function () {
-            second++;
-            if (second == 60) {
-                second = 0;
+    var secondOffset = 0;
+    var minute = 0;
+    setInterval(
+        function () {
+            secondOffset++;
+            if (secondOffset == 20) {
+                secondOffset = 0;
+                minute++;
             }
-            pingMonitors(second)
+            pingMonitors(secondOffset, minute)
         },
-        debug ? 20 : 1000);
-}
+        debug ? 300 : 3000 //Debug mode runs 10x faster
+    );
+};

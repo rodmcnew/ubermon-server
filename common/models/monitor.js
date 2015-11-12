@@ -1,5 +1,6 @@
 /**
  * @TODO add keyword, ping, and port monitor types
+ * @todo validate user emails
  * @param min
  * @param max
  * @returns {*}
@@ -17,7 +18,7 @@ module.exports = function (Monitor) {
         var req = context.req;
         req.body.modifiedDate = Date.now();
         req.body.userId = context.req.accessToken.userId;
-        req.body.startSecond = getRandomInt(0, 59);
+        req.body.secondOffset = getRandomInt(0, 19);
         req.body.up = false;
         next();
     });
@@ -27,7 +28,7 @@ module.exports = function (Monitor) {
         req.body.modifiedDate = Date.now();
         //Do not allow these values to be changed
         delete(req.body.userId);
-        delete(req.body.startSecond);
+        delete(req.body.secondOffset);
         delete(req.body.up);
         next();
     });
