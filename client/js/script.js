@@ -73,6 +73,11 @@ dollarPing.controller('dashboard', function ($scope, Monitor, MonitorEvent) {
     };
 
     updateMonitorList();
+
+    setInterval(function () {
+        updateMonitorList();
+        updateCurrentMonitor();
+    }, 10000)
 });
 
 dollarPing.config(['$routeProvider', function ($routeProvider) {

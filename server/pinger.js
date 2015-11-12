@@ -29,14 +29,14 @@ module.exports.start = function (app, debug) {
                 pingData.reason = 'Returned ' + res.statusCode;
             }
 
-            if (debug) {
-                console.log(
-                    'ping',
-                    monitor.url,
-                    pingData.reason,
-                    '(' + pingData.latency + 'ms' + ')'
-                );
-            }
+            //if (debug) {
+            //    console.log(
+            //        'ping',
+            //        monitor.url,
+            //        pingData.reason,
+            //        '(' + pingData.latency + 'ms' + ')'
+            //    );
+            //}
 
             ///**
             // * @todo performance write these in batches more slowly?
