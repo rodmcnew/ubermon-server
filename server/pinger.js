@@ -56,7 +56,7 @@ module.exports.start = function (app, debug) {
                     reason: pingData.reason
                 };
 
-                console.log('MonitorEvent.create', eventData);
+                //console.log('MonitorEvent.create', eventData);
                 MonitorEvent.create(eventData)
             }
         });
