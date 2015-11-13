@@ -17,8 +17,8 @@
                             <a ng-bind="monitor.name" href="javascript:void(0)"></a>
                         </td>
                         <td>
-                            <span ng-show="monitor.up">UP</span>
-                            <span ng-show="!monitor.up">DOWN</span>
+                            <span ng-show="monitor.up===true">UP</span>
+                            <span ng-show="monitor.up===false">DOWN</span>
                         </td>
                     </tr>
                 </table>
