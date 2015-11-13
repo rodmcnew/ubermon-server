@@ -1,6 +1,15 @@
 var dollarPing = angular.module('dollarPing', ['lbServices', 'ngRoute']);
 
 dollarPing.controller('home', function ($scope, User, $location) {
+    $scope.plans = {
+        "20": "1",
+        "50": "2",
+        "100": "4",
+        "500": "20",
+        "1000": "40"
+    };
+    $scope.selectedPlan = '20';
+
     function handleLBError(res) {
         alert(res.data.error.message);
     }
