@@ -6,9 +6,13 @@
             </div>
             <div class="panel-body">
                 <table class="table">
+                    <td colspan="3">
+                        <a ng-click="showCreateMonitorModal=true" href="javascript:void(0)">+ Create New Monitor</a>
+                    </td>
                     <tr data-monitor-id="{{monitor.id}}"
                         ng-repeat="monitor in monitors"
-                        ng-click="selectMonitor(monitor)">
+                        ng-click="selectMonitor(monitor)"
+                        style="cursor: pointer;">
                         <td>
                             <a ng-bind="monitor.name" href="javascript:void(0)"></a>
                         </td>
@@ -24,7 +28,7 @@
     <div class="col-sm-8">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Monitor {{currentMonitor.name}}</h3>
+                <h3 class="panel-title">{{currentMonitor.name}}</h3>
             </div>
             <div class="panel-body">
                 <div ng-bind="currentMonitor.url"></div>
@@ -52,35 +56,45 @@
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-sm-6">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Create Monitor</h3>
+
+
+<div class="modal fade in" ng-class="{show: showCreateMonitorModal}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Modal title</h4>
             </div>
-            <form ng-submit="createMonitor(newMonitor)" role="form">
-                <div class="form-group">
-                    <label for="type">Type</label>
-                    <select ng-model="newMonitor.type" id="type">
-                        <option value="h">HTTP(s)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="name">Friendly Name</label>
-                    <input ng-model="newMonitor.name" type="text" class="form-control" id="name">
-                </div>
-                <div class="form-group">
-                    <label for="url">URL (or IP)</label>
-                    <input ng-model="newMonitor.url" type="text" class="form-control" id="url">
-                </div>
-                <div class="form-group">
-                    <label for="interval">Monitoring Interval (minutes)</label>
-                    <select ng-model="newMonitor.interval" id="interval">
-                        <option value="1">1</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-default">Create Monitor</button>
-            </form>
+            <div class="modal-body">
+                <form ng-submit="createMonitor(newMonitor)" role="form">
+                    <div class="form-group">
+                        <label for="type">Type</label>
+                        <select ng-model="newMonitor.type" id="type">
+                            <option value="h">HTTP(s)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Friendly Name</label>
+                        <input ng-model="newMonitor.name" type="text" class="form-control" id="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="url">URL (or IP)</label>
+                        <input ng-model="newMonitor.url" type="text" class="form-control" id="url">
+                    </div>
+                    <div class="form-group">
+                        <label for="interval">Monitoring Interval (minutes)</label>
+                        <select ng-model="newMonitor.interval" id="interval">
+                            <option value="1">1</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="showCreateMonitorModal=false">Close</button>
+                <button type="button" class="btn btn-primary" ng-click="createMonitor(newMonitor)">Create Monitor
+                </button>
+            </div>
         </div>
+        <!-- /.modal-content -->
     </div>
-</div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->

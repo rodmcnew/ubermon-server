@@ -43,7 +43,7 @@ module.exports.start = function (app, debug) {
             // */
             //MonitorPing.create(pingData);
 
-            if (monitor.up != pingData.up) {
+            if (monitor.up !== pingData.up) {
                 /**
                  * @todo performance write these in batches more slowly?
                  */

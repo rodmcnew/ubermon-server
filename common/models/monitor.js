@@ -19,7 +19,7 @@ module.exports = function (Monitor) {
         req.body.modifiedDate = Date.now();
         req.body.userId = req.accessToken.userId;
         req.body.intraminuteOffset = getRandomInt(0, 19);
-        req.body.up = false;
+        req.body.up = null;
         req.body.type = 'h';
         next();
     });

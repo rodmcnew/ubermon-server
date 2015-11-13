@@ -28,7 +28,9 @@ dollarPing.controller('home', function ($scope, User, $location) {
 });
 
 dollarPing.controller('dashboard', function ($scope, Monitor, MonitorEvent) {
-    $scope.newMonitor = {type: 'h', interval: '1', url: 'http://'};//h for http;
+    function prepareForNewMonitor() {
+        $scope.newMonitor = {type: 'h', interval: '1', url: 'http://'};//h for http;
+    }
 
     function handleLBError(res) {
         alert(res.data.error.message);
@@ -60,11 +62,15 @@ dollarPing.controller('dashboard', function ($scope, Monitor, MonitorEvent) {
         Monitor.create(
             monitorData,
             function () {
-                alert('monitor created!');
                 updateMonitorList();
+                /**
+                 * @TODO select the created monitor
+                 */
             },
             handleLBError
         );
+        $scope.showCreateMonitorModal = false;
+        prepareForNewMonitor();
     };
 
     $scope.selectMonitor = function (monitor) {
@@ -73,6 +79,7 @@ dollarPing.controller('dashboard', function ($scope, Monitor, MonitorEvent) {
     };
 
     updateMonitorList();
+    prepareForNewMonitor();
 
     setInterval(function () {
         updateMonitorList();
