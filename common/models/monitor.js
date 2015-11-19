@@ -58,7 +58,6 @@ module.exports = function (Monitor) {
     );
 
     Monitor.ping = function (monitor, cb) {
-        console.log(monitor);
         var pingData = {
             monitorId: monitor.id,
             date: Date.now()
