@@ -56,7 +56,6 @@ ubermon.controller('dashboard', function ($scope, Monitor, MonitorEvent, Monitor
                     limit: 60 * 24 //@TODO use 24 hours ago instead
                 }
             }, function (res) {
-                console.log($scope.pings);
                 var pingChart = {
                     data: [[]],
                     labels: []
