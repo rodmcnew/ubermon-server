@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # This script deploys the app to Heroku
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-cd $DIR/../deploy.dollarping
+cd $DIR/../deploy.ubermon
 if [ $? -eq 0 ]; then
     rm -R ./*
-    cp -R ../dollarping/* ./
+    cp -R ../ubermon/* ./
     # Bring main .gitignore so node_modules don't go to Heroku
-    cp ../dollarping/.gitignore ./
+    cp ../ubermon/.gitignore ./
     # Ensure secrets.js makes it to Heroku
     rm ./secret/.gitignore
     git add .
@@ -14,5 +14,5 @@ if [ $? -eq 0 ]; then
     git push heroku master
     cd $DIR
 else
-    echo deploy.dollarping folder does not exist
+    echo deploy.ubermon folder does not exist
 fi
