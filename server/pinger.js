@@ -27,7 +27,6 @@ module.exports.start = function (app, debug) {
             }
         };
         request.head(reqOptions, function (err, res) {
-            pingData.latency = Date.now() - pingData.date;
             if (err) {
                 pingData.up = false;
                 pingData.reason = err.code;
@@ -36,14 +35,11 @@ module.exports.start = function (app, debug) {
                 pingData.reason = 'Returned ' + res.statusCode;
             }
 
-            //if (debug) {
-            //    console.log(
-            //        'ping',
-            //        monitor.url,
-            //        pingData.reason,
-            //        '(' + pingData.latency + 'ms' + ')'
-            //    );
-            //}
+            if (pingData.up) {
+                pingData.latency = Date.now() - pingData.date;
+            } else {
+                pingData.latency = 0;
+            }
 
             ///**
             // * @todo performance write these in batches more slowly?
@@ -63,7 +59,6 @@ module.exports.start = function (app, debug) {
                     reason: pingData.reason
                 };
 
-                //console.log('MonitorEvent.create', eventData);
                 MonitorEvent.create(eventData)
             }
         });
