@@ -1,6 +1,5 @@
 var loopback = require('loopback');
 var boot = require('loopback-boot');
-var pinger = require(__dirname + '/pinger');
 
 var app = module.exports = loopback();
 
@@ -25,6 +24,11 @@ boot(app, __dirname, function (err) {
     // start the server if `$ node server.js`
     if (require.main === module) {
         app.start();
-        pinger.start(app, false);
+
+        var engine = require(__dirname + '/daemon/engine');
+        engine.start(app);
+
+        var alerter = require(__dirname + '/daemon/alerter');
+        alerter.start(app);
     }
 });

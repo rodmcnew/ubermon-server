@@ -19,6 +19,10 @@
     "reason": {
       "type": "string",
       "required": true
+    },
+    "alertSent": {
+      "type": "boolean",
+      "required": true
     }
   },
   "validations": [],

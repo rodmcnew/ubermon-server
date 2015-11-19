@@ -25,7 +25,7 @@
       "required": true,
       "default": 5
     },
-    "intraminuteOffset": {
+    "startSecond": {
       "type": "number",
       "required": true
     },
@@ -84,6 +84,13 @@
       "principalId": "$authenticated",
       "permission": "ALLOW",
       "property": "listMine"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "ping"
     }
   ],
   "methods": {}

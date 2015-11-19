@@ -1,0 +1,55 @@
+/**
+ * @todo delete pings older than 24 hours in "cleaner.js"
+ * @todo confirm detected downs from another server
+ * @param app
+ * @param debug
+ */
+module.exports.start = function (app) {
+    var MonitorEvent = app.models.MonitorEvent;
+    var nodemailer = require('nodemailer');
+    var transporter = nodemailer.createTransport();
+
+    /**
+     *
+     * @param event
+     */
+    function sendAlert(event) {
+        var monitor = event.toJSON().monitor;
+        var statusWord = monitor.up ? 'up' : 'down';
+        event.alertSent = true;
+        event.save();
+        transporter.sendMail({
+            from: 'Ubermon <noreply@ubermon.com>', // sender address
+            to: monitor.user.email, // list of receivers
+            subject: monitor.name + ' is ' + statusWord + '.', // Subject line
+            html: monitor.name + ' is ' + statusWord + '.<br><br>Login at <a href="http:/www.Ubermon.com">ubermon.com</a> to change your notification settings.' // html body
+        }, function (err) {
+            if (err) {
+                console.error(err);
+            }
+        });
+    }
+
+    function sendAlerts() {
+        MonitorEvent.find(
+            {where: {alertSent: false}, include: {monitor: 'user'}},
+            function (err, events) {
+                //console.log(events);
+                if (err) {
+                    console.error(err);
+                }
+                if (!events) {
+                    return;
+                }
+                for (var i = 0, len = events.length; i < len; i++) {
+                    sendAlert(events[i]);
+                }
+            }
+        );
+    }
+
+    setInterval(
+        sendAlerts,
+        1000
+    );
+};

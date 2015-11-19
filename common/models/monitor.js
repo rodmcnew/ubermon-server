@@ -7,10 +7,7 @@
  * @param max
  * @returns {*}
  */
-
-function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+var request = require('request');
 /**
  * @TODO validate interval > 0
  * @param Monitor
@@ -20,7 +17,9 @@ module.exports = function (Monitor) {
         var req = context.req;
         req.body.modifiedDate = Date.now();
         req.body.userId = req.accessToken.userId;
-        req.body.intraminuteOffset = getRandomInt(0, 19);
+        var startTime = new Date();
+        startTime.setSeconds(startTime.getSeconds() + 5);// Ensure monitor starts in 5 seconds
+        req.body.startSecond = startTime.getSeconds();
         req.body.up = null;
         req.body.type = 'h';
         next();
@@ -31,15 +30,15 @@ module.exports = function (Monitor) {
         req.body.modifiedDate = Date.now();
         //Do not allow these values to be changed
         delete(req.body.userId);
-        delete(req.body.intraminuteOffset);
+        delete(req.body.startSecond);
         delete(req.body.up);
         delete(req.body.type);
         next();
     });
 
-    Monitor.listMine = function (accessToken, cb) {
+    Monitor.listMine = function (req, cb) {
         Monitor.find(
-            {where: {userId: accessToken.accessToken.userId}},
+            {where: {userId: req.accessToken.userId}},
             function (err, monitors) {
                 if (err) {
                     console.error(err);
@@ -52,9 +51,52 @@ module.exports = function (Monitor) {
     Monitor.remoteMethod(
         'listMine',
         {
-            accepts: {arg: 'accessToken', type: 'object', http: {source: 'req'}},
+            accepts: {arg: 'req', type: 'object', http: {source: 'req'}},
             returns: {arg: 'monitors', type: 'array'},
             http: {verb: 'GET'}
+        }
+    );
+
+    Monitor.ping = function (monitor, cb) {
+        console.log(monitor);
+        var pingData = {
+            monitorId: monitor.id,
+            date: Date.now()
+        };
+        var reqOptions = {
+            method: 'HEAD',
+            url: monitor.url,
+            headers: {
+                'User-Agent': 'Ubermon'
+            }
+        };
+        request(reqOptions, function (err, res) {
+            if (err) {
+                pingData.up = false;
+                pingData.reason = err.code;
+            } else {
+                pingData.up = res.statusCode == 200;
+                pingData.reason = 'Returned ' + res.statusCode;
+            }
+
+            if (pingData.up) {
+                pingData.latency = Date.now() - pingData.date;
+            } else {
+                pingData.latency = 0;
+            }
+            cb(pingData);
+        });
+    };
+
+    /**
+     * @TODO add ACL to only allow machines to call this.
+     */
+    Monitor.remoteMethod(
+        'ping',
+        {
+            accepts: {arg: 'monitor', type: 'object', http: {source: 'body'}},
+            returns: {arg: 'pingData', type: 'object'},
+            http: {verb: 'POST'}
         }
     );
 };
