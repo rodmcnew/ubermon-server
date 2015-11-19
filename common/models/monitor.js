@@ -1,6 +1,8 @@
 /**
  * @TODO add keyword, ping, and port monitor types
  * @todo validate user emails
+ * @todo combine monitors for the same URL if 2 users request the same url to lower DDOS chances? (still need more DDOS protection for differ parameters in same url)
+ * @todo add "started" event when monitor starts and ping it imedietly.
  * @par min
  * @param max
  * @returns {*}

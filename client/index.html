@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app="dollarPing">
+<html ng-app="ubermon">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Ubermon</title>
@@ -18,8 +18,10 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"
             integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ=="
             crossorigin="anonymous"></script>
-    <script src="/vendor/angular/angular-resource.js"></script>
-    <script src="/vendor/angular/angular-route.js"></script>
+    <script src="bower_components_not_bower/Chart.js-skip-xlabels/Chart.min.js"></script>
+    <script src="bower_components/angular-chart.js/dist/angular-chart.min.js"></script>
+    <script src="/bower_components_not_bower/angular/angular-resource.js"></script>
+    <script src="/bower_components_not_bower/angular/angular-route.js"></script>
     <script src="js/lb-services.js"></script>
     <script type="text/javascript" src="/js/script.js"></script>
     <link rel="stylesheet" href="/css/style.css"/>
@@ -30,7 +32,7 @@
         <div class="col-sm-12">
             <div class="alert alert-danger" ng-bind="'UBERMON IS STILL IN DEVELOPMENT. DO NOT USE IT YET!'"></div>
             <h2 style="display: inline"><a href="/#/">Ubermon</a></h2>
-            Free website monitoring with 1 minute intervals. <a href=""></a>
+            Free website monitoring with checks once per minute. <a href=""></a>
             <br><br>
         </div>
     </div>

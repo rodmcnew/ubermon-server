@@ -1,6 +1,6 @@
-var dollarPing = angular.module('dollarPing', ['lbServices', 'ngRoute']);
+var ubermon = angular.module('ubermon', ['lbServices', 'ngRoute', 'chart.js']);
 
-dollarPing.controller('home', function ($scope, User, $location) {
+ubermon.controller('home', function ($scope, User, $location) {
 
     function handleLBError(res) {
         alert(res.data.error.message);
@@ -28,7 +28,7 @@ dollarPing.controller('home', function ($scope, User, $location) {
     }
 });
 
-dollarPing.controller('dashboard', function ($scope, Monitor, MonitorEvent) {
+ubermon.controller('dashboard', function ($scope, Monitor, MonitorEvent, MonitorPing) {
     function prepareForNewMonitor() {
         $scope.newMonitor = {type: 'h', interval: '1', url: 'http://'};//h for http;
     }
@@ -42,11 +42,34 @@ dollarPing.controller('dashboard', function ($scope, Monitor, MonitorEvent) {
             {
                 filter: {
                     where: {monitorId: $scope.currentMonitor.id},
-                    order: 'date DESC', //@todo make this work
+                    order: 'date DESC',
                     limit: 10
                 }
             }, function (res) {
                 $scope.events = res;
+            }, handleLBError);
+        MonitorPing.find(
+            {
+                filter: {
+                    where: {monitorId: $scope.currentMonitor.id},
+                    order: 'date DESC',
+                    limit: 60 * 24 //@TODO use 24 hours ago instead
+                }
+            }, function (res) {
+                console.log($scope.pings);
+                var pingChart = {
+                    data: [[]],
+                    labels: []
+                };
+                res.forEach(function (ping) {
+                    pingChart.data[0].unshift(ping.latency);
+                    var date = new Date(ping.date);
+                    pingChart.labels.unshift(date.getHours() + ':' + date.getMinutes());
+                });
+                $scope.pingChart = pingChart;
+                /**
+                 * @TODO add chart hover
+                 */
             }, handleLBError);
     }
 
@@ -88,7 +111,7 @@ dollarPing.controller('dashboard', function ($scope, Monitor, MonitorEvent) {
     }, 10000)
 });
 
-dollarPing.config(['$routeProvider', function ($routeProvider) {
+ubermon.config(['$routeProvider', function ($routeProvider) {
     $routeProvider.
         when('/', {
             templateUrl: 'view/home.html',

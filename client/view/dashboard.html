@@ -33,6 +33,13 @@
             </div>
             <div class="panel-body">
                 <div ng-bind="currentMonitor.url"></div>
+                <h4>Response Time (latency for the last 24 hours in ms)</h4>
+                <canvas id="line" class="chart chart-line" width="100" height="30"
+                        chart-data="pingChart.data"
+                        chart-labels="pingChart.labels"
+                        chart-click="onClick"
+                        chart-options="{showXLabels: 5, showTooltips: false}">
+                </canvas>
                 <h4>Latest Events</h4>
                 <table class="table">
                     <tr>
@@ -68,10 +75,10 @@
             <div class="modal-body">
                 <form ng-submit="createMonitor(newMonitor)" role="form">
                     <!--<div class="form-group">-->
-                        <!--<label for="type">Type</label>-->
-                        <!--<select ng-model="newMonitor.type" id="type">-->
-                            <!--<option value="h">HTTP(s)</option>-->
-                        <!--</select>-->
+                    <!--<label for="type">Type</label>-->
+                    <!--<select ng-model="newMonitor.type" id="type">-->
+                    <!--<option value="h">HTTP(s)</option>-->
+                    <!--</select>-->
                     <!--</div>-->
                     <div class="form-group">
                         <label for="name">Friendly Name</label>

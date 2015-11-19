@@ -1,5 +1,5 @@
 /**
- * @todo delete pings older than 24 hours
+ * @todo delete pings older than 24 hours in "cleaner.js"
  * @todo confirm detected downs from another server
  * @param app
  * @param debug
@@ -19,7 +19,14 @@ module.exports.start = function (app, debug) {
             monitorId: monitor.id,
             date: Date.now()
         };
-        request(monitor.url, function (err, res, body) {
+        var reqOptions = {
+            method: 'HEAD',
+            url: monitor.url,
+            headers: {
+                'User-Agent': 'Ubermon'
+            }
+        };
+        request.head(reqOptions, function (err, res) {
             pingData.latency = Date.now() - pingData.date;
             if (err) {
                 pingData.up = false;
@@ -41,7 +48,7 @@ module.exports.start = function (app, debug) {
             ///**
             // * @todo performance write these in batches more slowly?
             // */
-            //MonitorPing.create(pingData);
+            MonitorPing.create(pingData);
 
             if (monitor.up !== pingData.up) {
                 /**
