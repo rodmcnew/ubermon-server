@@ -29,6 +29,7 @@ allow reset stats
 
 
 - - - COULD - - -
+make chart minute labels less that 10 have 0 in front.
 save redirects so we don't keep following them everytime a monitor is pinged?
 disable web ui on remote1.ubermon.com (disable db too?)
 stop using unreliable namecheap forwareder for 'ubermon.com'
