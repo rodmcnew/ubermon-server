@@ -32,7 +32,15 @@
                 <h3 class="panel-title">{{currentMonitor.name}}</h3>
             </div>
             <div class="panel-body">
-                <div ng-bind="currentMonitor.url"></div>
+                <div>
+                    URL: <span ng-bind="currentMonitor.url"></span>
+                </div>
+                <div>
+                    Interval: Every <span ng-bind="currentMonitor.interval"></span> minutes
+                </div>
+                <div>
+                    Uptime: %UNKNOWN
+                </div>
                 <h4>Response Time (latency for the last 24 hours in ms)</h4>
                 <canvas id="line" class="chart chart-line" width="100" height="30"
                         chart-data="pingChart.data"
