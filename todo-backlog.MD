@@ -1,5 +1,4 @@
 support intervals other than "1 minute"
-double check down's with remote pinger
 get prod server to persist to DB
 stop using unreliable namecheap forwareder for 'ubermon.com'
 save redirects so we don't keep following them everytime a monitor is pinged?
@@ -22,3 +21,6 @@ handle form errors without browser alert boxes
 localize dates in UI
 verify accounts through email? prevent DDOS account creation?
 get the word "alert" in the site description and tag line
+pause monitor while waiting for remote to check so don't get 2 emails on long timeouts
+put remote pinger on a different company's network than the main engines
+disable web ui on remote1.ubermon.com (disable db too?)
