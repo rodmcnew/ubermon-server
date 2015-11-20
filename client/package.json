@@ -1,0 +1,15 @@
+{
+  "name": "ubermon",
+  "version": "1.0.0",
+  "description": "This is the place for your application front-end files.",
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "NOT OPEN SOURCE",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-concat": "^0.5.1"
+  }
+}

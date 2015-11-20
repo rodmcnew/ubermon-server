@@ -16,7 +16,7 @@ module.exports.start = function (app) {
         /**
          * @todo performance write these in batches more slowly?
          */
-        var ignoreAlert = monitor.up === null;
+        var justStarted = monitor.up === null;
         monitor.up = pingData.up;
         monitor.save();
         var eventData = {
@@ -24,8 +24,13 @@ module.exports.start = function (app) {
             date: Date.now(),
             type: pingData.up ? 'u' : 'd',
             reason: pingData.reason,
-            alertSent: ignoreAlert //Don't alert on just-started monitors.
+            alertSent: justStarted //Don't alert on just-started monitors.
         };
+
+        ////Ping "just started" monitors one more time to make charts look good.
+        //if (justStarted) {
+        //    setTimeout(pingMonitor(monitor), 1000)
+        //}
 
         MonitorEvent.create(eventData, function (err) {
             if (err) {

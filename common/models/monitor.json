@@ -13,8 +13,13 @@
     },
     "name": {
       "type": "string",
+      "required": true
+    },
+    "type": {
+      "type": "string",
       "required": true,
-      "description": "'h' for HTTP(s)"
+      "default": "h",
+      "description": "'h' for HTTP(s), 'p for ping, 'o' for port, 'k' for keyword"
     },
     "url": {
       "type": "string",

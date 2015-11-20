@@ -1,7 +1,4 @@
 /**
- * @TODO add keyword, ping, and port monitor types
- * @todo validate user emails
- * @todo combine monitors for the same URL if 2 users request the same url to lower DDOS chances? (still need more DDOS protection for differ parameters in same url)
  * @todo add "started" event when monitor starts and ping it imedietly.
  * @par min
  * @param max
@@ -9,7 +6,8 @@
  */
 var request = require('request');
 /**
- * @TODO validate interval > 0
+ * @TODO validate interval in valid interval array
+ * @TODO validate validate type in valid type array
  * @param Monitor
  */
 module.exports = function (Monitor) {
@@ -22,7 +20,6 @@ module.exports = function (Monitor) {
         req.body.startSecond = startTime.getSeconds();
         req.body.startMinute = startTime.getMinutes();
         req.body.up = null;
-        req.body.type = 'h';
         next();
     });
 
@@ -32,8 +29,8 @@ module.exports = function (Monitor) {
         //Do not allow these values to be changed
         delete(req.body.userId);
         delete(req.body.startSecond);
+        delete(req.body.startMinute);
         delete(req.body.up);
-        delete(req.body.type);
         next();
     });
 

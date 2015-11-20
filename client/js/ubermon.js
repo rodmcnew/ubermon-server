@@ -1,34 +1,23 @@
-var ubermon = angular.module('ubermon', ['lbServices', 'ngRoute', 'chart.js']);
+var ubermon = angular.module('ubermon', ['lbServices', 'chart.js']);
 
-ubermon.controller('home', function ($scope, User, $location) {
-
-    function handleLBError(res) {
-        alert(res.data.error.message);
-    }
-
-    $scope.loginUser = function (userData) {
-        User.login(
-            userData,
-            function () {
-                $location.path('/dashboard');
-            },
-            handleLBError
-        )
+ubermon.controller('ubermonDashboard', function ($scope, Monitor, MonitorEvent, MonitorPing) {
+    $scope.monitorTypes = {
+        'h': 'HTTP(s)',
+        'p': 'Ping',
+        'o': 'Port',
+        'k': 'Keyword (advanced)'
+    };
+    $scope.monitorIntervals = {
+        '1': 'Every minute (advanced)',
+        '2': 'Every 2 minutes (advanced)',
+        '5': 'Every 5 minutes',
+        '10': 'Every 10 minutes',
+        '15': 'Every 15 minutes',
+        '20': 'Every 20 minutes',
+        '30': 'Every 30 minutes',
+        '60': 'Every 60 minutes'
     };
 
-    $scope.createUser = function (userData) {
-        User.create(
-            userData,
-            function () {
-                $scope.loginUser(userData);
-
-            },
-            handleLBError
-        );
-    }
-});
-
-ubermon.controller('dashboard', function ($scope, Monitor, MonitorEvent, MonitorPing) {
     function prepareForNewMonitor() {
         $scope.newMonitor = {type: 'h', interval: '5', url: 'http://'};//h for http;
     }
@@ -38,6 +27,9 @@ ubermon.controller('dashboard', function ($scope, Monitor, MonitorEvent, Monitor
     }
 
     function updateCurrentMonitor() {
+        if (!$scope.currentMonitor) {
+            return;
+        }
         MonitorEvent.find(
             {
                 filter: {
@@ -46,7 +38,7 @@ ubermon.controller('dashboard', function ($scope, Monitor, MonitorEvent, Monitor
                     limit: 10
                 }
             }, function (res) {
-                $scope.events = res;
+                $scope.currentMonitor.events = res;
             }, handleLBError);
         MonitorPing.find(
             {
@@ -69,7 +61,12 @@ ubermon.controller('dashboard', function ($scope, Monitor, MonitorEvent, Monitor
                     }
                     pingChart.labels.unshift(date.getHours() + ':' + minutes);
                 });
-                $scope.pingChart = pingChart;
+                //Fix 1 point charts which don't display properly
+                if (pingChart.data[0].length == 1) {
+                    pingChart.data[0].unshift(pingChart.data[0][0]);
+                    pingChart.labels.unshift(pingChart.labels[0]);
+                }
+                $scope.currentMonitor.pingChart = pingChart;
                 /**
                  * @TODO add chart hover
                  */
@@ -85,11 +82,22 @@ ubermon.controller('dashboard', function ($scope, Monitor, MonitorEvent, Monitor
         }, handleLBError);
     }
 
+    function update() {
+        updateMonitorList();
+        updateCurrentMonitor();
+    }
+
+    function updateSoon() {
+        setTimeout(update, 3);
+        setTimeout(update, 6);
+    }
+
     $scope.createMonitor = function (monitorData) {
         Monitor.create(
             monitorData,
             function () {
                 updateMonitorList();
+                updateSoon();
                 /**
                  * @TODO select the created monitor
                  */
@@ -108,32 +116,33 @@ ubermon.controller('dashboard', function ($scope, Monitor, MonitorEvent, Monitor
     updateMonitorList();
     prepareForNewMonitor();
 
-    setInterval(function () {
-        updateMonitorList();
-        updateCurrentMonitor();
-    }, 10000)
+    setInterval(update, 10000)
 });
 
-ubermon.config(['$routeProvider', function ($routeProvider) {
-    $routeProvider.
-        when('/', {
-            templateUrl: 'view/home.html',
-            controller: 'home'
-        }).
-        when('/dashboard', {
-            templateUrl: 'view/dashboard.html',
-            controller: 'dashboard'
-        }).
-        //when('/privacy', {
-        //    templateUrl: 'view/privacy.html'
-        //}).
-        //when('/terms', {
-        //    templateUrl: 'view/terms.html'
-        //}).
-        //when('/login', {
-        //    templateUrl: 'view/login.html'
-        //}).
-        otherwise({
-            redirectTo: '/'
-        });
-}]);
+ubermon.controller('ubermonHome', function ($scope, User, $window) {
+
+    function handleLBError(res) {
+        alert(res.data.error.message);
+    }
+
+    $scope.loginUser = function (userData) {
+        User.login(
+            userData,
+            function () {
+                $window.location.href = '/dashboard';
+            },
+            handleLBError
+        )
+    };
+
+    $scope.createUser = function (userData) {
+        User.create(
+            userData,
+            function () {
+                $scope.loginUser(userData);
+
+            },
+            handleLBError
+        );
+    }
+});
