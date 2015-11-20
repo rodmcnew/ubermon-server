@@ -10,7 +10,37 @@ var request = require('request');
  * @TODO validate validate type in valid type array
  * @param Monitor
  */
+var monitorIntervals = {
+    '1': 'Every minute (advanced)',
+    '2': 'Every 2 minutes (advanced)',
+    '5': 'Every 5 minutes',
+    '10': 'Every 10 minutes',
+    '15': 'Every 15 minutes',
+    '20': 'Every 20 minutes',
+    '30': 'Every 30 minutes',
+    '60': 'Every 60 minutes'
+};
+var monitorTypes = {
+    'h': 'HTTP(s)',
+    'p': 'Ping',
+    'o': 'Port',
+    'k': 'Keyword (advanced)'
+};
+var validIntervals = Object.keys(monitorIntervals);
+validIntervals = validIntervals.map(function (x) {
+    return parseInt(x, 10);
+});
+var validTypes = Object.keys(monitorTypes);
+
 module.exports = function (Monitor) {
+    //Monitor.validatesFormatOf('url', {with: /\w+/, message: 'Invalid URL'});
+    Monitor.validatesInclusionOf('type', {
+        in: validTypes, message: 'Invalid type'
+    });
+    Monitor.validatesInclusionOf('interval', {
+        in: validIntervals, message: 'Invalid interval'
+    });
+
     Monitor.beforeRemote('create', function (context, user, next) {
         var req = context.req;
         req.body.modifiedDate = Date.now();

@@ -4,8 +4,6 @@ allow multiple contacts
 support "email to sms" contact type
 support keyword monitor type
 validate urls server side
-validate allowed intervals server side
-validate monitor types server side
 validate account number of monitors limits
 pages for privacy policy, terms and conditions
 get prod server to persist to DB
