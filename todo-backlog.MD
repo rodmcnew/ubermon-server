@@ -10,6 +10,7 @@ fix chart when too full of pings
 validate account number of monitors limit
 show duration in events view
 show uptime percent
+validate - don't allow creation of monitors for "down" sites
 validate - don't allow invalid urls
 
 SHOULD
@@ -28,6 +29,7 @@ get the word "alert" in the site description and tag line
 pause monitor while waiting for remote to check so don't get 2 emails on long timeouts
 check for skipped seconds and email admin of load issue
 allow reset stats
+fix bug where another monitor's chart shows if current monitor has not pings
 
 COULD
 ----------

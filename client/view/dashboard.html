@@ -43,12 +43,14 @@
                 </div>
                 <br>
                 <h4 style="display: inline">Response Time</h4> (ms)
-                <canvas id="line" class="chart chart-line" width="100" height="30"
-                        chart-data="pingChart.data"
-                        chart-labels="pingChart.labels"
-                        chart-click="onClick"
-                        chart-options="{showXLabels: 5, showTooltips: false, bezierCurve : false, animation: false}">
-                </canvas>
+                <div ng-show="currentMonitor.pingChart.data[0]">
+                    <canvas id="line" class="chart chart-line" width="100" height="30"
+                            chart-data="currentMonitor.pingChart.data"
+                            chart-labels="currentMonitor.pingChart.labels"
+                            chart-click="onClick"
+                            chart-options="{showXLabels: 5, showTooltips: false, bezierCurve : false, animation: false}">
+                    </canvas>
+                </div>
                 <h4>Latest Events</h4>
                 <table class="table">
                     <tr>
@@ -57,7 +59,7 @@
                         <th>Reason</th>
                         <th>Duration</th>
                     </tr>
-                    <tr ng-repeat="event in events">
+                    <tr ng-repeat="event in currentMonitor.events">
                         <td>
                             <span ng-show="event.type=='u'">UP</span>
                             <span ng-show="event.type=='d'">DOWN</span>

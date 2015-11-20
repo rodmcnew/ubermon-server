@@ -38,6 +38,9 @@ ubermon.controller('dashboard', function ($scope, Monitor, MonitorEvent, Monitor
     }
 
     function updateCurrentMonitor() {
+        if (!$scope.currentMonitor) {
+            return;
+        }
         MonitorEvent.find(
             {
                 filter: {
@@ -46,7 +49,7 @@ ubermon.controller('dashboard', function ($scope, Monitor, MonitorEvent, Monitor
                     limit: 10
                 }
             }, function (res) {
-                $scope.events = res;
+                $scope.currentMonitor.events = res;
             }, handleLBError);
         MonitorPing.find(
             {
@@ -69,7 +72,12 @@ ubermon.controller('dashboard', function ($scope, Monitor, MonitorEvent, Monitor
                     }
                     pingChart.labels.unshift(date.getHours() + ':' + minutes);
                 });
-                $scope.pingChart = pingChart;
+                //Fix 1 point charts which don't display properly
+                if (pingChart.data[0].length == 1) {
+                    pingChart.data[0].unshift(pingChart.data[0][0]);
+                    pingChart.label.unshift(pingChart.label[0]);
+                }
+                $scope.currentMonitor.pingChart = pingChart;
                 /**
                  * @TODO add chart hover
                  */
@@ -85,11 +93,22 @@ ubermon.controller('dashboard', function ($scope, Monitor, MonitorEvent, Monitor
         }, handleLBError);
     }
 
+    function update() {
+        updateMonitorList();
+        updateCurrentMonitor();
+    }
+
+    function updateSoon() {
+        setTimeout(update, 3);
+        setTimeout(update, 6);
+    }
+
     $scope.createMonitor = function (monitorData) {
         Monitor.create(
             monitorData,
             function () {
                 updateMonitorList();
+                updateSoon();
                 /**
                  * @TODO select the created monitor
                  */
@@ -108,10 +127,7 @@ ubermon.controller('dashboard', function ($scope, Monitor, MonitorEvent, Monitor
     updateMonitorList();
     prepareForNewMonitor();
 
-    setInterval(function () {
-        updateMonitorList();
-        updateCurrentMonitor();
-    }, 10000)
+    setInterval(update, 10000)
 });
 
 ubermon.config(['$routeProvider', function ($routeProvider) {
