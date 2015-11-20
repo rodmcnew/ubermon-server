@@ -49,8 +49,8 @@ module.exports.start = function (app) {
                     if (err) {
                         console.error(err);
                     }
-                    pingData = res.pingData;
-                    console.log('remotePingData', pingData);
+                    console.log(res.body);
+                    pingData = res.body.pingData;
                     pingData.fromRemote = true;//For debug only
                     if (!remotePingData.up) {
                         //It was confirmed to be down by the remote pinger
