@@ -31,8 +31,15 @@ allow reset stats
 
 COULD
 ----------
+validate - don't allow invaluid urls
+Translate HTTP number codes to their descriptions in UI, also translate node request error codes
 make chart minute labels less that 10 have 0 in front.
 save redirects so we don't keep following them everytime a monitor is pinged?
 disable web ui on remote1.ubermon.com (disable db too?)
 stop using unreliable namecheap forwareder for 'ubermon.com'
 put remote pinger on a different company's network than the main engines
+
+WOULD
+----------
+validate - don't allow domains that do not exist
+clean up inline styles and br tags
