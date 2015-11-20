@@ -10,6 +10,7 @@
   "license": "NOT OPEN SOURCE",
   "devDependencies": {
     "grunt": "^0.4.5",
-    "grunt-contrib-concat": "^0.5.1"
+    "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-uglify": "^0.10.1"
   }
 }
