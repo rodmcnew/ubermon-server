@@ -1,4 +1,5 @@
-- - - MUST - - -
+MUST
+----------
 get prod server to persist to DB
 dont let emails go in spam
 allow multipule contacts
@@ -11,7 +12,8 @@ show duration in events view
 show uptime percent
 ACL protect remote pinger api
 
-- - - SHOULD - - -
+SHOULD
+----------
 validate allowed intervals
 go to login page if lost session
 DDOS prevent - do not allow more than X monitors for the same domain
@@ -27,9 +29,17 @@ pause monitor while waiting for remote to check so don't get 2 emails on long ti
 check for skipped seconds and email admin of load issue
 allow reset stats
 
-
-- - - COULD - - -
+COULD
+----------
+validate - don't allow invaluid urls
+Translate HTTP number codes to their descriptions in UI, also translate node request error codes
+make chart minute labels less that 10 have 0 in front.
 save redirects so we don't keep following them everytime a monitor is pinged?
 disable web ui on remote1.ubermon.com (disable db too?)
 stop using unreliable namecheap forwareder for 'ubermon.com'
 put remote pinger on a different company's network than the main engines
+
+WOULD
+----------
+validate - don't allow domains that do not exist
+clean up inline styles and br tags

@@ -9,7 +9,7 @@ module.exports.start = function (app) {
     var Monitor = app.models.Monitor;
     var MonitorEvent = app.models.MonitorEvent;
     var MonitorPing = app.models.MonitorPing;
-    var minuteConditions = {};
+    var minuteIntervalWhereClauses = {};
     var validIntervals = [1, 2, 5, 10, 15, 20, 30, 60];
 
     function handleChange(monitor, pingData) {
@@ -77,8 +77,6 @@ module.exports.start = function (app) {
     }
 
     /**
-     * Note: This may not work with intervals that 60 is not evenly divisible by.
-     *
      * @param startMinute
      * @param startSecond
      */
@@ -86,7 +84,7 @@ module.exports.start = function (app) {
         var where = {
             enabled: true,
             startSecond: startSecond,
-            or: minuteConditions[startMinute]
+            or: minuteIntervalWhereClauses[startMinute]
         };
         Monitor.find(
             {where: where},
@@ -105,7 +103,7 @@ module.exports.start = function (app) {
     }
 
     /**
-     * Build the where conditions for each minute and interval.
+     * Build the where conditions for each minute and interval to make querying easier at runtime.
      *
      * WARNING: Intervals that are not factors of 60 are not supported
      */
@@ -128,7 +126,7 @@ module.exports.start = function (app) {
                     intervalCases.push({interval: 1});
                 }
             }
-            minuteConditions[minute] = intervalCases;
+            minuteIntervalWhereClauses[minute] = intervalCases;
         }
     }
 
