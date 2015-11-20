@@ -41,6 +41,7 @@ put remote pinger on a different company's network than the main engines
 
 WOULD
 ----------
+have client refresh fast after changes but slow down later to reduce load
 login with facebook and/or google
 validate - don't allow domains that do not exist
 clean up inline styles and br tags
