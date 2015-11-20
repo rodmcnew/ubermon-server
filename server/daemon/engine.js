@@ -45,12 +45,12 @@ module.exports.start = function (app) {
                     url: 'http://remote1-ubermon.herokuapp.com/api/Monitors/ping',//@TODO read this from somewhere else
                     json: monitor
                 };
-                request(reqOptions, function (err, remotePingData) {
+                request(reqOptions, function (err, res) {
                     if (err) {
                         console.error(err);
                     }
-                    console.log('remotePingData', remotePingData);
-                    pingData = remotePingData;
+                    pingData = res.pingData;
+                    console.log('remotePingData', pingData);
                     pingData.fromRemote = true;//For debug only
                     if (!remotePingData.up) {
                         //It was confirmed to be down by the remote pinger

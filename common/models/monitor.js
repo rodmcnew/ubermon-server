@@ -83,7 +83,7 @@ module.exports = function (Monitor) {
             } else {
                 pingData.latency = 0;
             }
-            cb(pingData);
+            cb({pingData: pingData});
         });
     };
 
