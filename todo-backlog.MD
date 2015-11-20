@@ -7,7 +7,7 @@ support "email to sms" contact type
 update and remove dialogs for monitors
 fix chart display when 0 or 1 pings
 fix chart when too full of pings
-limit the number of monitors that can be created per account
+validate account number of monitors limit
 show duration in events view
 show uptime percent
 validate - don't allow invalid urls
