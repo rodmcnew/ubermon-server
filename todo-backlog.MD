@@ -29,7 +29,6 @@ pause monitor while waiting for remote to check so don't get 2 emails on long ti
 check for skipped seconds and email admin of load issue
 allow reset stats
 
-
 COULD
 ----------
 make chart minute labels less that 10 have 0 in front.
