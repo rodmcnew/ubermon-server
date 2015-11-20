@@ -108,6 +108,43 @@ ubermon.controller('ubermonDashboard', function ($scope, Monitor, MonitorEvent, 
         prepareForNewMonitor();
     };
 
+    $scope.deleteMonitor = function (monitor) {
+        if (confirm('Delete monitor ' + monitor.name + '?')) {
+            Monitor.deleteById(
+                {id: monitor.id},
+                function () {
+                    updateMonitorList();
+                },
+                handleLBError
+            );
+        }
+    };
+
+    $scope.editMonitor = function (monitor) {
+        $scope.selectMonitor(monitor);
+        $scope.showEditMonitorModal = true;
+    };
+
+    $scope.cancelEditMonitor = function () {
+        updateMonitorList();
+        updateCurrentMonitor();
+        $scope.showEditMonitorModal = false;
+    };
+
+    $scope.updateMonitor = function (monitor) {
+        Monitor.prototype$updateAttributes(
+            {id: monitor.id},
+            monitor,
+            function () {
+                updateMonitorList();
+                updateSoon();
+            },
+            handleLBError
+        )
+        ;
+        $scope.showEditMonitorModal = false;
+    };
+
     $scope.selectMonitor = function (monitor) {
         $scope.currentMonitor = monitor;
         updateCurrentMonitor();
@@ -144,5 +181,28 @@ ubermon.controller('ubermonHome', function ($scope, User, $window) {
             },
             handleLBError
         );
+    }
+});
+
+ubermon.directive('ubermonMonitorEdit', function () {
+
+    /**
+     * The link function for this directive. Runs when directive is loaded
+     *
+     * @param $scope
+     */
+    function link($scope) {
+
+    }
+
+    // Return the directive configuration
+    return {
+        link: link,
+        scope: {
+            'monitor': '=',
+            'monitorTypes': '=',
+            'monitorIntervals': '='
+        },
+        templateUrl: '/partial/monitor-edit.html'
     }
 });

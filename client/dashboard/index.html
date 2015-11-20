@@ -21,7 +21,7 @@
                     </div>
                     <div class="panel-body">
                         <table class="table table-hover">
-                            <td colspan="3">
+                            <td colspan="4">
                                 <a ng-click="showCreateMonitorModal=true" href="javascript:void(0)">+ Create New
                                     Monitor</a>
                             </td>
@@ -36,6 +36,10 @@
                                     <span ng-show="monitor.up===true">UP</span>
                                     <span ng-show="monitor.up===false">DOWN</span>
                                     <span ng-show="monitor.up===null">STARTED</span>
+                                </td>
+                                <td>
+                                    <a ng-click="editMonitor(monitor)" href="javascript:void(0)">edit</a>
+                                    <a ng-click="deleteMonitor(monitor)" href="javascript:void(0)">delete</a>
                                 </td>
                             </tr>
                         </table>
@@ -104,36 +108,10 @@
                     </div>
                     <div class="modal-body">
                         <form ng-submit="createMonitor(newMonitor)" role="form">
-                            <div class="form-group">
-                                <label for="type">Type</label>
-                                <select ng-model="newMonitor.type" id="type">
-                                    <option value="h" ng-bind="monitorTypes['h']"></option>
-                                    <!--<option value="p" ng-bind="monitorTypes['p']"></option>-->
-                                    <!--<option value="o" ng-bind="monitorTypes['o']"></option>-->
-                                    <!--<option value="k" ng-bind="monitorTypes['k']"></option>-->
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="name">Friendly Name</label>
-                                <input ng-model="newMonitor.name" type="text" class="form-control" id="name">
-                            </div>
-                            <div class="form-group">
-                                <label for="url">URL (or IP)</label>
-                                <input ng-model="newMonitor.url" type="text" class="form-control" id="url">
-                            </div>
-                            <div class="form-group">
-                                <label for="interval">Monitoring Interval</label>
-                                <select ng-model="newMonitor.interval" id="interval">
-                                    <option value="1" ng-bind="monitorIntervals[1]"></option>
-                                    <option value="2" ng-bind="monitorIntervals[2]"></option>
-                                    <option value="5" ng-bind="monitorIntervals[5]"></option>
-                                    <option value="10" ng-bind="monitorIntervals[10]"></option>
-                                    <option value="15" ng-bind="monitorIntervals[15]"></option>
-                                    <option value="20" ng-bind="monitorIntervals[20]"></option>
-                                    <option value="30" ng-bind="monitorIntervals[30]"></option>
-                                    <option value="60" ng-bind="monitorIntervals[60]"></option>
-                                </select>
-                            </div>
+                            <div ubermon-monitor-edit
+                                 monitor="newMonitor"
+                                 monitor-types="monitorTypes"
+                                 monitor-intervals="monitorIntervals"></div>
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -144,11 +122,32 @@
                         </button>
                     </div>
                 </div>
-                <!-- /.modal-content -->
             </div>
-            <!-- /.modal-dialog -->
         </div>
-        <!-- /.modal -->
+
+        <div class="modal fade in" ng-class="{show: showEditMonitorModal}">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edit Monitor</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form ng-submit="updateMonitor(currentMonitor)" role="form">
+                            <div ubermon-monitor-edit
+                                 monitor="currentMonitor"
+                                 monitor-types="monitorTypes"
+                                 monitor-intervals="monitorIntervals"></div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" ng-click="cancelEditMonitor()">Close
+                        </button>
+                        <button type="button" class="btn btn-primary" ng-click="updateMonitor(currentMonitor)">Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- - - - - - - - - - - END PAGE - - - - - - - - - -  -->
 </div>

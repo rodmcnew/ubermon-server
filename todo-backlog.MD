@@ -1,7 +1,5 @@
 MUST
 ----------
-allow monitors to be deleted
-allow monitors to be edited
 allow multiple contacts
 support "email to sms" contact type
 support keyword monitor type
@@ -29,8 +27,9 @@ handle form errors without browser alert boxes
 require email confirmation? maybe just for more than 5 monitors or 1 week of service.
 pause monitor while waiting for remote to check so don't get 2 emails on long timeouts
 check for skipped seconds and email admin of load issue
-allow reset stats
+"reset stats" option for each monitor
 fix bug where another monitor's chart shows if current monitor has not pings
+bug - monitor interval comes up unselected when editing a monitor
 
 COULD
 ----------
@@ -45,6 +44,7 @@ put remote pinger on a different company's network than the main engines
 show account monitor count usage vs account max's
 validate - don't allow creation of monitors for "down" sites
 search box for monitor list
+delete events and pings when a monitor is deleted
 
 WOULD
 ----------
@@ -56,3 +56,4 @@ allow access to dashboard before creating account?
 Combine monitors from different users that use the same URL
 clicking in url should put cursor at end if "http://" is in it
 minify bower_componenets.js (and provide.map files)
+indicate which monitor is selected on monitor list
