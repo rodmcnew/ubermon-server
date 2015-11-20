@@ -41,8 +41,7 @@ module.exports.start = function (app) {
             if (!pingData.up) {
                 var reqOptions = {
                     method: 'POST',
-                    //url: 'http://remote1.ubermon.com/api/Monitors/ping',//@TODO read this from somewhere else
-                    url: 'http://remote1-ubermon.herokuapp.com/api/Monitors/ping',//@TODO read this from somewhere else
+                    url: 'http://remote1.ubermon.com/api/Monitors/ping',//@TODO read this from somewhere else
                     json: monitor
                 };
                 request(reqOptions, function (err, res) {
