@@ -63,7 +63,11 @@ ubermon.controller('dashboard', function ($scope, Monitor, MonitorEvent, Monitor
                 res.forEach(function (ping) {
                     pingChart.data[0].unshift(ping.latency);
                     var date = new Date(ping.date);
-                    pingChart.labels.unshift(date.getHours() + ':' + date.getMinutes());
+                    var minutes = date.getMinutes().toString();
+                    if (minutes.length == 1) {
+                        minutes = '0' + minutes;
+                    }
+                    pingChart.labels.unshift(date.getHours() + ':' + minutes);
                 });
                 $scope.pingChart = pingChart;
                 /**
