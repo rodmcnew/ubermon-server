@@ -10,11 +10,11 @@ fix chart when too full of pings
 limit the number of monitors that can be created per account
 show duration in events view
 show uptime percent
-ACL protect remote pinger api
+validate - don't allow invalid urls
 
 SHOULD
 ----------
-validate allowed intervals
+ACL protect remote pinger api
 go to login page if lost session
 DDOS prevent - do not allow more than X monitors for the same domain
 prevent being a DDOS tool (prevent pinging same site many times somehow, handle fake different url params)
@@ -31,9 +31,9 @@ allow reset stats
 
 COULD
 ----------
-validate - don't allow invaluid urls
+validate allowed intervals server side
+ask if they want to fix redirects when monitor is created to reduce load
 Translate HTTP number codes to their descriptions in UI, also translate node request error codes
-make chart minute labels less that 10 have 0 in front.
 save redirects so we don't keep following them everytime a monitor is pinged?
 disable web ui on remote1.ubermon.com (disable db too?)
 stop using unreliable namecheap forwareder for 'ubermon.com'
@@ -41,5 +41,7 @@ put remote pinger on a different company's network than the main engines
 
 WOULD
 ----------
+login with facebook and/or google
 validate - don't allow domains that do not exist
 clean up inline styles and br tags
+allow access to dashboard before creating account?
