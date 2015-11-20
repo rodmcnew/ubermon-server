@@ -12,6 +12,7 @@ if [ $? -eq 0 ]; then
     git add .
     git commit -m "copy from other repo"
     git push heroku master
+    git push heroku.remote master
     cd $DIR
 else
     echo deploy.ubermon folder does not exist

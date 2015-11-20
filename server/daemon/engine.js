@@ -10,62 +10,68 @@ module.exports.start = function (app) {
     var MonitorEvent = app.models.MonitorEvent;
     var MonitorPing = app.models.MonitorPing;
 
+    function handleChange(monitor, pingData) {
+        /**
+         * @todo performance write these in batches more slowly?
+         */
+        var ignoreAlert = monitor.up === null;
+        monitor.up = pingData.up;
+        monitor.save();
+        var eventData = {
+            monitorId: monitor.id,
+            date: Date.now(),
+            type: pingData.up ? 'u' : 'd',
+            reason: pingData.reason,
+            alertSent: ignoreAlert //Don't alert on just-started monitors.
+        };
+
+        MonitorEvent.create(eventData, function (err) {
+            if (err) {
+                console.error(err);
+            }
+        })
+    }
+
     /**
      * @todo performance hangup after response header and before body is transferred
-     * @param monitor
      */
+    function handlePingResponse(monitor, pingData) {
+        //Double check downs with remote pinger but do not double check ups
+        if (monitor.up !== pingData.up) {
+            if (!pingData.up) {
+                var reqOptions = {
+                    method: 'POST',
+                    //url: 'http://remote1.ubermon.com/api/Monitors/ping',//@TODO read this from somewhere else
+                    url: 'http://remote1-ubermon.herokuapp.com/api/Monitors/ping',//@TODO read this from somewhere else
+                    json: monitor
+                };
+                request(reqOptions, function (err, remotePingData) {
+                    if (err) {
+                        console.error(err);
+                    }
+                    console.log('remotePingData', remotePingData);
+                    pingData = remotePingData;
+                    pingData.fromRemote = true;//For debug only
+                    if (!remotePingData.up) {
+                        //It was confirmed to be down by the remote pinger
+                        handleChange(monitor, pingData);
+                    }
+                });
+            } else {
+                handleChange(monitor, pingData);
+            }
+        }
+
+        ///**
+        // * @todo performance write these in batches more slowly?
+        // */
+        MonitorPing.create(pingData);
+    }
+
     function pingMonitor(monitor) {
         Monitor.ping(monitor, function (pingData) {
-                ///**
-                // * @todo performance write these in batches more slowly?
-                // */
-                MonitorPing.create(pingData);
-
-                function handleChange() {
-                    /**
-                     * @todo performance write these in batches more slowly?
-                     */
-                    var ignoreAlert = monitor.up === null;
-                    monitor.up = pingData.up;
-                    monitor.save();
-                    var eventData = {
-                        monitorId: monitor.id,
-                        date: Date.now(),
-                        type: pingData.up ? 'u' : 'd',
-                        reason: pingData.reason,
-                        alertSent: ignoreAlert //Don't alert on just-started monitors.
-                    };
-
-                    MonitorEvent.create(eventData, function (err) {
-                        if (err) {
-                            console.error(err);
-                        }
-                    })
-                }
-
-                //Double check downs with remote pinger but do not double check ups
-                if (monitor.up !== pingData.up) {
-                    if (!pingData.up) {
-                        var reqOptions = {
-                            method: 'POST',
-                            url: 'http://remote1.ubermon.com/api/Monitors/ping',//@TODO read this from somewhere else
-                            json: monitor
-                        };
-                        request(reqOptions, function (err, remotePingData) {
-                            if (err) {
-                                console.error(err);
-                            }
-                            if (!remotePingData.up) {
-                                //It was confirmed to be down by the remote pinger
-                                handleChange();
-                            }
-                        });
-                    } else {
-                        handleChange();
-                    }
-                }
-            }
-        );
+            handlePingResponse(monitor, pingData);
+        });
     }
 
     /**
