@@ -49,11 +49,8 @@ module.exports.start = function (app) {
                     if (err) {
                         console.error(err);
                     }
-                    console.log(res.body);
                     pingData = res.body.pingData;
-                    pingData.fromRemote = true;//For debug only
-                    if (!remotePingData.up) {
-                        //It was confirmed to be down by the remote pinger
+                    if (!pingData.up) {
                         handleChange(monitor, pingData);
                     }
                 });
@@ -69,7 +66,10 @@ module.exports.start = function (app) {
     }
 
     function pingMonitor(monitor) {
-        Monitor.ping(monitor, function (pingData) {
+        Monitor.ping(monitor, function (err, pingData) {
+            if (err) {
+                console.error(err);
+            }
             handlePingResponse(monitor, pingData);
         });
     }
