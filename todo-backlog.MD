@@ -23,7 +23,7 @@ use ssl
 expire accounts after 1 year of no activity? yearly renewal email link?
 handle form errors without browser alert boxes
 localize dates in UI
-verify accounts through email? prevent DDOS account creation?
+require email confirmation? maybe just for more than 5 monitors or 1 week of service.
 get the word "alert" in the site description and tag line
 pause monitor while waiting for remote to check so don't get 2 emails on long timeouts
 check for skipped seconds and email admin of load issue
