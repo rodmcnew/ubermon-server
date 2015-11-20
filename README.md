@@ -5,4 +5,4 @@ This is running at [ubermon.com](http://www.ubermon.com/) (Demo will load SLOW t
 
 #License
 You may view this code for educational purposes but you not use, run, copy, reproduce, or distribute this code.
-(C)2015 Ubermon.
+(C)2015 Rodney Mcnew. All rights reserved.

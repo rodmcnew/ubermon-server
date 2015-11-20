@@ -20,6 +20,7 @@ module.exports = function (Monitor) {
         var startTime = new Date();
         startTime.setSeconds(startTime.getSeconds() + 5);// Ensure monitor starts in 5 seconds
         req.body.startSecond = startTime.getSeconds();
+        req.body.startMinute = startTime.getMinutes();
         req.body.up = null;
         req.body.type = 'h';
         next();

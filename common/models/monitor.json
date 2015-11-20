@@ -29,6 +29,10 @@
       "type": "number",
       "required": true
     },
+    "startMinute": {
+      "type": "number",
+      "required": true
+    },
     "up": {
       "type": "boolean",
       "required": false

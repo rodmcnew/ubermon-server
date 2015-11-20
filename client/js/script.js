@@ -30,7 +30,7 @@ ubermon.controller('home', function ($scope, User, $location) {
 
 ubermon.controller('dashboard', function ($scope, Monitor, MonitorEvent, MonitorPing) {
     function prepareForNewMonitor() {
-        $scope.newMonitor = {type: 'h', interval: '1', url: 'http://'};//h for http;
+        $scope.newMonitor = {type: 'h', interval: '5', url: 'http://'};//h for http;
     }
 
     function handleLBError(res) {

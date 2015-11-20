@@ -9,6 +9,8 @@ module.exports.start = function (app) {
     var Monitor = app.models.Monitor;
     var MonitorEvent = app.models.MonitorEvent;
     var MonitorPing = app.models.MonitorPing;
+    var minuteConditions = {};
+    var validIntervals = [1, 2, 5, 10, 15, 20, 30, 60];
 
     function handleChange(monitor, pingData) {
         /**
@@ -65,6 +67,7 @@ module.exports.start = function (app) {
     }
 
     function pingMonitor(monitor) {
+        //console.log('-------------------pinging ' + monitor.url);
         Monitor.ping(monitor, function (err, pingData) {
             if (err) {
                 console.error(err);
@@ -74,12 +77,19 @@ module.exports.start = function (app) {
     }
 
     /**
-     * @todo performance pull from db in separate spot instead of every second
+     * Note: This may not work with intervals that 60 is not evenly divisible by.
+     *
+     * @param startMinute
      * @param startSecond
      */
-    function pingMonitors(startSecond) {
+    function pingMonitors(startMinute, startSecond) {
+        var where = {
+            enabled: true,
+            startSecond: startSecond,
+            or: minuteConditions[startMinute]
+        };
         Monitor.find(
-            {where: {startSecond: startSecond, enabled: true}},
+            {where: where},
             function (err, monitors) {
                 if (err) {
                     console.error(err);
@@ -94,18 +104,45 @@ module.exports.start = function (app) {
         );
     }
 
-    var startSecond = 0;
-    var minute = 0;
+    /**
+     * Build the where conditions for each minute and interval.
+     *
+     * WARNING: Intervals that are not factors of 60 are not supported
+     */
+    function preCacheWhereConditions() {
+        for (var minute = 0; minute < 60; minute++) {
+            var intervalCases = [];
+            for (var intervalIndex = 0, len = validIntervals.length; intervalIndex < len; intervalIndex++) {
+                var interval = validIntervals[intervalIndex];
+                if (interval != 1) {
+                    var intervalPerHour = 60 / interval;
+                    var startMinutes = [];
+                    for (var i = 0; i < intervalPerHour; i++) {
+                        startMinutes.push((i * interval + minute) % 60);
+                    }
+                    startMinutes.sort(function sortNumber(a, b) {
+                        return a - b;
+                    });
+                    intervalCases.push({interval: interval, startMinute: {inq: startMinutes}})
+                } else {
+                    intervalCases.push({interval: 1});
+                }
+            }
+            minuteConditions[minute] = intervalCases;
+        }
+    }
+
+    preCacheWhereConditions();
+
+    /**
+     * @TODO check for skipped seconds and email admin of load issue
+     */
     setInterval(
         function () {
-            startSecond++;
-            if (startSecond == 60) {
-                startSecond = 0;
-                minute++;
-            }
-            pingMonitors(startSecond, minute)
+            var now = new Date();
+            pingMonitors(now.getMinutes(), now.getSeconds())
         },
-        100
+        1000
     );
 }
 ;
