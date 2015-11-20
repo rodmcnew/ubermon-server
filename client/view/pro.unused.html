@@ -1,0 +1,21 @@
+<div class="col-sm-6">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Pro Plan</h3>
+        </div>
+        <div class="panel-body">
+            <div><strong>1 minute</strong> monitoring intervals (faster downtime detection)</div>
+            <div>
+                <select ng-model="selectedPlan"
+                        ng-options="key as key for (key , value) in plans"
+                        class="form-control"
+                        style="width: auto; display: inline"
+                        ></select>
+                monitors
+            </div>
+            <div>$<span ng-bind="plans[selectedPlan]"></span>/month (when billed annually)</div>
+            <br>
+            <button class="btn btn-default">Upgrade to Pro</button>
+        </div>
+    </div>
+</div>

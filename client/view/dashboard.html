@@ -33,6 +33,13 @@
             </div>
             <div class="panel-body">
                 <div ng-bind="currentMonitor.url"></div>
+                <h4>Response Time (latency for the last 24 hours in ms)</h4>
+                <canvas id="line" class="chart chart-line" width="100" height="30"
+                        chart-data="pingChart.data"
+                        chart-labels="pingChart.labels"
+                        chart-click="onClick"
+                        chart-options="{showXLabels: 5, showTooltips: false, bezierCurve : false, animation: false}">
+                </canvas>
                 <h4>Latest Events</h4>
                 <table class="table">
                     <tr>
@@ -63,16 +70,16 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Modal title</h4>
+                <h4 class="modal-title">Create New Monitor</h4>
             </div>
             <div class="modal-body">
                 <form ng-submit="createMonitor(newMonitor)" role="form">
-                    <div class="form-group">
-                        <label for="type">Type</label>
-                        <select ng-model="newMonitor.type" id="type">
-                            <option value="h">HTTP(s)</option>
-                        </select>
-                    </div>
+                    <!--<div class="form-group">-->
+                    <!--<label for="type">Type</label>-->
+                    <!--<select ng-model="newMonitor.type" id="type">-->
+                    <!--<option value="h">HTTP(s)</option>-->
+                    <!--</select>-->
+                    <!--</div>-->
                     <div class="form-group">
                         <label for="name">Friendly Name</label>
                         <input ng-model="newMonitor.name" type="text" class="form-control" id="name">
@@ -85,6 +92,13 @@
                         <label for="interval">Monitoring Interval (minutes)</label>
                         <select ng-model="newMonitor.interval" id="interval">
                             <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="60">60</option>
                         </select>
                     </div>
                 </form>

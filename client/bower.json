@@ -1,0 +1,22 @@
+{
+  "name": "ubermon",
+  "homepage": "https://github.com/rodmcnew/node-uptime-monitor",
+  "authors": [
+    "rodmcnew <rodmcnew@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "NOT-OPEN-SOURCE",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-chart.js": "~0.8.5"
+  }
+}

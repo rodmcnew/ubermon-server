@@ -1,8 +1,8 @@
 <!doctype html>
-<html ng-app="dollarPing">
+<html ng-app="ubermon">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dollar Ping</title>
+    <title>Ubermon</title>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <!-- Latest compiled and minified CSS -->
@@ -18,8 +18,10 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"
             integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ=="
             crossorigin="anonymous"></script>
-    <script src="/vendor/angular/angular-resource.js"></script>
-    <script src="/vendor/angular/angular-route.js"></script>
+    <script src="bower_components_not_bower/Chart.js-skip-xlabels/Chart.min.js"></script>
+    <script src="bower_components/angular-chart.js/dist/angular-chart.min.js"></script>
+    <script src="/bower_components_not_bower/angular/angular-resource.js"></script>
+    <script src="/bower_components_not_bower/angular/angular-route.js"></script>
     <script src="js/lb-services.js"></script>
     <script type="text/javascript" src="/js/script.js"></script>
     <link rel="stylesheet" href="/css/style.css"/>
@@ -28,9 +30,9 @@
 <div class="container-fluid main">
     <div class="row">
         <div class="col-sm-12">
-            <div class="alert alert-danger" ng-bind="'DOLLAR PING IS STILL IN DEVELOPMENT. DO NOT USE IT YET!'"></div>
-            <h2 style="display: inline"><a href="/#/">Dollar Ping</a></h2>
-            Monitor 20 sites, once a minute, for $1/month.
+            <div class="alert alert-danger" ng-bind="'UBERMON IS STILL IN DEVELOPMENT. DO NOT USE IT YET!'"></div>
+            <h2 style="display: inline"><a href="/#/">Ubermon</a></h2>
+            Free website monitoring and alerts with checks once per minute.
             <br><br>
         </div>
     </div>

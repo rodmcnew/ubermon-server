@@ -1,5 +1,5 @@
 {
-  "name": "dollarping",
+  "name": "ubermon",
   "version": "1.0.0",
   "main": "server/server.js",
   "scripts": {
@@ -12,6 +12,7 @@
     "loopback-boot": "^2.6.5",
     "loopback-component-explorer": "^2.1.0",
     "loopback-datasource-juggler": "^2.39.0",
+    "nodemailer": "^1.10.0",
     "request": "^2.65.0",
     "serve-favicon": "^2.0.1"
   },
@@ -22,5 +23,5 @@
     "type": "",
     "url": ""
   },
-  "description": "dollarping"
+  "description": "ubermon"
 }
