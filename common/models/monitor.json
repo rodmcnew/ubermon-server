@@ -13,8 +13,13 @@
     },
     "name": {
       "type": "string",
+      "required": true
+    },
+    "type": {
+      "type": "string",
       "required": true,
-      "description": "'h' for HTTP(s)"
+      "description": "'h' for HTTP(s), 'p for ping, 'o' for port, 'k' for keyword",
+      "default": "h"
     },
     "url": {
       "type": "string",
@@ -45,6 +50,11 @@
     "modifiedDate": {
       "type": "date",
       "required": true
+    },
+    "contactIds": {
+      "type": "array",
+      "required": true,
+      "default": []
     }
   },
   "validations": [],
@@ -70,17 +80,10 @@
       "property": "create"
     },
     {
-      "accessType": "READ",
+      "accessType": "*",
       "principalType": "ROLE",
       "principalId": "$owner",
       "permission": "ALLOW"
-    },
-    {
-      "accessType": "WRITE",
-      "principalType": "ROLE",
-      "principalId": "$owner",
-      "permission": "ALLOW",
-      "property": "updateAttributes"
     },
     {
       "accessType": "EXECUTE",

@@ -3,45 +3,74 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Ubermon</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
-    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
-          integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ=="
-          crossorigin="anonymous">
-
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"
-          integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"
-            integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ=="
-            crossorigin="anonymous"></script>
-    <script src="bower_components_not_bower/Chart.js-skip-xlabels/Chart.min.js"></script>
-    <script src="bower_components/angular-chart.js/dist/angular-chart.min.js"></script>
-    <script src="/bower_components_not_bower/angular/angular-resource.js"></script>
-    <script src="/bower_components_not_bower/angular/angular-route.js"></script>
-    <script src="js/lb-services.js"></script>
-    <script type="text/javascript" src="/js/script.js"></script>
-    <link rel="stylesheet" href="/css/style.css"/>
+    <meta name="description" content="Free website monitoring and alerts, with checks once per minute.">
+    <script type="text/javascript" src="/dist/bower_components.min.js"></script>
+    <script type="text/javascript" src="/js/ubermon.js"></script>
+    <link rel="stylesheet" href="/style.css"/>
 </head>
 <body>
 <div class="container-fluid main">
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="alert alert-danger" ng-bind="'UBERMON IS STILL IN DEVELOPMENT. DO NOT USE IT YET!'"></div>
-            <h2 style="display: inline"><a href="/#/">Ubermon</a></h2>
-            Free website monitoring and alerts with checks once per minute.
-            <br><br>
+    <div ng-include="'/partial/header.html'"></div>
+    <!-- - - - - - - - - - - BEGIN PAGE - - - - - - - - - -  -->
+    <div ng-controller="ubermonHome">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Create Free Account</h3>
+                    </div>
+                    <div class="panel-body">
+                        <ul>
+                            <li>50 simple monitors</li>
+                            <ul>
+                                <li>5 minute monitoring intervals</li>
+                                <li>Monitor types: HTTP(s)<!--, ping, port--></li>
+                            </ul>
+                            <li>5 advanced monitors</li>
+                            <ul>
+                                <li>1 minute monitoring intervals</li>
+                                <li>Monitor types: HTTP(s)<!--, ping, port, keyword--></li>
+                            </ul>
+                            <li>Alerts via email or text message</li>
+                            <li>$0/month</li>
+                        </ul>
+                        <form ng-submit="createUser(newUser)" role="form">
+                            <div class="form-group">
+                                <label for="email">Email address:</label>
+                                <input ng-model="newUser.email" type="email" class="form-control" id="email">
+                            </div>
+                            <div class="form-group">
+                                <label for="pwd">Password:</label>
+                                <input ng-model="newUser.password" type="password" class="form-control" id="pwd">
+                            </div>
+                            <button type="submit" class="btn btn-default">Create Free Account</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Login</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form ng-submit="loginUser(loggingInUser)" role="form">
+                            <div class="form-group">
+                                <label for="email">Email address:</label>
+                                <input ng-model="loggingInUser.email" type="email" class="form-control" id="email">
+                            </div>
+                            <div class="form-group">
+                                <label for="pwd">Password:</label>
+                                <input ng-model="loggingInUser.password" type="password" class="form-control" id="pwd">
+                            </div>
+                            <button type="submit" class="btn btn-default">Login</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <ng-view></ng-view>
-    <!--<div class="row">-->
-    <!--<div class="col-sm-12">-->
-    <!--ima footer-->
-    <!--</div>-->
-    <!--</div>-->
+    <!-- - - - - - - - - - - END PAGE - - - - - - - - - -  -->
 </div>
 </body>
 </html>

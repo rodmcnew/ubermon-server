@@ -1,7 +1,7 @@
 {
   "name": "MonitorEvent",
   "base": "PersistedModel",
-  "strict": false,
+  "strict": true,
   "idInjection": false,
   "options": {
     "validateUpsert": true

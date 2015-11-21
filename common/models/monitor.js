@@ -1,18 +1,47 @@
 /**
- * @TODO add keyword, ping, and port monitor types
- * @todo validate user emails
- * @todo combine monitors for the same URL if 2 users request the same url to lower DDOS chances? (still need more DDOS protection for differ parameters in same url)
  * @todo add "started" event when monitor starts and ping it imedietly.
+ * @TODO ensure owner cannot be changed away to another owner
  * @par min
  * @param max
  * @returns {*}
  */
 var request = require('request');
 /**
- * @TODO validate interval > 0
+ * @TODO validate interval in valid interval array
+ * @TODO validate validate type in valid type array
  * @param Monitor
  */
+var monitorIntervals = {
+    '1': 'Every minute (advanced)',
+    '2': 'Every 2 minutes (advanced)',
+    '5': 'Every 5 minutes',
+    '10': 'Every 10 minutes',
+    '15': 'Every 15 minutes',
+    '20': 'Every 20 minutes',
+    '30': 'Every 30 minutes',
+    '60': 'Every 60 minutes'
+};
+var monitorTypes = {
+    'h': 'HTTP(s)',
+    'p': 'Ping',
+    'o': 'Port',
+    'k': 'Keyword (advanced)'
+};
+var validIntervals = Object.keys(monitorIntervals);
+validIntervals = validIntervals.map(function (x) {
+    return parseInt(x, 10);
+});
+var validTypes = Object.keys(monitorTypes);
+
 module.exports = function (Monitor) {
+    //Monitor.validatesFormatOf('url', {with: /\w+/, message: 'Invalid URL'});
+    Monitor.validatesInclusionOf('type', {
+        in: validTypes, message: 'Invalid type'
+    });
+    Monitor.validatesInclusionOf('interval', {
+        in: validIntervals, message: 'Invalid interval'
+    });
+
     Monitor.beforeRemote('create', function (context, user, next) {
         var req = context.req;
         req.body.modifiedDate = Date.now();
@@ -22,7 +51,6 @@ module.exports = function (Monitor) {
         req.body.startSecond = startTime.getSeconds();
         req.body.startMinute = startTime.getMinutes();
         req.body.up = null;
-        req.body.type = 'h';
         next();
     });
 
@@ -32,8 +60,8 @@ module.exports = function (Monitor) {
         //Do not allow these values to be changed
         delete(req.body.userId);
         delete(req.body.startSecond);
+        delete(req.body.startMinute);
         delete(req.body.up);
-        delete(req.body.type);
         next();
     });
 

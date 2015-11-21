@@ -49,5 +49,11 @@
     "public": true,
     "$promise": {},
     "$resolved": true
+  },
+  "Contact": {
+    "dataSource": "db",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
   }
 }
