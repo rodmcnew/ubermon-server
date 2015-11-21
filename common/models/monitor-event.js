@@ -2,6 +2,7 @@
  * @TODO only allow owner to read
  * @param MonitorEvent
  */
-module.exports = function(MonitorEvent) {
-
+var remoteWhitelist = require(__dirname + '/remoteWhitelist');
+module.exports = function (MonitorEvent) {
+    remoteWhitelist(MonitorEvent, ['find']);
 };

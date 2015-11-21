@@ -38,6 +38,11 @@
       "type": "number",
       "required": true
     },
+    "isAdvanced": {
+      "type": "boolean",
+      "required": true,
+      "default": false
+    },
     "startMinute": {
       "type": "number",
       "required": true
@@ -57,7 +62,7 @@
     },
     "contactIds": {
       "type": "array",
-      "required": true,
+      "required": false,
       "default": []
     }
   },
@@ -84,10 +89,24 @@
       "property": "create"
     },
     {
-      "accessType": "*",
+      "accessType": "READ",
       "principalType": "ROLE",
       "principalId": "$owner",
       "permission": "ALLOW"
+    },
+    {
+      "accessType": "WRITE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": "updateAttributes"
+    },
+    {
+      "accessType": "WRITE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": "deleteById"
     },
     {
       "accessType": "EXECUTE",

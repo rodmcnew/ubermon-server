@@ -1,9 +1,9 @@
 MUST
 ----------
-validate account number of monitors limits
 get prod server to persist to DB
 don't let emails go in spam
 pages for privacy policy, terms and conditions
+have password reset mechinism
 
 SHOULD
 ----------
@@ -29,6 +29,7 @@ fix bug where another monitor's chart shows if current monitor has not pings
 bug - monitor interval comes up unselected when editing a monitor
 allow contacts to be deleted
 do not close dialogs when there is an error
+limit number of contacts per account
 
 COULD
 ----------

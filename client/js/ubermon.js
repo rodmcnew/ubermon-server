@@ -192,22 +192,7 @@ ubermon.controller('ubermonHome', function (User, Contact, $scope, $window) {
         User.login(
             userData,
             function () {
-                Contact.listMine(function (res) {
-                    //Ensure there is a contact with our current email in it.
-                    var found = false;
-                    angular.forEach(res.contacts, function (contact) {
-                        if (contact.email == userData.email) {
-                            found = true;
-                        }
-                    });
-                    if (found) {
-                        $window.location.href = '/dashboard';
-                    } else {
-                        Contact.create({email: userData.email}, function () {
-                            $window.location.href = '/dashboard';
-                        });
-                    }
-                }, handleLBError);
+                $window.location.href = '/dashboard';
             },
             handleLBError
         )
