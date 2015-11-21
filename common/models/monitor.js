@@ -76,7 +76,7 @@ module.exports = function (Monitor) {
                             console.error(err);
                         }
                         if (count + addingCount > profile.maxMonitors) {
-                            cb('Max  monitors exceeded.');
+                            cb('Max monitors exceeded.');
                         } else if(monitor.isAdvanced) {
                             Monitor.count(
                                 {userId: monitor.userId, isAdvanced: monitor.isAdvanced},
