@@ -105,19 +105,6 @@ ubermon.controller('ubermonDashboard', function ($scope, Monitor, MonitorEvent, 
         setTimeout(update, 6);
     }
 
-    //function saveMonitorContacts(monitor) {
-    //    //Monitor.contacts.unlinkAll(function () {
-    //    angular.forEach(monitor.selectedContacts, function (contactId) {
-    //        Monitor.contacts.link(
-    //            {id: monitor.id, fk: contactId},
-    //            function () {
-    //
-    //            }
-    //        )
-    //    });
-    //    //});
-    //}
-
     $scope.createMonitor = function (data) {
         Monitor.create(
             data,
