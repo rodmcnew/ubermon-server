@@ -52,7 +52,7 @@ ubermon.controller('ubermonDashboard', function ($scope, Monitor, MonitorEvent, 
                 filter: {
                     where: {monitorId: $scope.currentMonitor.id},
                     order: 'date DESC',
-                    limit: 60 * 24 //@TODO use 24 hours ago instead
+                    limit: 20
                 }
             }, function (res) {
                 var pingChart = {

@@ -3,7 +3,6 @@ MUST
 validate account number of monitors limits
 get prod server to persist to DB
 don't let emails go in spam
-fix chart when too full of pings
 pages for privacy policy, terms and conditions
 
 SHOULD
@@ -33,6 +32,7 @@ do not close dialogs when there is an error
 
 COULD
 ----------
+make ping chart show last 24 hours (will need to remove some in-between when too many pings)
 support ping monitor type
 localize dates in UI
 ask if they want to fix redirects when monitor is created to reduce load
