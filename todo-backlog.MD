@@ -1,13 +1,13 @@
 MUST
 ----------
+have password reset mechinism
+prevent bot signup
 get prod server to persist to DB
 don't let emails go in spam
 pages for privacy policy, terms and conditions
-have password reset mechinism
 
 SHOULD
 ----------
-validate urls server side
 support keyword monitor type
 support "email to sms" contact type
 auto-select contact that matches user email by default
@@ -40,7 +40,7 @@ ask if they want to fix redirects when monitor is created to reduce load
 Translate HTTP number codes to their descriptions in UI, also translate node request error codes
 save redirects so we don't keep following them everytime a monitor is pinged?
 disable web ui on remote1.ubermon.com (disable db too?)
-stop using unreliable namecheap forwareder for 'ubermon.com'
+prevent rapid bot monitor creation (same account or same ip)
 put remote pinger on a different company's network than the main engines
 show account monitor count usage vs account max's
 validate - don't allow creation of monitors for "down" sites
@@ -58,3 +58,4 @@ Combine monitors from different users that use the same URL
 clicking in url should put cursor at end if "http://" is in it
 minify bower_componenets.js (and provide.map files)
 indicate which monitor is selected on monitor list
+stop using unreliable namecheap forwareder for 'ubermon.com'
