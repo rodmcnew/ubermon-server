@@ -19,7 +19,6 @@ go to login page if lost session
 DDOS prevent - do not allow more than X monitors for the same domain
 prevent being a DDOS tool (prevent pinging same site many times somehow, handle fake different url params)
 use ssl
-expire accounts after 1 year of no activity? yearly renewal email link?
 handle form errors without browser alert boxes
 require email confirmation? maybe just for more than 5 monitors or 1 week of service.
 pause monitor while waiting for remote to check so don't get 2 emails on long timeouts
@@ -33,6 +32,7 @@ limit number of contacts per account
 
 COULD
 ----------
+expire accounts after 3-12 months no login activity? send email first to confirm?
 make ping chart show last 24 hours (will need to remove some in-between when too many pings)
 support ping monitor type
 localize dates in UI
