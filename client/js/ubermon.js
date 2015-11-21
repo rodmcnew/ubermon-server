@@ -18,17 +18,6 @@ ubermon.controller('ubermonDashboard', function ($scope, Monitor, MonitorEvent, 
         '60': 'Every 60 minutes'
     };
 
-    $scope.popCreateMonitorModal = function () {
-        updateContacts();
-        $scope.showCreateMonitorModal = true;
-        $scope.newMonitor = {type: 'h', interval: '5', url: 'http://', contactIds: []};//h for http;
-    };
-
-    $scope.popCreateContactModal = function () {
-        $scope.showCreateContactModal = true;
-        $scope.newContact = {email: ''};
-    };
-
     function handleLBError(res) {
         alert(res.data.error.message);
     }
@@ -104,6 +93,17 @@ ubermon.controller('ubermonDashboard', function ($scope, Monitor, MonitorEvent, 
         setTimeout(update, 3);
         setTimeout(update, 6);
     }
+
+    $scope.popCreateMonitorModal = function () {
+        updateContacts();
+        $scope.showCreateMonitorModal = true;
+        $scope.newMonitor = {type: 'h', interval: '5', url: 'http://', contactIds: []};//h for http;
+    };
+
+    $scope.popCreateContactModal = function () {
+        $scope.showCreateContactModal = true;
+        $scope.newContact = {email: ''};
+    };
 
     $scope.createMonitor = function (data) {
         Monitor.create(
