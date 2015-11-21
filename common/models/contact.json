@@ -1,5 +1,5 @@
 {
-  "name": "Monitor",
+  "name": "Contact",
   "base": "PersistedModel",
   "strict": true,
   "idInjection": false,
@@ -7,63 +7,9 @@
     "validateUpsert": true
   },
   "properties": {
-    "id": {
-      "type": "string",
-      "id": true
-    },
-    "name": {
+    "email": {
       "type": "string",
       "required": true
-    },
-    "type": {
-      "type": "string",
-      "required": true,
-      "description": "'h' for HTTP(s), 'p for ping, 'o' for port, 'k' for keyword",
-      "default": "h"
-    },
-    "url": {
-      "type": "string",
-      "required": true
-    },
-    "keyword": {
-      "type": "string",
-      "required": false
-    },
-    "interval": {
-      "type": "number",
-      "required": true,
-      "default": 5
-    },
-    "startSecond": {
-      "type": "number",
-      "required": true
-    },
-    "isAdvanced": {
-      "type": "boolean",
-      "required": true,
-      "default": false
-    },
-    "startMinute": {
-      "type": "number",
-      "required": true
-    },
-    "up": {
-      "type": "boolean",
-      "required": false
-    },
-    "enabled": {
-      "type": "boolean",
-      "required": true,
-      "default": true
-    },
-    "modifiedDate": {
-      "type": "date",
-      "required": true
-    },
-    "contactIds": {
-      "type": "array",
-      "required": false,
-      "default": []
     }
   },
   "validations": [],
@@ -114,13 +60,6 @@
       "principalId": "$authenticated",
       "permission": "ALLOW",
       "property": "listMine"
-    },
-    {
-      "accessType": "EXECUTE",
-      "principalType": "ROLE",
-      "principalId": "$everyone",
-      "permission": "ALLOW",
-      "property": "ping"
     }
   ],
   "methods": {}

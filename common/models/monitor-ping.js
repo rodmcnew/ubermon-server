@@ -2,6 +2,7 @@
  * @TODO only allow owner to read
  * @param MonitorPing
  */
-module.exports = function(MonitorPing) {
-
+var remoteWhitelist = require(__dirname + '/remoteWhitelist');
+module.exports = function (MonitorPing) {
+    remoteWhitelist(MonitorPing, ['find']);
 };

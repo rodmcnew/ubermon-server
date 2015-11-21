@@ -1,10 +1,13 @@
 /**
  * @todo add "started" event when monitor starts and ping it imedietly.
+ * @TODO ensure owner cannot be changed away to another owner
  * @par min
  * @param max
  * @returns {*}
  */
 var request = require('request');
+var remoteWhitelist = require(__dirname + '/remoteWhitelist');
+var validUrl = require('valid-url');
 /**
  * @TODO validate interval in valid interval array
  * @TODO validate validate type in valid type array
@@ -31,8 +34,11 @@ validIntervals = validIntervals.map(function (x) {
     return parseInt(x, 10);
 });
 var validTypes = Object.keys(monitorTypes);
+var app = require('../../server/server');
 
 module.exports = function (Monitor) {
+    remoteWhitelist(Monitor, ['create', 'updateAttributes', 'deleteById']);
+
     //Monitor.validatesFormatOf('url', {with: /\w+/, message: 'Invalid URL'});
     Monitor.validatesInclusionOf('type', {
         in: validTypes, message: 'Invalid type'
@@ -41,26 +47,113 @@ module.exports = function (Monitor) {
         in: validIntervals, message: 'Invalid interval'
     });
 
+    Monitor.validate('isAdvanced', function (err) {
+        if (isAdvanced(this) && !this.isAdvanced) {
+            err();
+        }
+    }, {message: 'Using advanced features but not marked as advanced'});
+
+    Monitor.validate('isAdvanced', function (err) {
+        if (!isAdvanced(this) && this.isAdvanced) {
+            err();
+        }
+    }, {message: 'Marked as advanced but not using advanced features.'});
+
+    Monitor.validate('url', function (err) {
+        if (!validUrl.isWebUri(this.url)) {
+            err();
+        }
+    }, {message: 'Invalid URL.'});
+
+    function validateMonitorCount(monitor, addingCount, cb) {
+        Monitor.count(
+            {userId: monitor.userId, isAdvanced: monitor.isAdvanced},
+            function (err, count) {
+                if (err) {
+                    console.error(err);
+                }
+                getProfile(
+                    monitor,
+                    function (profile) {
+                        var max = monitor.isAdvanced ? profile.maxAdvancedMonitors : profile.maxSimpleMonitors;
+                        if (count + addingCount > max) {
+                            cb('Max ' + (monitor.isAdvanced ? 'advanced' : 'simple') + ' monitors exceeded.');
+                        }
+                        cb(null);
+                    }
+                );
+            }
+        )
+    }
+
+    Monitor.observe('before save', function updateTimestamp(ctx, next) {
+        var addingCount;
+        var monitor;
+        if (ctx.instance) {
+            //Adding new monitor
+            addingCount = 1;
+            monitor = ctx.instance;
+        } else {
+            //Already exists
+            addingCount = 0;
+            monitor = ctx.data;
+            if (ctx.currentInstance.advanced = ctx.data.advanced) {
+                /**
+                 * Don't do the db-intensive monitor count check
+                 * when the pinger engine saves monitor status
+                 */
+                next();
+                return;
+            }
+        }
+        validateMonitorCount(monitor, addingCount, function (err) {
+            if (err) {
+                var res = new Error(err);
+                res.statusCode = 400;
+                next(res);
+            } else {
+                next();
+            }
+        });
+    });
+
+    function getProfile(monitor, cb) {
+        app.models.Profile.findOne({userId: monitor.userId}, function (err, profile) {
+            if (err) {
+                console.error(err)
+            }
+            cb(profile);
+        });
+    }
+
+    function isAdvanced(monitor) {
+        return monitor.interval < 5 || monitor.type != 'h';
+    }
+
     Monitor.beforeRemote('create', function (context, user, next) {
-        var req = context.req;
-        req.body.modifiedDate = Date.now();
-        req.body.userId = req.accessToken.userId;
+        var body = context.req.body;
+        body.modifiedDate = Date.now();
+        body.userId = context.req.accessToken.userId;
         var startTime = new Date();
         startTime.setSeconds(startTime.getSeconds() + 5);// Ensure monitor starts in 5 seconds
-        req.body.startSecond = startTime.getSeconds();
-        req.body.startMinute = startTime.getMinutes();
-        req.body.up = null;
+        body.startSecond = startTime.getSeconds();
+        body.startMinute = startTime.getMinutes();
+        body.up = null;
+        body.isAdvanced = isAdvanced(body);//Could make the client do this instead
+
         next();
     });
 
     Monitor.beforeRemote('prototype.updateAttributes', function (context, user, next) {
-        var req = context.req;
-        req.body.modifiedDate = Date.now();
+        var body = context.req.body;
+        body.modifiedDate = Date.now();
         //Do not allow these values to be changed
-        delete(req.body.userId);
-        delete(req.body.startSecond);
-        delete(req.body.startMinute);
-        delete(req.body.up);
+        //@TODO move to 'before save' 'un-modify-able white list' for better security
+        delete(body.userId);
+        delete(body.startSecond);
+        delete(body.startMinute);
+        delete(body.up);
+        body.isAdvanced = isAdvanced(body);//Could make the client do this instead
         next();
     });
 
@@ -81,7 +174,8 @@ module.exports = function (Monitor) {
         {
             accepts: {arg: 'req', type: 'object', http: {source: 'req'}},
             returns: {arg: 'monitors', type: 'array'},
-            http: {verb: 'GET'}
+            http: {verb: 'GET'},
+            description: 'List all that are owned by the current user.'
         }
     );
 
@@ -100,6 +194,9 @@ module.exports = function (Monitor) {
         request(reqOptions, function (err, res) {
             if (err) {
                 pingData.up = false;
+                if (!err.code) {
+                    console.error(err);
+                }
                 pingData.reason = err.code;
             } else {
                 pingData.up = res.statusCode == 200;
@@ -123,7 +220,8 @@ module.exports = function (Monitor) {
         {
             accepts: {arg: 'monitor', type: 'object', http: {source: 'body'}},
             returns: {arg: 'pingData', type: 'object'},
-            http: {verb: 'POST'}
+            http: {verb: 'POST'},
+            description: 'Ping the monitor.'
         }
     );
 };

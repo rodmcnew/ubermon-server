@@ -13,6 +13,10 @@
       "./mixins"
     ]
   },
+  "Profile": {
+    "dataSource": "db",
+    "public": true
+  },
   "User": {
     "dataSource": "db"
   },
@@ -45,6 +49,12 @@
     "$resolved": true
   },
   "MonitorPing": {
+    "dataSource": "db",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
+  },
+  "Contact": {
     "dataSource": "db",
     "public": true,
     "$promise": {},

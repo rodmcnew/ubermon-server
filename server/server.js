@@ -30,5 +30,8 @@ boot(app, __dirname, function (err) {
 
         var alerter = require(__dirname + '/daemon/alerter');
         alerter.start(app);
+
+        var cleaner = require(__dirname + '/daemon/cleaner');
+        cleaner.start(app);
     }
 });

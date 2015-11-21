@@ -18,7 +18,7 @@ module.exports.start = function (app) {
          */
         var justStarted = monitor.up === null;
         monitor.up = pingData.up;
-        monitor.save();
+        monitor.save();//@TODO stop passing whole monitor back and forth with db
         var eventData = {
             monitorId: monitor.id,
             date: Date.now(),
@@ -26,11 +26,6 @@ module.exports.start = function (app) {
             reason: pingData.reason,
             alertSent: justStarted //Don't alert on just-started monitors.
         };
-
-        ////Ping "just started" monitors one more time to make charts look good.
-        //if (justStarted) {
-        //    setTimeout(pingMonitor(monitor), 1000)
-        //}
 
         MonitorEvent.create(eventData, function (err) {
             if (err) {

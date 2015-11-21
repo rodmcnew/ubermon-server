@@ -10,7 +10,7 @@ if [ $? -eq 0 ]; then
     # Ensure secrets.js makes it to Heroku
     rm ./secret/.gitignore
     git add .
-    git commit -m "copy from other repo"
+    git commit -m "copy from main repo"
     git push heroku master
     git push heroku.remote master
     cd $DIR

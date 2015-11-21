@@ -1,6 +1,6 @@
 var ubermon = angular.module('ubermon', ['lbServices', 'chart.js']);
 
-ubermon.controller('ubermonDashboard', function ($scope, Monitor, MonitorEvent, MonitorPing) {
+ubermon.controller('ubermonDashboard', function ($scope, Monitor, MonitorEvent, MonitorPing, Contact) {
     $scope.monitorTypes = {
         'h': 'HTTP(s)',
         'p': 'Ping',
@@ -17,10 +17,6 @@ ubermon.controller('ubermonDashboard', function ($scope, Monitor, MonitorEvent, 
         '30': 'Every 30 minutes',
         '60': 'Every 60 minutes'
     };
-
-    function prepareForNewMonitor() {
-        $scope.newMonitor = {type: 'h', interval: '5', url: 'http://'};//h for http;
-    }
 
     function handleLBError(res) {
         alert(res.data.error.message);
@@ -45,7 +41,7 @@ ubermon.controller('ubermonDashboard', function ($scope, Monitor, MonitorEvent, 
                 filter: {
                     where: {monitorId: $scope.currentMonitor.id},
                     order: 'date DESC',
-                    limit: 60 * 24 //@TODO use 24 hours ago instead
+                    limit: 20
                 }
             }, function (res) {
                 var pingChart = {
@@ -82,6 +78,12 @@ ubermon.controller('ubermonDashboard', function ($scope, Monitor, MonitorEvent, 
         }, handleLBError);
     }
 
+    function updateContacts() {
+        Contact.listMine(function (res) {
+            $scope.contacts = res.contacts;
+        }, handleLBError);
+    }
+
     function update() {
         updateMonitorList();
         updateCurrentMonitor();
@@ -92,11 +94,24 @@ ubermon.controller('ubermonDashboard', function ($scope, Monitor, MonitorEvent, 
         setTimeout(update, 6);
     }
 
-    $scope.createMonitor = function (monitorData) {
+    $scope.popCreateMonitorModal = function () {
+        updateContacts();
+        $scope.showCreateMonitorModal = true;
+        $scope.newMonitor = {type: 'h', interval: '5', url: 'http://', contactIds: []};//h for http;
+    };
+
+    $scope.popCreateContactModal = function () {
+        $scope.showCreateContactModal = true;
+        $scope.newContact = {email: ''};
+    };
+
+    $scope.createMonitor = function (data) {
         Monitor.create(
-            monitorData,
-            function () {
-                updateMonitorList();
+            data,
+            function (newMonitor) {
+                //data.id = parseInt(newMonitor.id);
+                //saveMonitorContacts(data);
+                update();
                 updateSoon();
                 /**
                  * @TODO select the created monitor
@@ -105,7 +120,17 @@ ubermon.controller('ubermonDashboard', function ($scope, Monitor, MonitorEvent, 
             handleLBError
         );
         $scope.showCreateMonitorModal = false;
-        prepareForNewMonitor();
+    };
+
+    $scope.createContact = function (data) {
+        Contact.create(
+            data,
+            function () {
+                updateContacts();
+            },
+            handleLBError
+        );
+        $scope.showCreateContactModal = false;
     };
 
     $scope.deleteMonitor = function (monitor) {
@@ -121,6 +146,7 @@ ubermon.controller('ubermonDashboard', function ($scope, Monitor, MonitorEvent, 
     };
 
     $scope.editMonitor = function (monitor) {
+        updateContacts();
         $scope.selectMonitor(monitor);
         $scope.showEditMonitorModal = true;
     };
@@ -136,6 +162,7 @@ ubermon.controller('ubermonDashboard', function ($scope, Monitor, MonitorEvent, 
             {id: monitor.id},
             monitor,
             function () {
+                //saveMonitorContacts(monitor);
                 updateMonitorList();
                 updateSoon();
             },
@@ -151,12 +178,11 @@ ubermon.controller('ubermonDashboard', function ($scope, Monitor, MonitorEvent, 
     };
 
     updateMonitorList();
-    prepareForNewMonitor();
 
     setInterval(update, 10000)
 });
 
-ubermon.controller('ubermonHome', function ($scope, User, $window) {
+ubermon.controller('ubermonHome', function (User, Contact, $scope, $window) {
 
     function handleLBError(res) {
         alert(res.data.error.message);
@@ -192,7 +218,20 @@ ubermon.directive('ubermonMonitorEdit', function () {
      * @param $scope
      */
     function link($scope) {
+        // toggle selection for a given fruit by name
+        $scope.toogleSelectedContact = function toggleSelection(id) {
+            var idx = $scope.selectedContacts.indexOf(id);
 
+            // is currently selected
+            if (idx > -1) {
+                $scope.selectedContacts.splice(idx, 1);
+            }
+
+            // is newly selected
+            else {
+                $scope.selectedContacts.push(id);
+            }
+        };
     }
 
     // Return the directive configuration
@@ -201,8 +240,31 @@ ubermon.directive('ubermonMonitorEdit', function () {
         scope: {
             'monitor': '=',
             'monitorTypes': '=',
-            'monitorIntervals': '='
+            'monitorIntervals': '=',
+            'contacts': '=',
+            'popCreateContactModal': '=',
+            'selectedContacts': '='
         },
         templateUrl: '/partial/monitor-edit.html'
+    }
+});
+
+ubermon.directive('ubermonContactEdit', function () {
+
+    /**
+     * The link function for this directive. Runs when directive is loaded
+     *
+     * @param $scope
+     */
+    function link($scope) {
+    }
+
+    // Return the directive configuration
+    return {
+        link: link,
+        scope: {
+            'contact': '='
+        },
+        templateUrl: '/partial/contact-edit.html'
     }
 });

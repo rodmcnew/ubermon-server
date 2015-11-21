@@ -1,36 +1,28 @@
 {
-  "name": "MonitorEvent",
+  "name": "Profile",
   "base": "PersistedModel",
   "strict": true,
-  "idInjection": false,
+  "idInjection": true,
   "options": {
     "validateUpsert": true
   },
   "properties": {
-    "date": {
-      "type": "date",
+    "maxSimpleMonitors": {
+      "type": "number",
       "required": true
     },
-    "type": {
-      "type": "string",
-      "required": true,
-      "description": "'u' for up, 'd' for down, 's' for started, 'p' for paused"
-    },
-    "reason": {
-      "type": "string",
-      "required": true
-    },
-    "alertSent": {
-      "type": "boolean",
+    "maxAdvancedMonitors": {
+      "type": "number",
       "required": true
     }
   },
   "validations": [],
+  "validations": [],
   "relations": {
-    "monitor": {
+    "user": {
       "type": "belongsTo",
-      "model": "Monitor",
-      "foreignKey": "monitorId"
+      "model": "User",
+      "foreignKey": "userId"
     }
   },
   "acls": [
@@ -43,7 +35,7 @@
     {
       "accessType": "READ",
       "principalType": "ROLE",
-      "principalId": "$everyone",
+      "principalId": "$owner",
       "permission": "ALLOW"
     }
   ],

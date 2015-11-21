@@ -28,3 +28,18 @@
         <option value="60" ng-bind="monitorIntervals[60]"></option>
     </select>
 </div>
+
+<div class="form-group">
+    <label>Contacts to Alert</label>
+    <a ng-click="popCreateContactModal()" href="javascript:void(0)">
+        + Create New Contact
+    </a>
+    <div ng-repeat="contact in contacts">
+        <label style="font-weight: normal">
+            <input type="checkbox" ng-name="contact.id" value="1"
+                   ng-checked="selectedContacts.indexOf(contact.id) > -1"
+                   ng-click="toogleSelectedContact(contact.id)">&nbsp;
+            <span ng-bind="contact.email"></span>
+        </label>
+    </div>
+</div>
