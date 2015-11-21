@@ -25,6 +25,10 @@
       "type": "string",
       "required": true
     },
+    "keyword": {
+      "type": "string",
+      "required": false
+    },
     "interval": {
       "type": "number",
       "required": true,

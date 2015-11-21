@@ -1,17 +1,17 @@
 MUST
 ----------
-allow multiple contacts
-support "email to sms" contact type
-support keyword monitor type
-validate urls server side
 validate account number of monitors limits
-pages for privacy policy, terms and conditions
 get prod server to persist to DB
 don't let emails go in spam
 fix chart when too full of pings
+pages for privacy policy, terms and conditions
 
 SHOULD
 ----------
+validate urls server side
+support keyword monitor type
+support "email to sms" contact type
+auto-select contact that matches user email by default
 show duration in events view
 show uptime percent
 support port monitor type
@@ -28,6 +28,8 @@ check for skipped seconds and email admin of load issue
 "reset stats" option for each monitor
 fix bug where another monitor's chart shows if current monitor has not pings
 bug - monitor interval comes up unselected when editing a monitor
+allow contacts to be deleted
+do not close dialogs when there is an error
 
 COULD
 ----------
