@@ -46,6 +46,7 @@ show account monitor count usage vs account max's
 validate - don't allow creation of monitors for "down" sites
 search box for monitor list
 delete events and pings when a monitor is deleted
+show if monitor is advanced or not in monitor list
 
 WOULD
 ----------

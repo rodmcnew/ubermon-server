@@ -66,20 +66,33 @@ module.exports = function (Monitor) {
     }, {message: 'Invalid URL.'});
 
     function validateMonitorCount(monitor, addingCount, cb) {
-        Monitor.count(
-            {userId: monitor.userId, isAdvanced: monitor.isAdvanced},
-            function (err, count) {
-                if (err) {
-                    console.error(err);
-                }
-                getProfile(
-                    monitor,
-                    function (profile) {
-                        var max = monitor.isAdvanced ? profile.maxAdvancedMonitors : profile.maxSimpleMonitors;
-                        if (count + addingCount > max) {
-                            cb('Max ' + (monitor.isAdvanced ? 'advanced' : 'simple') + ' monitors exceeded.');
+        getProfile(
+            monitor,
+            function (profile) {
+                Monitor.count(
+                    {userId: monitor.userId},
+                    function (err, count) {
+                        if (err) {
+                            console.error(err);
                         }
-                        cb(null);
+                        if (count + addingCount > profile.maxMonitors) {
+                            cb('Max  monitors exceeded.');
+                        } else if(monitor.isAdvanced) {
+                            Monitor.count(
+                                {userId: monitor.userId, isAdvanced: monitor.isAdvanced},
+                                function (err, count) {
+                                    if (err) {
+                                        console.error(err);
+                                    }
+                                    if (count + addingCount > profile.maxAdvancedMonitors) {
+                                        cb('Max advanced monitors exceeded.');
+                                    }
+                                    cb();
+                                }
+                            );
+                        } else{
+                            cb();
+                        }
                     }
                 );
             }

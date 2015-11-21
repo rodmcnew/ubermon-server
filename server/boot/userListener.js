@@ -6,7 +6,7 @@ module.exports = function (app) {
     app.models.User.afterRemote('create', function (ctx, user, next) {
         app.models.Profile.create(
             {
-                "maxSimpleMonitors": 50,
+                "maxMonitors": 50,
                 "maxAdvancedMonitors": 5,
                 "userId": user.id
             },
