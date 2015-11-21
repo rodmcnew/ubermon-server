@@ -1,13 +1,13 @@
 MUST
 ----------
+have password reset mechinism
+prevent bot signup
 get prod server to persist to DB
 don't let emails go in spam
 pages for privacy policy, terms and conditions
-have password reset mechinism
 
 SHOULD
 ----------
-validate urls server side
 support keyword monitor type
 support "email to sms" contact type
 auto-select contact that matches user email by default
@@ -19,7 +19,6 @@ go to login page if lost session
 DDOS prevent - do not allow more than X monitors for the same domain
 prevent being a DDOS tool (prevent pinging same site many times somehow, handle fake different url params)
 use ssl
-expire accounts after 1 year of no activity? yearly renewal email link?
 handle form errors without browser alert boxes
 require email confirmation? maybe just for more than 5 monitors or 1 week of service.
 pause monitor while waiting for remote to check so don't get 2 emails on long timeouts
@@ -33,6 +32,7 @@ limit number of contacts per account
 
 COULD
 ----------
+expire accounts after 3-12 months no login activity? send email first to confirm?
 make ping chart show last 24 hours (will need to remove some in-between when too many pings)
 support ping monitor type
 localize dates in UI
@@ -40,12 +40,13 @@ ask if they want to fix redirects when monitor is created to reduce load
 Translate HTTP number codes to their descriptions in UI, also translate node request error codes
 save redirects so we don't keep following them everytime a monitor is pinged?
 disable web ui on remote1.ubermon.com (disable db too?)
-stop using unreliable namecheap forwareder for 'ubermon.com'
+prevent rapid bot monitor creation (same account or same ip)
 put remote pinger on a different company's network than the main engines
 show account monitor count usage vs account max's
 validate - don't allow creation of monitors for "down" sites
 search box for monitor list
 delete events and pings when a monitor is deleted
+show if monitor is advanced or not in monitor list
 
 WOULD
 ----------
@@ -58,3 +59,4 @@ Combine monitors from different users that use the same URL
 clicking in url should put cursor at end if "http://" is in it
 minify bower_componenets.js (and provide.map files)
 indicate which monitor is selected on monitor list
+stop using unreliable namecheap forwareder for 'ubermon.com'

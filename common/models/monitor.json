@@ -29,6 +29,10 @@
       "type": "string",
       "required": false
     },
+    "hostname": {
+      "type": "string",
+      "required": false
+    },
     "interval": {
       "type": "number",
       "required": true,

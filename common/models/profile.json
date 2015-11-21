@@ -7,7 +7,7 @@
     "validateUpsert": true
   },
   "properties": {
-    "maxSimpleMonitors": {
+    "maxMonitors": {
       "type": "number",
       "required": true
     },

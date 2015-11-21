@@ -9,8 +9,8 @@ if [ $? -eq 0 ]; then
     cp ../ubermon/.gitignore ./
     git add .
     git commit -m "copy from main repo"
-    git push heroku master -f
-    git push heroku.remote master -f
+    git push heroku master
+    git push heroku.remote master
     cd $DIR
 else
     echo deploy.ubermon folder does not exist
