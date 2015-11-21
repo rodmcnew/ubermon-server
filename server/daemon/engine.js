@@ -27,11 +27,6 @@ module.exports.start = function (app) {
             alertSent: justStarted //Don't alert on just-started monitors.
         };
 
-        ////Ping "just started" monitors one more time to make charts look good.
-        //if (justStarted) {
-        //    setTimeout(pingMonitor(monitor), 1000)
-        //}
-
         MonitorEvent.create(eventData, function (err) {
             if (err) {
                 console.error(err);
