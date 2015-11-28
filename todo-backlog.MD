@@ -5,11 +5,12 @@ prevent bot signup
 get prod server to persist to DB
 don't let emails go in spam
 pages for privacy policy, terms and conditions
+auto-select contact that matches user email by default
+support "email to sms" contact type
+stop ping chart from going off of page
 
 SHOULD
 ----------
-support "email to sms" contact type
-auto-select contact that matches user email by default
 show duration in events view
 show uptime percent
 ACL protect remote pinger api
