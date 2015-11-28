@@ -3,7 +3,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Ubermon</title>
-    <meta name="description" content="Free website monitoring and alerts, with checks once per minute.">
+    <meta name="description" content="Free website monitoring and alerts">
     <script type="text/javascript" src="/dist/bower_components.min.js"></script>
     <script type="text/javascript" src="/js/ubermon.js"></script>
     <link rel="stylesheet" href="/style.css"/>
@@ -52,9 +52,9 @@
                         <h3 class="panel-title">{{currentMonitor.name}}</h3>
                     </div>
                     <div class="panel-body">
-                        <div>
-                            Type: <span ng-bind="monitorTypes[currentMonitor.type]"></span>
-                        </div>
+                        <!--<div>-->
+                            <!--Type: <span ng-bind="monitorTypes[currentMonitor.type]"></span>-->
+                        <!--</div>-->
                         <div>
                             URL: <span ng-bind="currentMonitor.url"></span>
                         </div>

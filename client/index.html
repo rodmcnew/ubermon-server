@@ -3,7 +3,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Ubermon</title>
-    <meta name="description" content="Free website monitoring and alerts, with checks once per minute.">
+    <meta name="description" content="Free website monitoring and alerts">
     <script type="text/javascript" src="/dist/bower_components.min.js"></script>
     <script type="text/javascript" src="/js/ubermon.js"></script>
     <link rel="stylesheet" href="/style.css"/>
@@ -17,21 +17,12 @@
             <div class="col-sm-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Create Free Account</h3>
+                        <h3 class="panel-title">Try it Now - Create a Free Account</h3>
                     </div>
                     <div class="panel-body">
                         <ul>
                             <li>50 monitors</li>
-                            <ul>
-                                <li>5 minute monitoring intervals</li>
-                                <li>Monitor types: HTTP(s)<!--, ping, port--></li>
-                            </ul>
-                            <li>5 advanced monitors</li>
-                            <ul>
-                                <li>1 minute monitoring intervals</li>
-                                <li>Monitor types: HTTP(s)<!--, ping, port, keyword--></li>
-                            </ul>
-                            <li>Alerts via email or text message</li>
+                            <li>Checked every 5 minutes</li>
                             <li>$0/month</li>
                         </ul>
                         <form ng-submit="createUser(newUser)" role="form">
@@ -43,7 +34,7 @@
                                 <label for="pwd">Password:</label>
                                 <input ng-model="newUser.password" type="password" class="form-control" id="pwd">
                             </div>
-                            <button type="submit" class="btn btn-default">Create Free Account</button>
+                            <button type="submit" class="btn btn-default">Create a Free Account</button>
                         </form>
                     </div>
                 </div>

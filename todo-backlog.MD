@@ -5,15 +5,14 @@ prevent bot signup
 get prod server to persist to DB
 don't let emails go in spam
 pages for privacy policy, terms and conditions
+auto-select contact that matches user email by default
+support "email to sms" contact type
+stop ping chart from going off of page
 
 SHOULD
 ----------
-support keyword monitor type
-support "email to sms" contact type
-auto-select contact that matches user email by default
 show duration in events view
 show uptime percent
-support port monitor type
 ACL protect remote pinger api
 go to login page if lost session
 DDOS prevent - do not allow more than X monitors for the same domain
@@ -32,9 +31,11 @@ limit number of contacts per account
 
 COULD
 ----------
+support ping monitor type
+support port monitor type
 expire accounts after 3-12 months no login activity? send email first to confirm?
 make ping chart show last 24 hours (will need to remove some in-between when too many pings)
-support ping monitor type
+
 localize dates in UI
 ask if they want to fix redirects when monitor is created to reduce load
 Translate HTTP number codes to their descriptions in UI, also translate node request error codes
@@ -50,6 +51,7 @@ show if monitor is advanced or not in monitor list
 
 WOULD
 ----------
+support keyword monitor type
 have client refresh fast after changes but slow down later to reduce load
 login with facebook and/or google
 validate - don't allow domains that do not exist

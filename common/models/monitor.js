@@ -65,7 +65,7 @@ module.exports = function (Monitor) {
         }
     }, {message: 'Invalid URL.'});
 
-    function validateMonitorCount(monitor, addingCount, cb) {
+    function validateMonitorCount(monitor, addingCount, addingAdvancedCount, cb) {
         getProfile(
             monitor,
             function (profile) {
@@ -77,20 +77,20 @@ module.exports = function (Monitor) {
                         }
                         if (count + addingCount > profile.maxMonitors) {
                             cb('Max monitors exceeded.');
-                        } else if(monitor.isAdvanced) {
+                        } else if (monitor.isAdvanced) {
                             Monitor.count(
                                 {userId: monitor.userId, isAdvanced: monitor.isAdvanced},
                                 function (err, count) {
                                     if (err) {
                                         console.error(err);
                                     }
-                                    if (count + addingCount > profile.maxAdvancedMonitors) {
+                                    if (count + addingAdvancedCount > profile.maxAdvancedMonitors) {
                                         cb('Max advanced monitors exceeded.');
                                     }
                                     cb();
                                 }
                             );
-                        } else{
+                        } else {
                             cb();
                         }
                     }
@@ -101,14 +101,23 @@ module.exports = function (Monitor) {
 
     Monitor.observe('before save', function updateTimestamp(ctx, next) {
         var addingCount;
+        var addingAdvancedCount;
         var monitor;
         if (ctx.instance) {
             //Adding new monitor
             addingCount = 1;
+            if (ctx.instance.isAdvanced) {
+                addingAdvancedCount = 1;
+            }
             monitor = ctx.instance;
         } else {
             //Already exists
             addingCount = 0;
+            if (!ctx.currentInstance.isAdvanced && ctx.data.isAdvanced) {
+                addingAdvancedCount = 1
+            } else {
+                addingAdvancedCount = 0;
+            }
             monitor = ctx.data;
             if (ctx.currentInstance.advanced = ctx.data.advanced) {
                 /**
@@ -119,7 +128,7 @@ module.exports = function (Monitor) {
                 return;
             }
         }
-        validateMonitorCount(monitor, addingCount, function (err) {
+        validateMonitorCount(monitor, addingCount, addingAdvancedCount, function (err) {
             if (err) {
                 var res = new Error(err);
                 res.statusCode = 400;
