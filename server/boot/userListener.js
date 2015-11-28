@@ -7,7 +7,7 @@ module.exports = function (app) {
         app.models.Profile.create(
             {
                 "maxMonitors": 50,
-                "maxAdvancedMonitors": 5,
+                "maxAdvancedMonitors": 0,
                 "userId": user.id
             },
             function (err) {
