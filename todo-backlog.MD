@@ -28,6 +28,7 @@ bug - monitor interval comes up unselected when editing a monitor
 allow contacts to be deleted
 do not close dialogs when there is an error
 limit number of contacts per account
+stop using unreliable namecheap forwareder for 'ubermon.com'
 
 COULD
 ----------
@@ -61,4 +62,3 @@ Combine monitors from different users that use the same URL
 clicking in url should put cursor at end if "http://" is in it
 minify bower_componenets.js (and provide.map files)
 indicate which monitor is selected on monitor list
-stop using unreliable namecheap forwareder for 'ubermon.com'
