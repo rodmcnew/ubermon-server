@@ -10,7 +10,7 @@ module.exports = {
         "host": process.env.MYSQL_HOST,
         "database":process.env.MYSQL_DB,
         "username":process.env.MYSQL_USER,
-        "password:":process.env.MYSQL_PASS
+        "pass:":process.env.MYSQL_PASS
     },
     "smtp": {
         "name": "smtp",

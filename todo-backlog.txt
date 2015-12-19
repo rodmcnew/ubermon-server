@@ -26,6 +26,7 @@ use ssl
 "Monitoring Interval" comes up blank when editing monitor
 auto select newly created monitors
 use ssl/ssh for db workbench conn
+turn off display errors onprod
 
 COULD
 ----------
