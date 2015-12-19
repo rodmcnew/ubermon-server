@@ -247,8 +247,8 @@ module.exports = function (Monitor) {
         'ping',
         {
             accepts: [
-                {arg: 'monitor', type: 'object', http: {source: 'body'}},
-                {arg: 'remoteKey', type: 'object', http: {source: 'body'}}
+                {arg: 'monitor', type: 'object', http: {source: 'form'}},
+                {arg: 'remoteKey', type: 'object', http: {source: 'form'}}
             ],
             returns: {arg: 'pingData', type: 'object'},
             http: {verb: 'POST'},

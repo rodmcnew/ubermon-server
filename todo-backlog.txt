@@ -1,7 +1,6 @@
 MUST
 ----------
-have password reset mechinism
-ACL protect remote pinger api
+allow reset password
 
 SHOULD
 ----------
