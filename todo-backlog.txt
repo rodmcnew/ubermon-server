@@ -1,7 +1,6 @@
 MUST
 ----------
 have password reset mechinism
-get prod server to persist to DB
 ACL protect remote pinger api
 
 SHOULD
@@ -49,6 +48,7 @@ delete events and pings when a monitor is deleted
 show if monitor is advanced or not in monitor list
 limit number of contacts per account
 don't show site on remote1.ubermon.com
+allow bulk monitor actions
 
 WOULD
 ----------
