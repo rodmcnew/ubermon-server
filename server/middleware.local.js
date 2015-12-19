@@ -1,13 +1,13 @@
-var files = {};
-//Don't run client file on the remote downtime confirmation server
-if (!process.env.IS_REMOTE) {
-    files = {
-        "loopback#static": {
-            "params": "$!../client"
-        }
-    };
+var loopbackStaticParams = "$!../client";
+//Don't run a client web root remote downtime confirmation server
+if (process.env.IS_REMOTE) {
+    loopbackStaticParams = "$!../client/remote";
 }
 
 module.exports = {
-    "files": files
+    "files": {
+        "loopback#static": {
+            "params": loopbackStaticParams
+        }
+    }
 };
