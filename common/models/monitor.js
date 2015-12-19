@@ -201,9 +201,9 @@ module.exports = function (Monitor) {
         }
     );
 
-    Monitor.ping = function (monitor, remoteKey, cb) {
+    Monitor.ping = function (monitor, cb) {
         //@TODO use loopback auth and ACL instead of making up remote key like this
-        if (remoteKey != process.env.UBERMON_REMOTE_KEY) {
+        if (monitor.remoteKey != process.env.UBERMON_REMOTE_KEY) {
             cb(null, {'error': 'Invalid key'});
             return;
         }
@@ -247,8 +247,7 @@ module.exports = function (Monitor) {
         'ping',
         {
             accepts: [
-                {arg: 'monitor', type: 'object', http: {source: 'form'}},
-                {arg: 'remoteKey', type: 'object', http: {source: 'form'}}
+                {arg: 'monitor', type: 'object', http: {source: 'body'}}
             ],
             returns: {arg: 'pingData', type: 'object'},
             http: {verb: 'POST'},
