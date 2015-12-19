@@ -33,5 +33,8 @@ boot(app, __dirname, function (err) {
 
         var cleaner = require(__dirname + '/daemon/cleaner');
         cleaner.start(app);
+
+        //This could be dangerous
+        app.dataSources.db.autoupdate();
     }
 });

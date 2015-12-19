@@ -9,7 +9,7 @@ module.exports.start = function (app) {
     var Monitor = app.models.Monitor;
     var MonitorEvent = app.models.MonitorEvent;
     var MonitorPing = app.models.MonitorPing;
-    var minuteIntervalWhereClauses = {};
+    var minuteIntervalWhereClauses = [];
     var validIntervals = [1, 2, 5, 10, 15, 20, 30, 60];
 
     function handleChange(monitor, pingData) {
@@ -41,16 +41,21 @@ module.exports.start = function (app) {
         //Double check downs with remote pinger but do not double check ups
         if (monitor.up !== pingData.up) {
             if (!pingData.up) {
+                var monitorWithKey = JSON.parse(JSON.stringify(monitor));
+                monitorWithKey.remoteKey = process.env.UBERMON_REMOTE_KEY;//@TODO find better way
                 var reqOptions = {
                     method: 'POST',
                     url: 'http://remote1.ubermon.com/api/Monitors/ping',//@TODO read this from somewhere else
-                    json: monitor
+                    json: monitorWithKey
                 };
                 request(reqOptions, function (err, res) {
                     if (err) {
                         console.error(err);
                     }
                     pingData = res.body.pingData;
+                    if (!res.body.pingData) {
+                        console.error('No pingdata found in body:', res.body);
+                    }
                     if (!pingData.up) {
                         handleChange(monitor, pingData);
                     }
@@ -67,13 +72,12 @@ module.exports.start = function (app) {
     }
 
     function pingMonitor(monitor) {
-        //console.log('-------------------pinging ' + monitor.url);
         Monitor.ping(monitor, function (err, pingData) {
             if (err) {
                 console.error(err);
             }
             handlePingResponse(monitor, pingData);
-        });
+        }, true);
     }
 
     /**
@@ -82,9 +86,11 @@ module.exports.start = function (app) {
      */
     function pingMonitors(startMinute, startSecond) {
         var where = {
-            enabled: true,
-            startSecond: startSecond,
-            or: minuteIntervalWhereClauses[startMinute]
+            and: [
+                {enabled: true},
+                {startSecond: startSecond},
+                {or: minuteIntervalWhereClauses[startMinute]}
+            ]
         };
         Monitor.find(
             {where: where},
@@ -126,7 +132,7 @@ module.exports.start = function (app) {
                     intervalCases.push({interval: 1});
                 }
             }
-            minuteIntervalWhereClauses[minute] = intervalCases;
+            minuteIntervalWhereClauses.push(intervalCases);
         }
     }
 

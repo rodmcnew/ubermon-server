@@ -1,16 +1,37 @@
+var db = {
+    "name": "mydb",
+    "connector": "mysql",
+    "host": process.env.MYSQL_HOST,
+    "database": process.env.MYSQL_DB,
+    "username": process.env.MYSQL_USER,
+    "password": process.env.MYSQL_PASS
+};
+
+//The remote shouldn't be talking to the real DB.
+if (process.env.IS_REMOTE) {
+    db = {
+        "name": "db",
+        "connector": "memory",
+        "file": "db.json"
+    }
+}
+
 module.exports = {
-    "email": {
+    "db": db,
+    "smtp": {
+        "name": "smtp",
+        "connector": "mail",
         "transports": [{
             "type": "smtp",
-            "host": "smtp.gmail.com",
+            "host": process.env.SMTP_HOST,
             "secure": false,
             "port": 587,
             "tls": {
                 "rejectUnauthorized": false
             },
             "auth": {
-                "user": process.env.EMAIL,
-                "pass": process.env.EMAIL_PASSWORD
+                "user": process.env.SMTP_USER,
+                "pass": process.env.SMTP_PASS
             }
         }]
     }

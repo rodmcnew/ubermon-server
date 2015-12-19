@@ -7,9 +7,22 @@
     "validateUpsert": true
   },
   "properties": {
+    "id": {
+      "type": "string",
+      "id": true,
+      "generated": true
+    },
     "email": {
       "type": "string",
       "required": true
+    },
+    "type": {
+      "email": {
+        "type": "string",
+        "required": true,
+        "description": "'e' for Email",
+        "default": "e"
+      }
     }
   },
   "validations": [],

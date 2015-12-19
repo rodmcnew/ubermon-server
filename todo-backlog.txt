@@ -1,44 +1,38 @@
 MUST
 ----------
-have password reset mechinism
-get prod server to persist to DB
-don't let emails go in spam
-auto-select contact that matches user email by default
-support "email to sms" contact type
-stop ping chart from going off of page
-pages for privacy policy, terms and conditions
-require verification of contacts
-stop using gmail for email verification (it has 500 recip limit and other issues)
+allow reset password
 
 SHOULD
 ----------
-fix typo in gmail name "noreplEy.ubermon@gmail.com"
+stop ping chart from going off of page
+pages for privacy policy, terms and conditions
+support "email to sms" contact type
+stop using gmail for email verification (it has 500 recip limit and other issues)
 show duration in events view
 show uptime percent
-ACL protect remote pinger api
 go to login page if lost session
-DDOS prevent - do not allow more than X monitors for the same domain
-prevent being a DDOS tool (prevent pinging same site many times somehow, handle fake different url params)
-use ssl
 handle form errors without browser alert boxes
-require email confirmation? maybe just for more than 5 monitors or 1 week of service.
 pause monitor while waiting for remote to check so don't get 2 emails on long timeouts
 check for skipped seconds and email admin of load issue
-"reset stats" option for each monitor
 fix bug where another monitor's chart shows if current monitor has not pings
 bug - monitor interval comes up unselected when editing a monitor
 allow contacts to be deleted
 do not close dialogs when there is an error
-limit number of contacts per account
-stop using unreliable namecheap forwareder for 'ubermon.com'
+fix typo in gmail name "noreplEy.ubermon@gmail.com"
+require verification of contacts and re-enable "create new contact"
+use ssl
+"Monitoring Interval" comes up blank when editing monitor
+auto select newly created monitors
+use ssl/ssh for db workbench conn
+turn off display errors onprod
 
 COULD
 ----------
+"reset stats" option for each monitor
 support ping monitor type
 support port monitor type
 expire accounts after 3-12 months no login activity? send email first to confirm?
 make ping chart show last 24 hours (will need to remove some in-between when too many pings)
-
 localize dates in UI
 ask if they want to fix redirects when monitor is created to reduce load
 Translate HTTP number codes to their descriptions in UI, also translate node request error codes
@@ -51,6 +45,9 @@ validate - don't allow creation of monitors for "down" sites
 search box for monitor list
 delete events and pings when a monitor is deleted
 show if monitor is advanced or not in monitor list
+limit number of contacts per account
+don't show site on remote1.ubermon.com
+allow bulk monitor actions
 
 WOULD
 ----------
