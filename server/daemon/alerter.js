@@ -7,8 +7,8 @@
 module.exports.start = function (app) {
     var MonitorEvent = app.models.MonitorEvent;
     var Contact = app.models.Contact;
+    var Email = app.models.Email;
     var nodemailer = require('nodemailer');
-    var transporter = nodemailer.createTransport();
 
     /**
      *
@@ -24,11 +24,12 @@ module.exports.start = function (app) {
                 console.error(err);
             }
             for (var i = 0, len = contacts.length; i < len; i++) {
-                transporter.sendMail({
-                    from: 'Ubermon <noreply@ubermon.com>', // sender address
+                Email.send({
+                    from: 'Ubermon <' + process.env.FROM_EMAIL + '>',
                     to: contacts[i].email, // list of receivers
                     subject: monitor.name + ' is ' + statusWord + '.', // Subject line
-                    html: monitor.name + ' is ' + statusWord + '.<br><br>Login at <a href="http:/www.Ubermon.com">ubermon.com</a> to change your notification settings.' // html body
+                    html: monitor.name + ' is ' + statusWord + '.<br><br>Login at <a href="http:/www.Ubermon.com">ubermon.com</a> to change your notification settings.',
+                    text: monitor.name + ' is ' + statusWord
                 }, function (err) {
                     if (err) {
                         console.error(err);

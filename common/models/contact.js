@@ -11,6 +11,10 @@ module.exports = function (Contact) {
     Contact.validatesFormatOf('email', {with: emailRegex, message: 'Invalid email'});
 
     Contact.beforeRemote('create', function (context, user, next) {
+        var res = new Error('Coming soon: This feature is disabled until we build verification for new contacts.');
+        res.statusCode = 400;
+        next(res);
+
         var req = context.req;
         req.body.userId = req.accessToken.userId;
         next();

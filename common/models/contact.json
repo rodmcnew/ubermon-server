@@ -12,6 +12,14 @@
       "required": true
     }
   },
+  "type": {
+    "email": {
+      "type": "string",
+      "required": true,
+      "description": "'e' for Email",
+      "default": "e"
+    }
+  },
   "validations": [],
   "relations": {
     "user": {
