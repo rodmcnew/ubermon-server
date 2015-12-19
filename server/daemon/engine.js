@@ -67,7 +67,6 @@ module.exports.start = function (app) {
     }
 
     function pingMonitor(monitor) {
-        //console.log('-------------------pinging ' + monitor.url);
         Monitor.ping(monitor, function (err, pingData) {
             if (err) {
                 console.error(err);
@@ -88,7 +87,6 @@ module.exports.start = function (app) {
                 {or: minuteIntervalWhereClauses[startMinute]}
             ]
         };
-        console.log(where);
         Monitor.find(
             {where: where},
             function (err, monitors) {
