@@ -12,6 +12,7 @@ module.exports = function (grunt) {
                                 'bower_components_not_bower/Chart.js-skip-xlabels/Chart.min.js',
                                 'bower_components/angular/angular.min.js',
                                 'bower_components/angular-chart.js/dist/angular-chart.min.js',
+                                'bower_components/angular-recaptcha/release/angular-recaptcha.min.js',
                                 'bower_components_not_bower/angular/angular-resource.js',
                                 'js/lb-services.js'
                             ]

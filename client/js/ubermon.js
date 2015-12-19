@@ -1,4 +1,10 @@
-var ubermon = angular.module('ubermon', ['lbServices', 'chart.js']);
+/**
+ * @TODO split this into multi files and use grunt to combine theem
+ */
+var ubermon = angular.module('ubermon', ['lbServices', 'chart.js', 'vcRecaptcha']);
+var ubermonConfig = {
+    recaptchaPubKey: '6LcCeRMTAAAAAJOmu2kbjXyOs07yf28tFt2sn9bF'
+};
 
 ubermon.controller('ubermonDashboard', function ($scope, Monitor, MonitorEvent, MonitorPing, Contact) {
     $scope.monitorTypes = {
@@ -182,7 +188,13 @@ ubermon.controller('ubermonDashboard', function ($scope, Monitor, MonitorEvent, 
     setInterval(update, 10000)
 });
 
-ubermon.controller('ubermonHome', function (User, Contact, $scope, $window) {
+/**
+ * @TODO move the "create user" and "login" forms to directives
+ */
+ubermon.controller('ubermonHome', function (User, Contact, $scope, $window, vcRecaptchaService) {
+
+    $scope.newUser = {};
+    $scope.loginUser = {};
 
     function handleLBError(res) {
         alert(res.data.error.message);
@@ -199,16 +211,39 @@ ubermon.controller('ubermonHome', function (User, Contact, $scope, $window) {
     };
 
     $scope.createUser = function (userData) {
+
+        userData['clientCaptchaRes'] = $scope.captcha.response;
+
         User.create(
             userData,
             function () {
                 $scope.loginUser(userData);
 
             },
-            handleLBError
+            function (res) {
+                // In case of a failed validation you need to reload the captcha
+                // because each response can be checked just once
+                vcRecaptchaService.reload($scope.widgetId);
+                handleLBError(res);
+            }
         );
-    }
-});
+    };
+    $scope.captcha = {
+        resposne: null,
+        widgetId: null,
+        key: ubermonConfig.recaptchaPubKey,
+        setResponse: function (response) {
+            $scope.captcha.response = response;
+        },
+        setWidgetId: function (widgetId) {
+            $scope.captcha.widgetId = widgetId;
+        },
+        cbExpiration: function () {
+            $scope.captcha.response = null;
+        }
+    };
+})
+;
 
 ubermon.directive('ubermonMonitorEdit', function () {
 

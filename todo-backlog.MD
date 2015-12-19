@@ -1,13 +1,13 @@
 MUST
 ----------
+confirm email or monitors are disabled after 24 hours and 5 monitors is the max
 have password reset mechinism
-prevent bot signup
 get prod server to persist to DB
 don't let emails go in spam
-pages for privacy policy, terms and conditions
 auto-select contact that matches user email by default
 support "email to sms" contact type
 stop ping chart from going off of page
+pages for privacy policy, terms and conditions
 
 SHOULD
 ----------
@@ -28,6 +28,7 @@ bug - monitor interval comes up unselected when editing a monitor
 allow contacts to be deleted
 do not close dialogs when there is an error
 limit number of contacts per account
+stop using unreliable namecheap forwareder for 'ubermon.com'
 
 COULD
 ----------
@@ -61,4 +62,3 @@ Combine monitors from different users that use the same URL
 clicking in url should put cursor at end if "http://" is in it
 minify bower_componenets.js (and provide.map files)
 indicate which monitor is selected on monitor list
-stop using unreliable namecheap forwareder for 'ubermon.com'
