@@ -44,7 +44,10 @@ module.exports.start = function (app) {
                 var reqOptions = {
                     method: 'POST',
                     url: 'http://remote1.ubermon.com/api/Monitors/ping',//@TODO read this from somewhere else
-                    json: monitor
+                    json: {
+                        monitor: monitor,
+                        remoteKey: process.env.UBERMON_REMOTE_KEY
+                    }
                 };
                 request(reqOptions, function (err, res) {
                     if (err) {
@@ -67,7 +70,7 @@ module.exports.start = function (app) {
     }
 
     function pingMonitor(monitor) {
-        Monitor.ping(monitor, function (err, pingData) {
+        Monitor.ping(monitor, process.env.UBERMON_REMOTE_KEY, function (err, pingData) {
             if (err) {
                 console.error(err);
             }
