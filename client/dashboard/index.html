@@ -64,13 +64,11 @@
                         <!--<div>-->
                         <!--Uptime: <strike>Unknown</strike>-->
                         <!--</div>-->
+                        <br>
                         <div ng-hide="currentMonitor.events.length > 0">
-                            <h4>Running first check...</h4>
-                            More info will appear here in 5 seconds or less.
+                            <h4>Starting the monitor...</h4>
                         </div>
                         <div ng-show="currentMonitor.events.length > 0">
-
-                            <br>
                             <h4 style="display: inline">Response Time</h4> (ms)
                             <div ng-show="currentMonitor.pingChart.data[0]">
                                 <canvas id="line" class="chart chart-line" width="100" height="30"
