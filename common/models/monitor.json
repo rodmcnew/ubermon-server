@@ -9,7 +9,8 @@
   "properties": {
     "id": {
       "type": "string",
-      "id": true
+      "id": true,
+      "generated": true
     },
     "name": {
       "type": "string",

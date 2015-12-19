@@ -9,7 +9,7 @@ module.exports.start = function (app) {
     var Monitor = app.models.Monitor;
     var MonitorEvent = app.models.MonitorEvent;
     var MonitorPing = app.models.MonitorPing;
-    var minuteIntervalWhereClauses = {};
+    var minuteIntervalWhereClauses = [];
     var validIntervals = [1, 2, 5, 10, 15, 20, 30, 60];
 
     function handleChange(monitor, pingData) {
@@ -82,10 +82,13 @@ module.exports.start = function (app) {
      */
     function pingMonitors(startMinute, startSecond) {
         var where = {
-            enabled: true,
-            startSecond: startSecond,
-            or: minuteIntervalWhereClauses[startMinute]
+            and: [
+                {enabled: true},
+                {startSecond: startSecond},
+                {or: minuteIntervalWhereClauses[startMinute]}
+            ]
         };
+        console.log(where);
         Monitor.find(
             {where: where},
             function (err, monitors) {
@@ -126,7 +129,7 @@ module.exports.start = function (app) {
                     intervalCases.push({interval: 1});
                 }
             }
-            minuteIntervalWhereClauses[minute] = intervalCases;
+            minuteIntervalWhereClauses.push(intervalCases);
         }
     }
 

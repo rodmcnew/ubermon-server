@@ -25,6 +25,7 @@ require verification of contacts and re-enable "create new contact"
 use ssl
 "Monitoring Interval" comes up blank when editing monitor
 auto select newly created monitors
+use ssl/ssh for db workbench conn
 
 COULD
 ----------
