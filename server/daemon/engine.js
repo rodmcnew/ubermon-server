@@ -41,8 +41,8 @@ module.exports.start = function (app) {
         //Double check downs with remote pinger but do not double check ups
         if (monitor.up !== pingData.up) {
             if (!pingData.up) {
-                var monitorWithKey = monitor.clone();
-                monitorWithKey.remoteKey = process.env.UBERMON_REMOTE_KEY
+                var monitorWithKey = JSON.parse(JSON.stringify(monitor));
+                monitorWithKey.remoteKey = process.env.UBERMON_REMOTE_KEY;//@TODO find better way
                 var reqOptions = {
                     method: 'POST',
                     url: 'http://remote1.ubermon.com/api/Monitors/ping',//@TODO read this from somewhere else
@@ -53,6 +53,9 @@ module.exports.start = function (app) {
                         console.error(err);
                     }
                     pingData = res.body.pingData;
+                    if (!res.body.pingData) {
+                        console.error('No pingdata found in body:', res.body);
+                    }
                     if (!pingData.up) {
                         handleChange(monitor, pingData);
                     }
@@ -69,14 +72,12 @@ module.exports.start = function (app) {
     }
 
     function pingMonitor(monitor) {
-        var monitorWithKey = monitor.clone();
-        monitorWithKey.remoteKey = process.env.UBERMON_REMOTE_KEY
-        Monitor.ping(monitorWithKey, function (err, pingData) {
+        Monitor.ping(monitor, function (err, pingData) {
             if (err) {
                 console.error(err);
             }
             handlePingResponse(monitor, pingData);
-        });
+        }, true);
     }
 
     /**
