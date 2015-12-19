@@ -7,7 +7,7 @@ var db = {
     "password": process.env.MYSQL_PASS
 };
 
-//The remote shouldn't be talking to the real DB.
+//The remote downtime confirmation server shouldn't be talking to the real DB
 if (process.env.IS_REMOTE) {
     db = {
         "name": "db",
