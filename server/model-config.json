@@ -64,6 +64,6 @@
     "$resolved": true
   },
   "Email": {
-    "dataSource": "email"
+    "dataSource": "smtp"
   }
 }

@@ -1,20 +1,3 @@
 {
-  "db": {
-    "name": "db",
-    "connector": "memory",
-    "file": "db.json"
-  },
-  "email": {
-    "name": "email",
-    "connector": "mail",
-    "transports": [{
-      "type": "smtp",
-      "host": "smtp.gmail.com",
-      "secure": false,
-      "port": 587,
-      "tls": {
-        "rejectUnauthorized": false
-      }
-    }]
-  }
+
 }
