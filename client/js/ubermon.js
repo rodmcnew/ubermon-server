@@ -2,7 +2,7 @@
  * @TODO split this into multi files and use grunt to combine theem
  */
 var ubermon = angular.module('ubermon', ['lbServices', 'chart.js', 'vcRecaptcha']);
-var ubermonConfig={
+var ubermonConfig = {
     recaptchaPubKey: '6LcCeRMTAAAAAJOmu2kbjXyOs07yf28tFt2sn9bF'
 };
 
@@ -193,6 +193,9 @@ ubermon.controller('ubermonDashboard', function ($scope, Monitor, MonitorEvent, 
  */
 ubermon.controller('ubermonHome', function (User, Contact, $scope, $window, vcRecaptchaService) {
 
+    $scope.newUser = {};
+    $scope.loginUser = {};
+
     function handleLBError(res) {
         alert(res.data.error.message);
     }
@@ -209,16 +212,7 @@ ubermon.controller('ubermonHome', function (User, Contact, $scope, $window, vcRe
 
     $scope.createUser = function (userData) {
 
-        var valid;
-        console.log('sending the captcha response to the server', $scope.response);
-        if (valid) {
-            console.log('Success');
-        } else {
-            console.log('Failed validation');
-            // In case of a failed validation you need to reload the captcha
-            // because each response can be checked just once
-            vcRecaptchaService.reload($scope.widgetId);
-        }
+        userData['clientCaptchaRes'] = $scope.captcha.response;
 
         User.create(
             userData,
@@ -226,27 +220,30 @@ ubermon.controller('ubermonHome', function (User, Contact, $scope, $window, vcRe
                 $scope.loginUser(userData);
 
             },
-            handleLBError
+            function (res) {
+                // In case of a failed validation you need to reload the captcha
+                // because each response can be checked just once
+                vcRecaptchaService.reload($scope.widgetId);
+                handleLBError(res);
+            }
         );
     };
-    $scope.response = null;
-    $scope.widgetId = null;
-    $scope.model = {
-        key: ubermonConfig.recaptchaPubKey
+    $scope.captcha = {
+        resposne: null,
+        widgetId: null,
+        key: ubermonConfig.recaptchaPubKey,
+        setResponse: function (response) {
+            $scope.captcha.response = response;
+        },
+        setWidgetId: function (widgetId) {
+            $scope.captcha.widgetId = widgetId;
+        },
+        cbExpiration: function () {
+            $scope.captcha.response = null;
+        }
     };
-    $scope.setResponse = function (response) {
-        console.info('Response available');
-        $scope.response = response;
-    };
-    $scope.setWidgetId = function (widgetId) {
-        console.info('Created widget ID: %s', widgetId);
-        $scope.widgetId = widgetId;
-    };
-    $scope.cbExpiration = function() {
-        console.info('Captcha expired. Resetting response object');
-        $scope.response = null;
-    };
-});
+})
+;
 
 ubermon.directive('ubermonMonitorEdit', function () {
 
