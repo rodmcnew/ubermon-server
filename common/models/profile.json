@@ -17,7 +17,6 @@
     }
   },
   "validations": [],
-  "validations": [],
   "relations": {
     "user": {
       "type": "belongsTo",

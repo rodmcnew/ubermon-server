@@ -1,7 +1,5 @@
 MUST
 ----------
-confirm email within 24 hours of creating account or all monitors will be paused
-max monitors=5 until email is confirmed
 have password reset mechinism
 get prod server to persist to DB
 don't let emails go in spam
@@ -9,9 +7,12 @@ auto-select contact that matches user email by default
 support "email to sms" contact type
 stop ping chart from going off of page
 pages for privacy policy, terms and conditions
+require verification of contacts
+stop using gmail for email verification (it has 500 recip limit and other issues)
 
 SHOULD
 ----------
+fix typo in gmail name "noreplEy.ubermon@gmail.com"
 show duration in events view
 show uptime percent
 ACL protect remote pinger api
