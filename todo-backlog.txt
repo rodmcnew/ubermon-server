@@ -1,6 +1,6 @@
 MUST
 ----------
-confirm email with 24 hours of creating account or all monitors will be paused
+confirm email within 24 hours of creating account or all monitors will be paused
 max monitors=5 until email is confirmed
 have password reset mechinism
 get prod server to persist to DB
