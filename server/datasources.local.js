@@ -7,10 +7,6 @@ module.exports = {
     "db": {
         "name": "mydb",
         "connector": "mysql",
-        //"database":"ubermon",
-        //"host": "127.0.0.1",
-        //"username":"root",
-        //"password:":""
         "host": process.env.MYSQL_HOST,
         "database":process.env.MYSQL_DB,
         "username":process.env.MYSQL_USER,
