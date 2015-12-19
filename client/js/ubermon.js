@@ -1,4 +1,10 @@
-var ubermon = angular.module('ubermon', ['lbServices', 'chart.js']);
+/**
+ * @TODO split this into multi files and use grunt to combine theem
+ */
+var ubermon = angular.module('ubermon', ['lbServices', 'chart.js', 'vcRecaptcha']);
+var ubermonConfig={
+    recaptchaPubKey: '6LcCeRMTAAAAAJOmu2kbjXyOs07yf28tFt2sn9bF'
+};
 
 ubermon.controller('ubermonDashboard', function ($scope, Monitor, MonitorEvent, MonitorPing, Contact) {
     $scope.monitorTypes = {
@@ -182,7 +188,10 @@ ubermon.controller('ubermonDashboard', function ($scope, Monitor, MonitorEvent, 
     setInterval(update, 10000)
 });
 
-ubermon.controller('ubermonHome', function (User, Contact, $scope, $window) {
+/**
+ * @TODO move the "create user" and "login" forms to directives
+ */
+ubermon.controller('ubermonHome', function (User, Contact, $scope, $window, vcRecaptchaService) {
 
     function handleLBError(res) {
         alert(res.data.error.message);
@@ -199,6 +208,18 @@ ubermon.controller('ubermonHome', function (User, Contact, $scope, $window) {
     };
 
     $scope.createUser = function (userData) {
+
+        var valid;
+        console.log('sending the captcha response to the server', $scope.response);
+        if (valid) {
+            console.log('Success');
+        } else {
+            console.log('Failed validation');
+            // In case of a failed validation you need to reload the captcha
+            // because each response can be checked just once
+            vcRecaptchaService.reload($scope.widgetId);
+        }
+
         User.create(
             userData,
             function () {
@@ -207,7 +228,24 @@ ubermon.controller('ubermonHome', function (User, Contact, $scope, $window) {
             },
             handleLBError
         );
-    }
+    };
+    $scope.response = null;
+    $scope.widgetId = null;
+    $scope.model = {
+        key: ubermonConfig.recaptchaPubKey
+    };
+    $scope.setResponse = function (response) {
+        console.info('Response available');
+        $scope.response = response;
+    };
+    $scope.setWidgetId = function (widgetId) {
+        console.info('Created widget ID: %s', widgetId);
+        $scope.widgetId = widgetId;
+    };
+    $scope.cbExpiration = function() {
+        console.info('Captcha expired. Resetting response object');
+        $scope.response = null;
+    };
 });
 
 ubermon.directive('ubermonMonitorEdit', function () {
