@@ -1,5 +1,5 @@
 var request = require('request');
-
+var path = require('path');
 /**
  * @TODO listen for email change event and update contact
  * @param app
@@ -20,7 +20,7 @@ function verifyCapcha(req, cb) {
         method: 'POST',
         url: 'https://www.google.com/recaptcha/api/siteverify',
         formData: {
-            secret: process.env.recaptchaPrivateKey,
+            secret: process.env.RECAPTCH_PRIVATE_KEY,
             response: req.body.clientCaptchaRes,
             remoteip: req.connection.remoteAddress
         }
@@ -70,6 +70,23 @@ module.exports = function (app) {
                 }
             }
         );
+
+        var options = {
+            type: 'email',
+            to: user.email,
+            from: process.env.EMAIL,
+            subject: 'Ubermon - Account Activation',
+            template: path.resolve(__dirname, '../../server/views/activationEmail.ejs'),
+            redirect: '/?emailJustVerified=1',
+            user: user
+        };
+
+        user.verify(options, function (err, response, next) {
+            if (err) {
+                console.error(err);
+            }
+        });
+
         next();
     });
 };

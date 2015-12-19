@@ -191,10 +191,11 @@ ubermon.controller('ubermonDashboard', function ($scope, Monitor, MonitorEvent, 
 /**
  * @TODO move the "create user" and "login" forms to directives
  */
-ubermon.controller('ubermonHome', function (User, Contact, $scope, $window, vcRecaptchaService) {
+ubermon.controller('ubermonHome', function (User, Contact, $scope, $window, vcRecaptchaService, $window) {
 
     $scope.newUser = {};
     $scope.loginUser = {};
+    $scope.emailJustVerified = $window.location.href.indexOf('emailJustVerified') != -1;
 
     function handleLBError(res) {
         alert(res.data.error.message);
@@ -217,8 +218,7 @@ ubermon.controller('ubermonHome', function (User, Contact, $scope, $window, vcRe
         User.create(
             userData,
             function () {
-                $scope.loginUser(userData);
-
+                $scope.verifyEmailSent = true;
             },
             function (res) {
                 // In case of a failed validation you need to reload the captcha
@@ -242,8 +242,7 @@ ubermon.controller('ubermonHome', function (User, Contact, $scope, $window, vcRe
             $scope.captcha.response = null;
         }
     };
-})
-;
+});
 
 ubermon.directive('ubermonMonitorEdit', function () {
 
