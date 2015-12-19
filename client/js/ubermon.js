@@ -96,8 +96,11 @@ ubermon.controller('ubermonDashboard', function ($scope, Monitor, MonitorEvent, 
     }
 
     function updateSoon() {
+        setTimeout(update, 1);
+        setTimeout(update, 2);
         setTimeout(update, 3);
-        setTimeout(update, 6);
+        setTimeout(update, 4);
+        setTimeout(update, 5);
     }
 
     $scope.popCreateMonitorModal = function () {

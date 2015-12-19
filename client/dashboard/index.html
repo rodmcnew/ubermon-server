@@ -64,36 +64,43 @@
                         <!--<div>-->
                         <!--Uptime: <strike>Unknown</strike>-->
                         <!--</div>-->
-                        <br>
-                        <h4 style="display: inline">Response Time</h4> (ms)
-                        <div ng-show="currentMonitor.pingChart.data[0]">
-                            <canvas id="line" class="chart chart-line" width="100" height="30"
-                                    chart-data="currentMonitor.pingChart.data"
-                                    chart-labels="currentMonitor.pingChart.labels"
-                                    chart-click="onClick"
-                                    chart-options="{showXLabels: 5, showTooltips: false, bezierCurve : false, animation: false}">
-                            </canvas>
+                        <div ng-hide="currentMonitor.events.length > 0">
+                            <h4>Running first check...</h4>
+                            More info will appear here in 5 seconds or less.
                         </div>
-                        <h4>Latest Events</h4>
-                        <table class="table">
-                            <tr>
-                                <th>Status</th>
-                                <th>Date</th>
-                                <th>Reason</th>
-                                <!--<th>Duration</th>-->
-                            </tr>
-                            <tr ng-repeat="event in currentMonitor.events">
-                                <td>
-                                    <span ng-show="event.type=='u'">UP</span>
-                                    <span ng-show="event.type=='d'">DOWN</span>
-                                    <span ng-show="event.type=='p'">PAUSED</span>
-                                    <span ng-show="event.type=='s'">STARTED</span>
-                                </td>
-                                <td ng-bind="event.date"></td>
-                                <td ng-bind="event.reason"></td>
-                                <!--<td><strike>Unknown</strike></td>-->
-                            </tr>
-                        </table>
+                        <div ng-show="currentMonitor.events.length > 0">
+
+                            <br>
+                            <h4 style="display: inline">Response Time</h4> (ms)
+                            <div ng-show="currentMonitor.pingChart.data[0]">
+                                <canvas id="line" class="chart chart-line" width="100" height="30"
+                                        chart-data="currentMonitor.pingChart.data"
+                                        chart-labels="currentMonitor.pingChart.labels"
+                                        chart-click="onClick"
+                                        chart-options="{showXLabels: 5, showTooltips: false, bezierCurve : false, animation: false}">
+                                </canvas>
+                            </div>
+                            <h4>Latest Events</h4>
+                            <table class="table">
+                                <tr>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                    <th>Reason</th>
+                                    <!--<th>Duration</th>-->
+                                </tr>
+                                <tr ng-repeat="event in currentMonitor.events">
+                                    <td>
+                                        <span ng-show="event.type=='u'">UP</span>
+                                        <span ng-show="event.type=='d'">DOWN</span>
+                                        <span ng-show="event.type=='p'">PAUSED</span>
+                                        <span ng-show="event.type=='s'">STARTED</span>
+                                    </td>
+                                    <td ng-bind="event.date"></td>
+                                    <td ng-bind="event.reason"></td>
+                                    <!--<td><strike>Unknown</strike></td>-->
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
