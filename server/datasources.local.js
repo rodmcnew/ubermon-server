@@ -8,9 +8,9 @@ module.exports = {
         "name": "mydb",
         "connector": "mysql",
         "host": process.env.MYSQL_HOST,
-        "database":process.env.MYSQL_DB,
-        "username":process.env.MYSQL_USER,
-        "pass:":process.env.MYSQL_PASS
+        "database": process.env.MYSQL_DB,
+        "username": process.env.MYSQL_USER,
+        "password": process.env.MYSQL_PASS
     },
     "smtp": {
         "name": "smtp",
