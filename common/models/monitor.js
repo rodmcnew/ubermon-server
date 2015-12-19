@@ -202,7 +202,7 @@ module.exports = function (Monitor) {
     );
 
     Monitor.ping = function (monitor, remoteKey, cb) {
-        //@TODO use loopback ACL instead of making up remote key like this
+        //@TODO use loopback auth and ACL instead of making up remote key like this
         if (remoteKey != process.env.UBERMON_REMOTE_KEY) {
             cb(null, {'error': 'Invalid key'});
             return;
