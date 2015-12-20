@@ -35,6 +35,6 @@ boot(app, __dirname, function (err) {
         cleaner.start(app);
 
         //This could be dangerous
-        app.dataSources.db.autoupdate();
+        //app.dataSources.db.autoupdate();
     }
 });
