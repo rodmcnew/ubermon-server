@@ -4,6 +4,7 @@ allow reset password
 
 SHOULD
 ----------
+error alerts
 stop ping chart from going off of page
 support "email to sms" contact type
 stop using gmail for email verification (it has 500 recip limit and other issues)
