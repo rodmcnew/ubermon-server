@@ -5,7 +5,6 @@ allow reset password
 SHOULD
 ----------
 stop ping chart from going off of page
-pages for privacy policy, terms and conditions
 support "email to sms" contact type
 stop using gmail for email verification (it has 500 recip limit and other issues)
 show duration in events view
@@ -25,6 +24,7 @@ use ssl
 auto select newly created monitors
 use ssl/ssh for db workbench conn
 turn off display errors onprod
+improve "privacy policy" and "terms and conditions"
 
 COULD
 ----------
