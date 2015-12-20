@@ -4,10 +4,11 @@ var db = {
     "host": process.env.MYSQL_HOST,
     "database": process.env.MYSQL_DB,
     "username": process.env.MYSQL_USER,
-    "password": process.env.MYSQL_PASS
+    "password": process.env.MYSQL_PASS,
+    "connectionLimit": 5
 };
 
-//The remote shouldn't be talking to the real DB.
+//The remote downtime confirmation server shouldn't be talking to the real DB
 if (process.env.IS_REMOTE) {
     db = {
         "name": "db",
