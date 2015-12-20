@@ -5,7 +5,7 @@ var db = {
     "database": process.env.MYSQL_DB,
     "username": process.env.MYSQL_USER,
     "password": process.env.MYSQL_PASS,
-    "connectionLimit": 5
+    "connectionLimit": 3 //Current DB only supports 10 but they seem to multiply when releasing.
 };
 
 //The remote downtime confirmation server shouldn't be talking to the real DB
