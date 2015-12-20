@@ -25,13 +25,19 @@
             <div class="col-sm-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Try it Now - Create a Free Account</h3>
+                        <h3 class="panel-title">Create a Free Account</h3>
                     </div>
                     <div class="panel-body" ng-hide="verifyEmailSent">
+                        <p>
+                            Ubermon watches your website and sends you an alert if it goes down. Getting started is simple and easy.
+                        </p>
+
+                        Free account includes:
                         <ul>
                             <li>50 monitors</li>
-                            <li>Checked every 5 minutes</li>
-                            <li>$0/month</li>
+                            <li>Checks every 5 minutes</li>
+                            <li>Email alerts</li>
+                            <li>Email-to-SMS alerts</li>
                         </ul>
                         <form ng-submit="createUser(newUser)" role="form">
                             <div class="form-group">
@@ -39,7 +45,7 @@
                                 <input ng-model="newUser.email" type="email" class="form-control" id="email">
                             </div>
                             <div class="form-group">
-                                <label for="pwd">Password:</label>
+                                <label for="pwd">Create Password:</label>
                                 <input ng-model="newUser.password" type="password" class="form-control" id="pwd">
                             </div>
                             <div class="form-group">
