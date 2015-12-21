@@ -34,7 +34,9 @@ function verifyCapcha(req, cb) {
 }
 
 module.exports = function (app) {
-    app.models.User.beforeRemote('create', function (ctx, user, next) {
+    var User = app.models.User
+
+    User.beforeRemote('create', function (ctx, user, next) {
         verifyCapcha(ctx.req, function (success) {
             if (success) {
                 next()
@@ -46,7 +48,7 @@ module.exports = function (app) {
         });
     });
 
-    app.models.User.afterRemote('create', function (ctx, user, next) {
+    User.afterRemote('create', function (ctx, user, next) {
         app.models.Profile.create(
             {
                 "maxMonitors": 50,
@@ -90,5 +92,22 @@ module.exports = function (app) {
         });
 
         next();
+    });
+
+    //send password reset link when requested
+    User.on('resetPasswordRequest', function (info) {
+        console.log(info);
+        var url = 'http://ubermon.com/reset-password/';
+        var html = 'Click <a href="' + url + '#?access_token=' +
+            info.accessToken.id + '&userId=' + info.user.id + '&fromEmail=1">here</a> to reset your password';
+
+        app.models.Email.send({
+            to: info.email,
+            from: 'Ubermon <' + process.env.FROM_EMAIL + '>',
+            subject: 'Ubermon - Reset Password',
+            html: html
+        }, function (err) {
+            if (err) return console.error(err);
+        });
     });
 };
