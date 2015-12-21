@@ -27,6 +27,7 @@ auto select newly created monitors
 use ssl/ssh for db workbench conn
 turn off display errors onprod
 improve "privacy policy" and "terms and conditions"
+have email link to remove self from contacts on a monitor
 
 COULD
 ----------
