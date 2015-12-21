@@ -1,6 +1,5 @@
 MUST
 ----------
-allow reset password
 
 SHOULD
 ----------
