@@ -6,7 +6,6 @@ SHOULD
 error alerts
 contact form
 allow password and email to be changed
-stop ping chart from going off of page
 support "email to sms" contact type
 stop using gmail for email verification (it has 500 recip limit and other issues)
 show duration in events view
@@ -15,7 +14,6 @@ go to login page if lost session
 handle form errors without browser alert boxes
 pause monitor while waiting for remote to check so don't get 2 emails on long timeouts
 check for skipped seconds and email admin of load issue
-fix bug where another monitor's chart shows if current monitor has not pings
 bug - monitor interval comes up unselected when editing a monitor
 allow contacts to be deleted
 do not close dialogs when there is an error
@@ -34,7 +32,6 @@ COULD
 "reset stats" option for each monitor
 support ping monitor type
 support port monitor type
-make ping chart show last 24 hours (will need to remove some in-between when too many pings)
 localize dates in UI
 ask if they want to fix redirects when monitor is created to reduce load
 Translate HTTP number codes to their descriptions in UI, also translate node request error codes
@@ -51,6 +48,7 @@ limit number of contacts per account
 don't show site on remote1.ubermon.com
 allow bulk monitor actions
 expire accounts after 3-12 months no login activity? send email first to confirm?
+don't keep showing monitor on right side if it was the last one deleted
 
 WOULD
 ----------
