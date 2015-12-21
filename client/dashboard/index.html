@@ -66,7 +66,7 @@
                         <!--</div>-->
                         <br>
                         <div ng-hide="currentMonitor.events.length > 0">
-                            <h4>Starting the monitor...</h4>
+                            <h4>Loading...</h4>
                         </div>
                         <div ng-show="currentMonitor.events.length > 0">
                             <h4 style="display: inline">Response Time</h4> (ms)
@@ -123,7 +123,7 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" ng-click="showCreateMonitorModal=false">Close
+                        <button type="button" class="btn btn-default" ng-click="showCreateMonitorModal=false">Cancel
                         </button>
                         <button type="button" class="btn btn-primary" ng-click="createMonitor(newMonitor)">Create
                             Monitor
@@ -152,7 +152,7 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" ng-click="cancelEditMonitor()">Close
+                        <button type="button" class="btn btn-default" ng-click="cancelEditMonitor()">Cancel
                         </button>
                         <button type="button" class="btn btn-primary" ng-click="updateMonitor(currentMonitor)">Save
                         </button>
@@ -174,7 +174,7 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" ng-click="showCreateContactModal=false">Close
+                        <button type="button" class="btn btn-default" ng-click="showCreateContactModal=false">Cancel
                         </button>
                         <button type="button" class="btn btn-primary" ng-click="createContact(newContact)">Create
                             Contact
