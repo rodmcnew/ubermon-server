@@ -1,11 +1,11 @@
 MUST
 ----------
-allow reset password
 
 SHOULD
 ----------
 error alerts
 contact form
+allow password and email to be changed
 stop ping chart from going off of page
 support "email to sms" contact type
 stop using gmail for email verification (it has 500 recip limit and other issues)
@@ -27,6 +27,7 @@ auto select newly created monitors
 use ssl/ssh for db workbench conn
 turn off display errors onprod
 improve "privacy policy" and "terms and conditions"
+have email link to remove self from contacts on a monitor
 
 COULD
 ----------
