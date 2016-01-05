@@ -3,19 +3,19 @@
 var request = require('request');
 var Engine = (function () {
     function Engine(app) {
-        var _this = this;
         this.minuteIntervalWhereClauses = [];
         this.validIntervals = [1, 2, 5, 10, 15, 20, 30, 60];
-        this.pingMonitor = function (monitor) {
-            _this.app.models.Monitor.ping(monitor, function (err, pingData) {
-                if (err) {
-                    console.error(err);
-                }
-                _this.handlePingResponse(monitor, pingData);
-            }, true);
-        };
         this.app = app;
     }
+    Engine.prototype.pingMonitor = function (monitor) {
+        var _this = this;
+        this.app.models.Monitor.ping(monitor, function (err, pingData) {
+            if (err) {
+                console.error(err);
+            }
+            _this.handlePingResponse(monitor, pingData);
+        }, true);
+    };
     Engine.prototype.handlePingResponse = function (monitor, pingData) {
         var _this = this;
         //Double check downs with remote pinger but do not double check ups

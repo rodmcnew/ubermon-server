@@ -11,14 +11,14 @@ class Engine {
         this.app = app;
     }
 
-    pingMonitor = (monitor:IMonitor) => {
+    pingMonitor(monitor:IMonitor) {
         this.app.models.Monitor.ping(monitor, (err, pingData:IMonitorPing) => {
             if (err) {
                 console.error(err);
             }
             this.handlePingResponse(monitor, pingData);
         }, true);
-    };
+    }
 
     handlePingResponse(monitor:IMonitor, pingData:IMonitorPing) {
         //Double check downs with remote pinger but do not double check ups
