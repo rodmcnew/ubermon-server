@@ -210,7 +210,10 @@ module.exports = function (Monitor) {
 
         var pingData = {
             monitorId: monitor.id,
-            date: Date.now()
+            date: Date.now(),
+            up: false,
+            reason: '',
+            latency: 0
         };
         var reqOptions = {
             method: 'HEAD',
