@@ -1,0 +1,132 @@
+{
+  "name": "Monitor",
+  "base": "PersistedModel",
+  "strict": true,
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "id": {
+      "type": "string",
+      "id": true,
+      "generated": true
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "type": {
+      "type": "string",
+      "required": true,
+      "description": "'h' for HTTP(s), 'p for ping, 'o' for port, 'k' for keyword",
+      "default": "h"
+    },
+    "url": {
+      "type": "string",
+      "required": true
+    },
+    "keyword": {
+      "type": "string",
+      "required": false
+    },
+    "hostname": {
+      "type": "string",
+      "required": false
+    },
+    "interval": {
+      "type": "number",
+      "required": true,
+      "default": 5
+    },
+    "startSecond": {
+      "type": "number",
+      "required": true
+    },
+    "isAdvanced": {
+      "type": "boolean",
+      "required": true,
+      "default": false
+    },
+    "startMinute": {
+      "type": "number",
+      "required": true
+    },
+    "up": {
+      "type": "boolean",
+      "required": false
+    },
+    "enabled": {
+      "type": "boolean",
+      "required": true,
+      "default": true
+    },
+    "modifiedDate": {
+      "type": "date",
+      "required": true
+    },
+    "contactIds": {
+      "type": "array",
+      "required": false,
+      "default": []
+    }
+  },
+  "validations": [],
+  "relations": {
+    "user": {
+      "type": "belongsTo",
+      "model": "User",
+      "foreignKey": "userId"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    },
+    {
+      "accessType": "WRITE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "create"
+    },
+    {
+      "accessType": "READ",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "WRITE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": "updateAttributes"
+    },
+    {
+      "accessType": "WRITE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": "deleteById"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "listMine"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "ping"
+    }
+  ],
+  "methods": {}
+}

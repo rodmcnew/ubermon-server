@@ -1,0 +1,104 @@
+<!doctype html>
+<html ng-app="ubermon">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ubermon</title>
+    <meta name="description" content="Website downtime alerts. Free, simple, and easy.">
+    <script type="text/javascript" src="/dist/bower_components.min.js"></script>
+    <script type="text/javascript" src="/js/ubermon.js"></script>
+    <link rel="stylesheet" href="/style.css"/>
+</head>
+<body>
+<div class="container-fluid main">
+    <div ng-include="'/partial/header.html'"></div>
+    <!-- - - - - - - - - - - BEGIN PAGE - - - - - - - - - -  -->
+    <script src="//www.google.com/recaptcha/api.js?render=explicit&onload=vcRecaptchaApiLoaded" async defer></script>
+    <div ng-controller="ubermonHome">
+        <div class="row">
+            <div class="col-sm-12">
+                <!-- @TODO move me inside each form -->
+                <div class="alert alert-danger" ng-bind="error" ng-show="error"></div>
+                <div class="alert alert-success" ng-show="emailJustVerified">
+                    Your email has been verified. You may now login below.
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Create a Free Account</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p>
+                            Ubermon watches your website and sends you an alert if it goes down. Getting started takes
+                            less than a minute.
+                        </p>
+
+                        Free account includes:
+                        <ul>
+                            <li>50 monitors</li>
+                            <li>Checks every 5 minutes</li>
+                            <li>Email alerts</li>
+                            <li>Email-to-SMS alerts</li>
+                        </ul>
+                        <form ng-submit="createUser(newUser)" role="form" ng-hide="verifyEmailSent">
+                            <div class="form-group">
+                                <label for="email">Email address:</label>
+                                <input ng-model="newUser.email" type="email" class="form-control" id="email">
+                            </div>
+                            <div class="form-group">
+                                <label for="pwd">Create Password:</label>
+                                <input ng-model="newUser.password" type="password" class="form-control" id="pwd">
+                            </div>
+                            <div class="form-group">
+                                <div vc-recaptcha
+                                     theme="'light'"
+                                     key="captcha.key"
+                                     on-create="captcha.setWidgetId(widgetId)"
+                                     on-success="captcha.setResponse(response)"
+                                     on-expire="captcha.cbExpiration()"
+                                        ></div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Create a Free Account</button>
+                        </form>
+                    </div>
+                    <div class="panel-body" ng-show="verifyEmailSent">
+                        <div class="alert alert-success">
+                            We sent you a verification email. Please check your email and click the link inside to
+                            verify your account.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Login</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form ng-submit="loginUser(loggingInUser)" role="form">
+                            <div class="form-group">
+                                <label for="email">Email address:</label>
+                                <input ng-model="loggingInUser.email" type="email" class="form-control" id="email">
+                            </div>
+                            <div class="form-group">
+                                <label for="pwd">Password:</label>
+                                <input ng-model="loggingInUser.password" type="password" class="form-control" id="pwd">
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Login</button>
+                            </div>
+                            <div class="form-group">
+                                <a href="/reset-password">Forgot Password</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- - - - - - - - - - - END PAGE - - - - - - - - - -  -->
+</div>
+</body>
+</html>
