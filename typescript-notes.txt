@@ -1,4 +1,0 @@
-Rods-MacBook-Pro:ubermon rmcnew$ node_modules/tsd/build/cli.js query request
-
- - request / request
-Rods-MacBook-Pro:ubermon rmcnew$ node_modules/tsd/build/cli.js install request --save
