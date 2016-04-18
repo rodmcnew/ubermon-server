@@ -45,12 +45,12 @@ module.exports.start = function (app) {
                 monitorWithKey.remoteKey = process.env.UBERMON_REMOTE_KEY;//@TODO find better way
                 var reqOptions = {
                     method: 'POST',
-                    url: 'http://remote1.ubermon.com/api/Monitors/ping',//@TODO read this from somewhere else
+                    url: process.env.UBERMON_REMOTE_URL,
                     json: monitorWithKey
                 };
                 request(reqOptions, function (err, res) {
                     if (err) {
-                        console.error(err);
+                        console.error(err); //@todo couldn't reach monitor. what now?
                     }
                     pingData = res.body.pingData;
                     if (!res.body.pingData) {
