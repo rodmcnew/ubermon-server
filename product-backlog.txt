@@ -1,6 +1,6 @@
 MUST
 ----------
-If no events in 2 months, clean cleans last event causing ping chart not to show.
+If no events in 2 months, clean cleans last event causing ping chart not to show. (maybe don't clean most recent event)
 
 SHOULD
 ----------
