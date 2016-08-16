@@ -110,7 +110,7 @@ ubermon.controller('ubermonDashboard', function ($scope, Monitor, MonitorEvent, 
     $scope.popCreateMonitorModal = function () {
         updateContacts();
         $scope.showCreateMonitorModal = true;
-        $scope.newMonitor = {type: 'h', interval: '1', url: 'http://', contactIds: []};//h for http;
+        $scope.newMonitor = {type: 'h', interval: '5', url: 'http://', contactIds: []};//h for http;
     };
 
     $scope.popCreateContactModal = function () {
