@@ -28,7 +28,7 @@ module.exports.start = function (app) {
                     from: 'Ubermon <' + process.env.FROM_EMAIL + '>',
                     to: contacts[i].email, // list of receivers
                     subject: monitor.name + ' is ' + statusWord + '.', // Subject line
-                    html: monitor.name + ' is ' + statusWord + '.<br><br>Login at <a href="http:/www.Ubermon.com">ubermon.com</a> to change your notification settings.',
+                    html: monitor.name + ' is ' + statusWord + '.<br><br>Login at <a href="http://www.ubermon.com">Ubermon.com</a> to change your notification settings.',
                     text: monitor.name + ' is ' + statusWord
                 }, function (err) {
                     if (err) {
