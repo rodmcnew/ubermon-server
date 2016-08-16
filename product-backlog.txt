@@ -4,6 +4,7 @@ garentee won't send false positive emails when ubermon goes down in non-confirm 
 
 SHOULD
 ----------
+send email to me when a signup is detected
 error alerts
 "Monitoring Interval" comes up blank when editing monitor
 contact form
