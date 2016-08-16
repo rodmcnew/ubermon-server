@@ -1,6 +1,7 @@
 /**
  * @todo add "started" event when monitor starts and ping it imedietly.
  * @TODO ensure owner cannot be changed away to another owner
+ * @TODO ensure only contactIds that are owned by the owner can be used
  * @par min
  * @param max
  * @returns {*}

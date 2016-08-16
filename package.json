@@ -1,5 +1,5 @@
 {
-  "name": "ubermon",
+  "name": "rcm-node-renderer",
   "version": "1.0.0",
   "main": "server/server.js",
   "scripts": {
@@ -25,5 +25,7 @@
     "type": "",
     "url": ""
   },
-  "description": "ubermon"
+  "description": "ubermon",
+  "author": "",
+  "license": "ISC"
 }
