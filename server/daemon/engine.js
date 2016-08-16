@@ -10,7 +10,7 @@ module.exports.start = function (app) {
     var MonitorEvent = app.models.MonitorEvent;
     var MonitorPing = app.models.MonitorPing;
     var minuteIntervalWhereClauses = [];
-    var validIntervals = [1]; //, 2, 5, 10, 15, 20, 30, 60];
+    var validIntervals = [1, 2, 5, 10, 15, 20, 30, 60];
 
     function handleChange(monitor, pingData) {
         /**
