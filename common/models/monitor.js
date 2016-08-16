@@ -15,8 +15,8 @@ var validUrl = require('valid-url');
  * @param Monitor
  */
 var monitorIntervals = {
-    '1': 'Every minute (advanced)',
-    '2': 'Every 2 minutes (advanced)',
+    '1': 'Every minute',
+    '2': 'Every 2 minutes',
     '5': 'Every 5 minutes',
     '10': 'Every 10 minutes',
     '15': 'Every 15 minutes',
@@ -150,7 +150,8 @@ module.exports = function (Monitor) {
     }
 
     function isAdvanced(monitor) {
-        return monitor.interval < 5 || monitor.type != 'h';
+        //return monitor.interval < 5 || monitor.type != 'h';
+        return monitor.type != 'h';
     }
 
     Monitor.beforeRemote('create', function (context, user, next) {
