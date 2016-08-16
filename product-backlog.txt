@@ -1,5 +1,6 @@
 MUST
 ----------
+garentee won't send false positive emails when ubermon goes down in non-confirm mode.
 
 SHOULD
 ----------

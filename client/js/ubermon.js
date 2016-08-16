@@ -14,14 +14,14 @@ ubermon.controller('ubermonDashboard', function ($scope, Monitor, MonitorEvent, 
         'k': 'Keyword'
     };
     $scope.monitorIntervals = {
-        '1': 'Every minute',
-        '2': 'Every 2 minutes',
-        '5': 'Every 5 minutes',
-        '10': 'Every 10 minutes',
-        '15': 'Every 15 minutes',
-        '20': 'Every 20 minutes',
-        '30': 'Every 30 minutes',
-        '60': 'Every 60 minutes'
+        '1': 'Every minute'
+        //'2': 'Every 2 minutes',
+        //'5': 'Every 5 minutes',
+        //'10': 'Every 10 minutes',
+        //'15': 'Every 15 minutes',
+        //'20': 'Every 20 minutes',
+        //'30': 'Every 30 minutes',
+        //'60': 'Every 60 minutes'
     };
 
     function handleLBError(res) {
@@ -110,7 +110,7 @@ ubermon.controller('ubermonDashboard', function ($scope, Monitor, MonitorEvent, 
     $scope.popCreateMonitorModal = function () {
         updateContacts();
         $scope.showCreateMonitorModal = true;
-        $scope.newMonitor = {type: 'h', interval: '5', url: 'http://', contactIds: []};//h for http;
+        $scope.newMonitor = {type: 'h', interval: '1', url: 'http://', contactIds: []};//h for http;
     };
 
     $scope.popCreateContactModal = function () {
