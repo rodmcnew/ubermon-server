@@ -54,6 +54,7 @@ don't keep showing monitor on right side if it was the last one deleted
 
 WOULD
 ----------
+show time till next ping in UI
 limit number of contacts per user to 1000
 support keyword monitor type
 have client refresh fast after changes but slow down later to reduce load
