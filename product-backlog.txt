@@ -4,6 +4,7 @@ MUST
 SHOULD
 ----------
 error alerts
+"Monitoring Interval" comes up blank when editing monitor
 contact form
 allow password and email to be changed
 support "email to sms" contact type
@@ -20,12 +21,12 @@ do not close dialogs when there is an error
 fix typo in gmail name "noreplEy.ubermon@gmail.com"
 require verification of contacts and re-enable "create new contact"
 use ssl
-"Monitoring Interval" comes up blank when editing monitor
 auto select newly created monitors
 use ssl/ssh for db workbench conn
 turn off display errors onprod
 improve "privacy policy" and "terms and conditions"
 have email link to remove self from contacts on a monitor
+re-enable event cleaner after fixing a UI issue related to it (see docblock there)
 
 COULD
 ----------
