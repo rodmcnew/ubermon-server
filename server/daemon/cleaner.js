@@ -10,12 +10,17 @@ module.exports.start = function (app) {
                 console.error(err);
             }
         });
-        var twoMonthsAgo = new Date(new Date().getTime() - (24 * 60 * 60 * 1000 * 62));
-        MonitorEvent.destroyAll({date: {lt: twoMonthsAgo}}, function (err) {
-            if (err) {
-                console.error(err);
-            }
-        });
+        /**
+         * @TODO re-enable this after fixing the problem where the UI breaks if all events
+         * are delted.
+         * Maybe do not event the most recent event?
+         */
+        //var twoMonthsAgo = new Date(new Date().getTime() - (24 * 60 * 60 * 1000 * 62));
+        //MonitorEvent.destroyAll({date: {lt: twoMonthsAgo}}, function (err) {
+        //    if (err) {
+        //        console.error(err);
+        //    }
+        //});
     }
 
     setInterval(

@@ -1,6 +1,5 @@
 MUST
 ----------
-If no events in 2 months, cleaner cleans last event causing ping chart not to show. (maybe don't clean most recent event)
 
 SHOULD
 ----------
@@ -27,6 +26,7 @@ use ssl/ssh for db workbench conn
 turn off display errors onprod
 improve "privacy policy" and "terms and conditions"
 have email link to remove self from contacts on a monitor
+re-enable event cleaner after fixing a UI issue related to it (see docblock there)
 
 COULD
 ----------
