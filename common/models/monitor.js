@@ -150,7 +150,8 @@ module.exports = function (Monitor) {
     }
 
     function isAdvanced(monitor) {
-        return monitor.interval < 5 || monitor.type != 'h';
+        //return monitor.interval < 5 || monitor.type != 'h';
+        return monitor.type != 'h';
     }
 
     Monitor.beforeRemote('create', function (context, user, next) {
