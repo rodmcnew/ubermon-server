@@ -5,6 +5,7 @@ If no events in 2 months, cleaner cleans last event causing ping chart not to sh
 SHOULD
 ----------
 error alerts
+"Monitoring Interval" comes up blank when editing monitor
 contact form
 allow password and email to be changed
 support "email to sms" contact type
@@ -21,7 +22,6 @@ do not close dialogs when there is an error
 fix typo in gmail name "noreplEy.ubermon@gmail.com"
 require verification of contacts and re-enable "create new contact"
 use ssl
-"Monitoring Interval" comes up blank when editing monitor
 auto select newly created monitors
 use ssl/ssh for db workbench conn
 turn off display errors onprod
