@@ -51,6 +51,7 @@ don't show site on remote1.ubermon.com
 allow bulk monitor actions
 expire accounts after 3-12 months no login activity? send email first to confirm?
 don't keep showing monitor on right side if it was the last one deleted
+link to github issues for issues support
 
 WOULD
 ----------
