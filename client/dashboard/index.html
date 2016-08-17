@@ -27,9 +27,9 @@
                             <tr data-monitor-id="{{monitor.id}}"
                                 ng-repeat="monitor in monitors"
                                 ng-click="selectMonitor(monitor)"
-                                style="cursor: pointer;">
+                                style="cursor: pointer;"
+                                ng-class="{'active':monitor.id==currentMonitor.id}">
                                 <td style="">
-
                                     <span ng-show="monitor.up===true"
                                           class="text-success glyphicon glyphicon-ok-sign"
                                           title="Status: Up"></span>
@@ -37,10 +37,10 @@
                                           class="text-danger glyphicon glyphicon-ok-sign"
                                           title="Status: Down"></span>
                                     <span ng-show="monitor.up===null"
-                                          class="glyphicon glyphicon-question-sign"
+                                          class="text-primary glyphicon glyphicon-question-sign"
                                           title="Status: Starting"></span>
                                     &nbsp;
-                                    <a ng-bind="monitor.name" href="javascript:void(0)"></a>
+                                    <span ng-bind="monitor.name"></span>
 
                                     <a ng-click="deleteMonitor(monitor)"
                                        href="javascript:void(0)"

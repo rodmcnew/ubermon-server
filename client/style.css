@@ -10,3 +10,7 @@ h2 a, h2 a:hover, h2 a:visited, h2 a:active, h2 a:focus {
     color: inherit;
 }
 
+tr.active{
+    background-color: rgba(151,187,205,1);
+    font-weight: bold;
+}

@@ -1,6 +1,7 @@
 MUST
 ----------
 guarantee won't send false positive emails when ubermon goes down in non-confirm mode.
+contact us form
 
 SHOULD
 ----------
@@ -10,7 +11,6 @@ setup grunt
 send email to me when a signup is detected
 error alerts
 "Monitoring Interval" comes up blank when editing monitor
-contact form
 allow password and email to be changed
 support "email to sms" contact type
 stop using gmail for email verification (it has 500 recip limit and other issues)
@@ -54,8 +54,6 @@ don't show site on remote1.ubermon.com
 allow bulk monitor actions
 expire accounts after 3-12 months no login activity? send email first to confirm?
 don't keep showing monitor on right side if it was the last one deleted
-link to github issues for issues support
-highlight the selected monitor in monitor list in dashboard
 
 WOULD
 ----------
