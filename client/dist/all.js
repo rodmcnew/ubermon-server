@@ -3181,6 +3181,43 @@ module.factory(
           url: urlBase + "/Contacts/listMine",
           method: "GET"
         },
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Contact#sendMessageToAdmin
+         * @methodOf lbServices.Contact
+         *
+         * @description
+         *
+         * Sends a message to the admin of the website.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *   This method does not accept any parameters.
+         *   Supply an empty object or omit this argument altogether.
+         *
+         * @param {Object} postData Request data.
+         *
+         *  - `req` – `{object=}` - 
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * Data properties:
+         *
+         *  - `` – `{undefined=}` - 
+         */
+        "sendMessageToAdmin": {
+          url: urlBase + "/Contacts/sendMessageToAdmin",
+          method: "POST"
+        },
       }
     );
 
@@ -3797,7 +3834,7 @@ angular.module('ubermon').controller('ubermonHome', function (User, Contact, $sc
     };
 });
 
-angular.module('ubermon').directive('ubermonContactUsForm', function () {
+angular.module('ubermon').directive('ubermonContactUsForm', function (Contact) {
 
     function link($scope) {
         $scope.messageSent = false;
@@ -3808,15 +3845,14 @@ angular.module('ubermon').directive('ubermonContactUsForm', function () {
 
         //Send the reset password email
         $scope.sendMessage = function (message) {
-            //$scope.error = '';
-            //User.resetPassword(
-            //    {email: email},
-            //    function () {
-            //        $scope.resetEmailSent = true;
-            //    },
-            //    handleLBError
-            //)
-            $scope.messageSent = true;
+            Contact.sendMessageToAdmin(message,
+                function () {
+                    $scope.messageSent = true;
+                },
+                function (res) {
+                    alert("An error occurred.\n\n"+res.data.error.message)
+                }
+            );
         };
     }
 

@@ -8,7 +8,6 @@ module.exports.start = function (app) {
     var MonitorEvent = app.models.MonitorEvent;
     var Contact = app.models.Contact;
     var Email = app.models.Email;
-    var nodemailer = require('nodemailer');
 
     /**
      *

@@ -1,4 +1,4 @@
-angular.module('ubermon').directive('ubermonContactUsForm', function () {
+angular.module('ubermon').directive('ubermonContactUsForm', function (Contact) {
 
     function link($scope) {
         $scope.messageSent = false;
@@ -9,15 +9,14 @@ angular.module('ubermon').directive('ubermonContactUsForm', function () {
 
         //Send the reset password email
         $scope.sendMessage = function (message) {
-            //$scope.error = '';
-            //User.resetPassword(
-            //    {email: email},
-            //    function () {
-            //        $scope.resetEmailSent = true;
-            //    },
-            //    handleLBError
-            //)
-            $scope.messageSent = true;
+            Contact.sendMessageToAdmin(message,
+                function () {
+                    $scope.messageSent = true;
+                },
+                function (res) {
+                    alert("An error occurred.\n\n"+res.data.error.message)
+                }
+            );
         };
     }
 

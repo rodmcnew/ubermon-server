@@ -1,7 +1,6 @@
 MUST
 ----------
 contact us form
-bug - delete events and pings when a monitor is deleted to avoid id crossover
 
 SHOULD
 ----------
@@ -54,3 +53,4 @@ clean up inline styles and br tags
 allow access to dashboard before creating account?
 Combine monitors from different users that use the same URL
 clicking in url should put cursor at end if "http://" is in it
+delete events and pings when a monitor is deleted
