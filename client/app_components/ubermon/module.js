@@ -1,1 +1,8 @@
-angular.module('ubermon', ['lbServices', 'chart.js', 'vcRecaptcha']);
+angular.module(
+    'ubermon',
+    [
+        'lbServices',
+        'angularChart',
+        'vcRecaptcha'
+    ]
+);

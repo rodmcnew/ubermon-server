@@ -1,4 +1,4 @@
-ubermon.directive('ubermonContactEdit', function () {
+angular.module('ubermon').directive('ubermonContactEdit', function () {
 
     /**
      * The link function for this directive. Runs when directive is loaded

@@ -1,4 +1,4 @@
-ubermon.directive('ubermonMonitorEdit', function () {
+angular.module('ubermon').directive('ubermonMonitorEdit', function () {
 
     /**
      * The link function for this directive. Runs when directive is loaded

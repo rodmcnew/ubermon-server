@@ -31,8 +31,7 @@
     "tag": "2.2.5",
     "commit": "b75ebe03940715ef99613459a689e1bfa8ffc630"
   },
-  "_source": "git://github.com/VividCortex/angular-recaptcha.git",
+  "_source": "https://github.com/VividCortex/angular-recaptcha.git",
   "_target": "~2.2.5",
-  "_originalSource": "angular-recaptcha",
-  "_direct": true
+  "_originalSource": "angular-recaptcha"
 }

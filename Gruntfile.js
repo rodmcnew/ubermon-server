@@ -8,18 +8,21 @@ module.exports = function (grunt) {
                 generated: {
                     files: [
                         {
-                            dest: 'client/dist/all.js',
+                            dest: 'client/dist/all.min.js',
                             src: [
-                                'client/bower_components/angular/angular.min.js',
-                                'client/bower_components/angular-chart.js/dist/angular-chart.min.js',
-                                'client/bower_components/angular-recaptcha/release/angular-recaptcha.min.js',
 
                                 'client/bower_components_not_installed_with_bower/Chart.js-skip-xlabels/Chart.min.js',
+
+                                'client/bower_components/angular/angular.min.js',
+
+                                'client/bower_components/angular-chart/angular-chart.min.js',
+                                'client/bower_components/angular-recaptcha/release/angular-recaptcha.min.js',
                                 'client/bower_components_not_installed_with_bower/angular/angular-resource.js',
+
+                                'client/app_components/loopback/loopback-services.js',
 
                                 'client/app_components/ubermon/module.js',
                                 'client/app_components/ubermon/config.js',
-                                'client/app_components/ubermon/loopback/loopback-services.js',
                                 'client/app_components/ubermon/misc-todo-split-me/script.js',
                                 'client/app_components/ubermon/contact-edit/contact-edit.js',
                                 'client/app_components/ubermon/monitor-edit/monitor-edit.js',
@@ -34,12 +37,12 @@ module.exports = function (grunt) {
             },
             uglify: {
                 generated: {
-                    files: [
-                        {
-                            dest: 'client/dist/all.min.js',
-                            src: ['client/dist/all.js']
-                        }
-                    ]
+                    //files: [
+                    //    {
+                    //        dest: 'client/dist/all.min.js',
+                    //        src: ['client/dist/all.js']
+                    //    }
+                    //]
                 }
             },
             watch: {

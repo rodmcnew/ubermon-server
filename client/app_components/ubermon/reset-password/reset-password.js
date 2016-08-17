@@ -1,5 +1,5 @@
 
-ubermon.controller('ubermonResetPassword', function (User, $scope, $location, $http) {
+angular.module('ubermon').controller('ubermonResetPassword', function (User, $scope, $location, $http) {
 
     var urlParams = $location.search();
 

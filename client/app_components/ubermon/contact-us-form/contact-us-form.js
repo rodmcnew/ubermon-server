@@ -1,4 +1,4 @@
-ubermon.directive('ubermonContactUsForm', function (User, $scope, $location, $http) {
+angular.module('ubermon').directive('ubermonContactUsForm', function (User, $scope, $location, $http) {
 
     $scope.messageSent = false;
     $scope.message = {

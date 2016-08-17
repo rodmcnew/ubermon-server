@@ -1,4 +1,4 @@
-ubermon.controller('ubermonDashboard', function ($scope, Monitor, MonitorEvent, MonitorPing, Contact) {
+angular.module('ubermon').controller('ubermonDashboard', function ($scope, Monitor, MonitorEvent, MonitorPing, Contact) {
     $scope.monitorTypes = {
         'h': 'HTTP(s)',
         'p': 'Ping',
