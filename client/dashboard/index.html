@@ -42,19 +42,17 @@
                                     &nbsp;
                                     <span ng-bind="monitor.name"></span>
 
-                                    <a ng-click="deleteMonitor(monitor)"
-                                       href="javascript:void(0)"
-                                       class="glyphicon glyphicon-trash"
-                                       title="delete"
-                                       style="float:right">
-                                    </a>
+                                    <button ng-click="deleteMonitor(monitor)" style="float:right" class="btn btn-default btn-xs">
+                                        <span class="glyphicon glyphicon-trash"
+                                           title="Delete"
+                                           ></span>
+                                    </button>
                                     <span style="float:right">&nbsp;</span>
-                                    <a ng-click="editMonitor(monitor)"
-                                       href="javascript:void(0)"
-                                       class="glyphicon glyphicon-edit"
-                                       title="edit"
-                                       style="float:right">
-                                    </a>
+                                    <button ng-click="editMonitor(monitor)" style="float:right" class="btn btn-default btn-xs">
+                                        <span class="glyphicon glyphicon-edit"
+                                           title="Edit"
+                                           ></span>
+                                    </button>
                             </tr>
                         </table>
                     </div>

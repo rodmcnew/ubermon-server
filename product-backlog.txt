@@ -1,6 +1,5 @@
 MUST
 ----------
-guarantee won't send false positive emails when ubermon goes down in non-confirm mode.
 contact us form
 
 SHOULD
