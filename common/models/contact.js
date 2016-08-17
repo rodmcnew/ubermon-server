@@ -49,15 +49,15 @@ module.exports = function (Contact) {
      * @param cb
      */
     Contact.sendMessageToAdmin = function (req, cb) {
-        var outgoingBody = "From: " + req.body.email + "\n\n" + req.body.body;
         if(!req.body.email || !req.body.body){
             cb('A from-email and a message body are required.');
             return;
         }
+        var outgoingBody = "From: " + req.body.email + "\n\nMessage:\n" + req.body.body;
         app.models.Email.send({
             from: 'Ubermon <' + process.env.FROM_EMAIL + '>',
             to: 'rodmcnew+' + 'ubermon' + '@' + 'gmail.com', //@TODO remove hard coded email
-            subject: 'Ubermon contact us form', // Subject line
+            subject: 'Ubermon message from ' + req.body.email, // Subject line
             html: '<pre>'+ outgoingBody + '</pre>',
             text: outgoingBody
         }, function (err) {

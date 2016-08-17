@@ -51,6 +51,7 @@ module.exports.start = function (app) {
                 request(reqOptions, function (err, res) {
                     if (err) {
                         console.error(err); //@todo couldn't reach monitor. what now?
+                        return;
                     }
                     pingData = res.body.pingData;
                     if (!res.body.pingData) {
