@@ -17,8 +17,8 @@ module.exports = function (grunt) {
                                 'client/bower_components_not_installed_with_bower/Chart.js-skip-xlabels/Chart.min.js',
                                 'client/bower_components_not_installed_with_bower/angular/angular-resource.js',
 
-                                'client/app_components/ubermon/config.js',
                                 'client/app_components/ubermon/module.js',
+                                'client/app_components/ubermon/config.js',
                                 'client/app_components/ubermon/loopback/loopback-services.js',
                                 'client/app_components/ubermon/misc-todo-split-me/script.js',
                                 'client/app_components/ubermon/contact-edit/contact-edit.js',

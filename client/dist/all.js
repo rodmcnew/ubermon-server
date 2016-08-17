@@ -989,11 +989,11 @@ angular.module('ngResource', ['ng']).
 
 })(window, window.angular);
 
+angular.module('ubermon', ['lbServices', 'chart.js', 'vcRecaptcha']);
+
 var ubermonConfig = {
     recaptchaPubKey: '6LcCeRMTAAAAAJOmu2kbjXyOs07yf28tFt2sn9bF'
 };
-
-var ubermon = angular.module('ubermon', ['lbServices', 'chart.js', 'vcRecaptcha']);
 
 ubermon.directive('ubermonContactEdit', function () {
 
