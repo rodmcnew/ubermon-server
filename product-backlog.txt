@@ -4,6 +4,9 @@ garentee won't send false positive emails when ubermon goes down in non-confirm 
 
 SHOULD
 ----------
+bug - monitor interval comes up unselected when editing a monitor
+setup grunt
+send email to me when a signup is detected
 error alerts
 "Monitoring Interval" comes up blank when editing monitor
 contact form
@@ -16,7 +19,6 @@ go to login page if lost session
 handle form errors without browser alert boxes
 pause monitor while waiting for remote to check so don't get 2 emails on long timeouts
 check for skipped seconds and email admin of load issue
-bug - monitor interval comes up unselected when editing a monitor
 allow contacts to be deleted
 do not close dialogs when there is an error
 fix typo in gmail name "noreplEy.ubermon@gmail.com"
@@ -55,6 +57,7 @@ link to github issues for issues support
 
 WOULD
 ----------
+find way to include google analytics in head.html
 show time till next ping in UI
 limit number of contacts per user to 1000
 support keyword monitor type

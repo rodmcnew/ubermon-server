@@ -1,10 +1,121 @@
-/**
- * @TODO split this into multi files and use grunt to combine theem
- */
-var ubermon = angular.module('ubermon', ['lbServices', 'chart.js', 'vcRecaptcha']);
 var ubermonConfig = {
     recaptchaPubKey: '6LcCeRMTAAAAAJOmu2kbjXyOs07yf28tFt2sn9bF'
 };
+
+var ubermon = angular.module('ubermon', ['lbServices', 'chart.js', 'vcRecaptcha']);
+
+ubermon.directive('ubermonContactEdit', function () {
+
+    /**
+     * The link function for this directive. Runs when directive is loaded
+     *
+     * @param $scope
+     */
+    function link($scope) {
+    }
+
+    // Return the directive configuration
+    return {
+        link: link,
+        scope: {
+            'contact': '='
+        },
+        templateUrl: '/partial/contact-edit.html'
+    }
+});
+
+ubermon.directive('ubermonMonitorEdit', function () {
+
+    /**
+     * The link function for this directive. Runs when directive is loaded
+     *
+     * @param $scope
+     */
+    function link($scope) {
+        // toggle selection for a given fruit by name
+        $scope.toogleSelectedContact = function toggleSelection(id) {
+            var idx = $scope.selectedContacts.indexOf(id);
+
+            // is currently selected
+            if (idx > -1) {
+                $scope.selectedContacts.splice(idx, 1);
+            }
+
+            // is newly selected
+            else {
+                $scope.selectedContacts.push(id);
+            }
+        };
+    }
+
+    // Return the directive configuration
+    return {
+        link: link,
+        scope: {
+            'monitor': '=',
+            'monitorTypes': '=',
+            'monitorIntervals': '=',
+            'contacts': '=',
+            'popCreateContactModal': '=',
+            'selectedContacts': '='
+        },
+        templateUrl: '/partial/monitor-edit.html'
+    }
+});
+
+
+ubermon.controller('ubermonResetPassword', function (User, $scope, $location, $http) {
+
+    var urlParams = $location.search();
+
+    $scope.fromEmail = urlParams['fromEmail'] == 1;
+    $scope.resetEmailSent = false;
+    $scope.resetPasswordEmail = '';
+    $scope.passwordChanged = false;
+    $scope.error = '';
+
+    function handleLBError(res) {
+        $scope.error = res.data.error.message;
+    }
+
+    //Send the reset password email
+    $scope.resetPassword = function (email) {
+        $scope.error = '';
+        User.resetPassword(
+            {email: email},
+            function () {
+                $scope.resetEmailSent = true;
+            },
+            handleLBError
+        )
+    };
+
+    //Change the password after they came back form the email
+    $scope.changePassword = function (password) {
+        console.log({
+            method: 'PUT',
+            url: '/api/Users/' + urlParams['userId'],
+            data: {password: password},
+            headers: {authorization: urlParams['access_token']}
+        });
+
+        $http({
+            method: 'PUT',
+            url: '/api/Users/' + urlParams['userId'],
+            data: {password: password},
+            headers: {authorization: urlParams['access_token']}
+        }).then(function () {
+            $scope.passwordChanged = true;
+        }, function (response) {
+            if (response.error) {
+                handleLBError(response.error.message);
+            } else {
+                handleLBError('An error occurred.');
+            }
+        });
+    };
+});
+
 
 ubermon.controller('ubermonDashboard', function ($scope, Monitor, MonitorEvent, MonitorPing, Contact) {
     $scope.monitorTypes = {
@@ -195,6 +306,7 @@ ubermon.controller('ubermonDashboard', function ($scope, Monitor, MonitorEvent, 
     setInterval(update, 10000)
 });
 
+
 /**
  * @TODO move the "create user" and "login" forms to directives
  */
@@ -254,113 +366,34 @@ ubermon.controller('ubermonHome', function (User, Contact, $scope, $window, vcRe
     };
 });
 
-ubermon.controller('ubermonResetPassword', function (User, $scope, $location, $http) {
+ubermon.directive('ubermonContactUsForm', function (User, $scope, $location, $http) {
 
-    var urlParams = $location.search();
-
-    $scope.fromEmail = urlParams['fromEmail'] == 1;
-    $scope.resetEmailSent = false;
-    $scope.resetPasswordEmail = '';
-    $scope.passwordChanged = false;
-    $scope.error = '';
-
-    function handleLBError(res) {
-        $scope.error = res.data.error.message;
-    }
+    $scope.messageSent = false;
+    $scope.message = {
+        email: '',
+        body: ''
+    };
 
     //Send the reset password email
-    $scope.resetPassword = function (email) {
-        $scope.error = '';
-        User.resetPassword(
-            {email: email},
-            function () {
-                $scope.resetEmailSent = true;
-            },
-            handleLBError
-        )
+    $scope.sendMessage = function (message) {
+        //$scope.error = '';
+        //User.resetPassword(
+        //    {email: email},
+        //    function () {
+        //        $scope.resetEmailSent = true;
+        //    },
+        //    handleLBError
+        //)
+        $scope.messageSent = true;
     };
 
-    //Change the password after they came back form the email
-    $scope.changePassword = function (password) {
-        console.log({
-            method: 'PUT',
-            url: '/api/Users/' + urlParams['userId'],
-            data: {password: password},
-            headers: {authorization: urlParams['access_token']}
-        });
-
-        $http({
-            method: 'PUT',
-            url: '/api/Users/' + urlParams['userId'],
-            data: {password: password},
-            headers: {authorization: urlParams['access_token']}
-        }).then(function () {
-            $scope.passwordChanged = true;
-        }, function (response) {
-            if (response.error) {
-                handleLBError(response.error.message);
-            } else {
-                handleLBError('An error occurred.');
-            }
-        });
-    };
-});
-
-ubermon.directive('ubermonMonitorEdit', function () {
-
-    /**
-     * The link function for this directive. Runs when directive is loaded
-     *
-     * @param $scope
-     */
-    function link($scope) {
-        // toggle selection for a given fruit by name
-        $scope.toogleSelectedContact = function toggleSelection(id) {
-            var idx = $scope.selectedContacts.indexOf(id);
-
-            // is currently selected
-            if (idx > -1) {
-                $scope.selectedContacts.splice(idx, 1);
-            }
-
-            // is newly selected
-            else {
-                $scope.selectedContacts.push(id);
-            }
-        };
-    }
-
-    // Return the directive configuration
-    return {
-        link: link,
-        scope: {
-            'monitor': '=',
-            'monitorTypes': '=',
-            'monitorIntervals': '=',
-            'contacts': '=',
-            'popCreateContactModal': '=',
-            'selectedContacts': '='
-        },
-        templateUrl: '/partial/monitor-edit.html'
-    }
-});
-
-ubermon.directive('ubermonContactEdit', function () {
-
-    /**
-     * The link function for this directive. Runs when directive is loaded
-     *
-     * @param $scope
-     */
     function link($scope) {
     }
 
     // Return the directive configuration
     return {
         link: link,
-        scope: {
-            'contact': '='
-        },
-        templateUrl: '/partial/contact-edit.html'
+        restrict: 'E',
+        templateUrl: '/components/ubermon/contact-us-form/contact-us-form.html'
     }
 });
