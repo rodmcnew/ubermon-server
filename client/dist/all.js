@@ -3473,6 +3473,7 @@ angular.module('ubermon').directive('ubermonMonitorEdit', function () {
     // Return the directive configuration
     return {
         link: link,
+        restrict: 'E',
         scope: {
             'monitor': '=',
             'monitorTypes': '=',
@@ -3481,7 +3482,7 @@ angular.module('ubermon').directive('ubermonMonitorEdit', function () {
             'popCreateContactModal': '=',
             'selectedContacts': '='
         },
-        templateUrl: '/partial/monitor-edit.html'
+        templateUrl: '/app_components/ubermon/monitor-edit/monitor-edit.html'
     }
 });
 
@@ -3514,13 +3515,6 @@ angular.module('ubermon').controller('ubermonResetPassword', function (User, $sc
 
     //Change the password after they came back form the email
     $scope.changePassword = function (password) {
-        console.log({
-            method: 'PUT',
-            url: '/api/Users/' + urlParams['userId'],
-            data: {password: password},
-            headers: {authorization: urlParams['access_token']}
-        });
-
         $http({
             method: 'PUT',
             url: '/api/Users/' + urlParams['userId'],
@@ -3547,14 +3541,14 @@ angular.module('ubermon').controller('ubermonDashboard', function ($scope, Monit
         'k': 'Keyword'
     };
     $scope.monitorIntervals = {
-        '1': 'Every minute',
-        '2': 'Every 2 minutes',
-        '5': 'Every 5 minutes',
-        '10': 'Every 10 minutes',
-        '15': 'Every 15 minutes',
-        '20': 'Every 20 minutes',
-        '30': 'Every 30 minutes',
-        '60': 'Every 60 minutes'
+        1: 'Every minute',
+        2: 'Every 2 minutes',
+        5: 'Every 5 minutes',
+        10: 'Every 10 minutes',
+        15: 'Every 15 minutes',
+        20: 'Every 20 minutes',
+        30: 'Every 30 minutes',
+        60: 'Every 60 minutes'
     };
 
     function handleLBError(res) {
@@ -3643,7 +3637,7 @@ angular.module('ubermon').controller('ubermonDashboard', function ($scope, Monit
     $scope.popCreateMonitorModal = function () {
         updateContacts();
         $scope.showCreateMonitorModal = true;
-        $scope.newMonitor = {type: 'h', interval: '5', url: 'http://', contactIds: []};//h for http;
+        $scope.newMonitor = {type: 'h', interval: 5, url: 'http://', contactIds: []};//h for http;
     };
 
     $scope.popCreateContactModal = function () {
@@ -3659,13 +3653,11 @@ angular.module('ubermon').controller('ubermonDashboard', function ($scope, Monit
                 //saveMonitorContacts(data);
                 update();
                 updateSoon();
-                /**
-                 * @TODO select the created monitor
-                 */
+                $scope.showCreateMonitorModal = false;
+                $scope.selectMonitor(newMonitor);
             },
             handleLBError
         );
-        $scope.showCreateMonitorModal = false;
     };
 
     $scope.createContact = function (data) {
@@ -3711,11 +3703,10 @@ angular.module('ubermon').controller('ubermonDashboard', function ($scope, Monit
                 //saveMonitorContacts(monitor);
                 updateMonitorList();
                 updateSoon();
+                $scope.showEditMonitorModal = false;
             },
             handleLBError
-        )
-        ;
-        $scope.showEditMonitorModal = false;
+        );
     };
 
     $scope.selectMonitor = function (monitor) {
@@ -3788,7 +3779,6 @@ angular.module('ubermon').controller('ubermonHome', function (User, Contact, $sc
     };
 });
 
-console.log(1);
 angular.module('ubermon').directive('ubermonContactUsForm', function () {
 
     function link($scope) {

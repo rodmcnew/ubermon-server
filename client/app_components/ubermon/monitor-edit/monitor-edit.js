@@ -25,6 +25,7 @@ angular.module('ubermon').directive('ubermonMonitorEdit', function () {
     // Return the directive configuration
     return {
         link: link,
+        restrict: 'E',
         scope: {
             'monitor': '=',
             'monitorTypes': '=',
@@ -33,6 +34,6 @@ angular.module('ubermon').directive('ubermonMonitorEdit', function () {
             'popCreateContactModal': '=',
             'selectedContacts': '='
         },
-        templateUrl: '/partial/monitor-edit.html'
+        templateUrl: '/app_components/ubermon/monitor-edit/monitor-edit.html'
     }
 });

@@ -27,13 +27,6 @@ angular.module('ubermon').controller('ubermonResetPassword', function (User, $sc
 
     //Change the password after they came back form the email
     $scope.changePassword = function (password) {
-        console.log({
-            method: 'PUT',
-            url: '/api/Users/' + urlParams['userId'],
-            data: {password: password},
-            headers: {authorization: urlParams['access_token']}
-        });
-
         $http({
             method: 'PUT',
             url: '/api/Users/' + urlParams['userId'],

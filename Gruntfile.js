@@ -53,7 +53,13 @@ module.exports = function (grunt) {
             },
             watch: {
                 src: {
-                    files: ['Gruntfile.js','client/app_components/ubermon/*.js', 'client/app_components/ubermon/**/*.js'],
+                    files: [
+                        'Gruntfile.js',
+                        'client/app_components/*.js',
+                        'client/app_components/*.html',
+                        'client/app_components/**/*.js',
+                        'client/app_components/**/*.html'
+                    ],
                     tasks: ['uglify', 'concat']
                 }
             }

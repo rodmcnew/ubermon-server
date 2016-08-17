@@ -1,4 +1,3 @@
-console.log(1);
 angular.module('ubermon').directive('ubermonContactUsForm', function () {
 
     function link($scope) {

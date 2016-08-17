@@ -6,14 +6,14 @@ angular.module('ubermon').controller('ubermonDashboard', function ($scope, Monit
         'k': 'Keyword'
     };
     $scope.monitorIntervals = {
-        '1': 'Every minute',
-        '2': 'Every 2 minutes',
-        '5': 'Every 5 minutes',
-        '10': 'Every 10 minutes',
-        '15': 'Every 15 minutes',
-        '20': 'Every 20 minutes',
-        '30': 'Every 30 minutes',
-        '60': 'Every 60 minutes'
+        1: 'Every minute',
+        2: 'Every 2 minutes',
+        5: 'Every 5 minutes',
+        10: 'Every 10 minutes',
+        15: 'Every 15 minutes',
+        20: 'Every 20 minutes',
+        30: 'Every 30 minutes',
+        60: 'Every 60 minutes'
     };
 
     function handleLBError(res) {
@@ -102,7 +102,7 @@ angular.module('ubermon').controller('ubermonDashboard', function ($scope, Monit
     $scope.popCreateMonitorModal = function () {
         updateContacts();
         $scope.showCreateMonitorModal = true;
-        $scope.newMonitor = {type: 'h', interval: '5', url: 'http://', contactIds: []};//h for http;
+        $scope.newMonitor = {type: 'h', interval: 5, url: 'http://', contactIds: []};//h for http;
     };
 
     $scope.popCreateContactModal = function () {
@@ -118,13 +118,11 @@ angular.module('ubermon').controller('ubermonDashboard', function ($scope, Monit
                 //saveMonitorContacts(data);
                 update();
                 updateSoon();
-                /**
-                 * @TODO select the created monitor
-                 */
+                $scope.showCreateMonitorModal = false;
+                $scope.selectMonitor(newMonitor);
             },
             handleLBError
         );
-        $scope.showCreateMonitorModal = false;
     };
 
     $scope.createContact = function (data) {
@@ -170,11 +168,10 @@ angular.module('ubermon').controller('ubermonDashboard', function ($scope, Monit
                 //saveMonitorContacts(monitor);
                 updateMonitorList();
                 updateSoon();
+                $scope.showEditMonitorModal = false;
             },
             handleLBError
-        )
-        ;
-        $scope.showEditMonitorModal = false;
+        );
     };
 
     $scope.selectMonitor = function (monitor) {

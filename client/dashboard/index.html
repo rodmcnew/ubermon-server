@@ -135,13 +135,13 @@
                     </div>
                     <div class="modal-body">
                         <form ng-submit="createMonitor(newMonitor)" role="form">
-                            <div ubermon-monitor-edit
+                            <ubermon-monitor-edit
                                  monitor="newMonitor"
                                  monitor-types="monitorTypes"
                                  monitor-intervals="monitorIntervals"
                                  contacts="contacts"
                                  pop-create-contact-modal="popCreateContactModal"
-                                 selected-contacts="newMonitor.contactIds"></div>
+                                 selected-contacts="newMonitor.contactIds"></ubermon-monitor-edit>
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -163,14 +163,14 @@
                     </div>
                     <div class="modal-body">
                         <form ng-submit="updateMonitor(currentMonitor)" role="form">
-                            <div ubermon-monitor-edit
+                            <ubermon-monitor-edit
                                  monitor="currentMonitor"
                                  monitor-types="monitorTypes"
                                  monitor-intervals="monitorIntervals"
                                  contacts="contacts"
                                  pop-create-contact-modal="popCreateContactModal"
                                  selected-contacts="currentMonitor.contactIds"
-                                    ></div>
+                                    ></ubermon-monitor-edit>
                         </form>
                     </div>
                     <div class="modal-footer">
