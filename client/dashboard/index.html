@@ -31,13 +31,13 @@
                                 ng-class="{'active':monitor.id==currentMonitor.id}">
                                 <td style="">
                                     <span ng-show="monitor.up===true"
-                                          class="text-success glyphicon glyphicon-ok-sign"
+                                          class="text-success glyphicon glyphicon-ok"
                                           title="Status: Up"></span>
                                     <span ng-show="monitor.up===false"
-                                          class="text-danger glyphicon glyphicon-remove-sign"
+                                          class="text-danger glyphicon glyphicon-remove"
                                           title="Status: Down"></span>
                                     <span ng-show="monitor.up===null"
-                                          class="text-primary glyphicon glyphicon-question-sign"
+                                          class="text-primary glyphicon glyphicon-question"
                                           title="Status: Starting"></span>
                                     &nbsp;
                                     <span ng-bind="monitor.name"></span>
