@@ -28,18 +28,33 @@
                                 ng-repeat="monitor in monitors"
                                 ng-click="selectMonitor(monitor)"
                                 style="cursor: pointer;">
-                                <td>
+                                <td style="">
+
+                                    <span ng-show="monitor.up===true"
+                                          class="text-success glyphicon glyphicon-ok-sign"
+                                          title="Status: Up"></span>
+                                    <span ng-show="monitor.up===false"
+                                          class="text-danger glyphicon glyphicon-ok-sign"
+                                          title="Status: Down"></span>
+                                    <span ng-show="monitor.up===null"
+                                          class="glyphicon glyphicon-question-sign"
+                                          title="Status: Starting"></span>
+                                    &nbsp;
                                     <a ng-bind="monitor.name" href="javascript:void(0)"></a>
-                                </td>
-                                <td>
-                                    <span ng-show="monitor.up===true">UP</span>
-                                    <span ng-show="monitor.up===false">DOWN</span>
-                                    <span ng-show="monitor.up===null">STARTED</span>
-                                </td>
-                                <td>
-                                    <a ng-click="editMonitor(monitor)" href="javascript:void(0)">edit</a>
-                                    <a ng-click="deleteMonitor(monitor)" href="javascript:void(0)">delete</a>
-                                </td>
+
+                                    <a ng-click="deleteMonitor(monitor)"
+                                       href="javascript:void(0)"
+                                       class="glyphicon glyphicon-trash"
+                                       title="delete"
+                                       style="float:right">
+                                    </a>
+                                    <span style="float:right">&nbsp;</span>
+                                    <a ng-click="editMonitor(monitor)"
+                                       href="javascript:void(0)"
+                                       class="glyphicon glyphicon-edit"
+                                       title="edit"
+                                       style="float:right">
+                                    </a>
                             </tr>
                         </table>
                     </div>
@@ -61,12 +76,19 @@
                             URL: <span ng-bind="currentMonitor.url"></span>
                         </div>
                         <div>
+                            Status:
+                            <span ng-show="currentMonitor.up===true">Up</span>
+                            <span ng-show="currentMonitor.up===false">Down</span>
+                            <span ng-show="currentMonitor.up===null">Starting</span>
+                        </div>
+                        <div>
                             Interval: <span ng-bind="monitorIntervals[currentMonitor.interval]"></span>
                         </div>
                         <!--<div>-->
                         <!--Uptime: <strike>Unknown</strike>-->
                         <!--</div>-->
                         <br>
+
                         <div ng-hide="currentMonitor.events.length > 0">
                             <h4>Loading...</h4>
                         </div>
@@ -90,10 +112,10 @@
                                 </tr>
                                 <tr ng-repeat="event in currentMonitor.events">
                                     <td>
-                                        <span ng-show="event.type=='u'">UP</span>
-                                        <span ng-show="event.type=='d'">DOWN</span>
-                                        <span ng-show="event.type=='p'">PAUSED</span>
-                                        <span ng-show="event.type=='s'">STARTED</span>
+                                        <span ng-show="event.type=='u'">Up</span>
+                                        <span ng-show="event.type=='d'">Down</span>
+                                        <span ng-show="event.type=='p'">Paused</span>
+                                        <span ng-show="event.type=='s'">Started</span>
                                     </td>
                                     <td ng-bind="event.date"></td>
                                     <td ng-bind="event.reason"></td>
@@ -190,10 +212,17 @@
 </div>
 
 <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
     ga('create', 'UA-82632472-1', 'auto');
     ga('send', 'pageview');

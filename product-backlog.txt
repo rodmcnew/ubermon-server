@@ -4,6 +4,7 @@ guarantee won't send false positive emails when ubermon goes down in non-confirm
 
 SHOULD
 ----------
+Monitor list looks weird when status = "STARTED"
 bug - monitor interval comes up unselected when editing a monitor
 setup grunt
 send email to me when a signup is detected
