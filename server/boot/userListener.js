@@ -98,7 +98,7 @@ module.exports = function (app) {
     User.on('resetPasswordRequest', function (info) {
         console.log(info);
         var url = 'http://ubermon.com/reset-password/';
-        var html = 'Click <a href="' + url + '#?access_token=' +
+        var html = 'Click <a href="' + url + '?access_token=' +
             info.accessToken.id + '&userId=' + info.user.id + '&fromEmail=1">here</a> to reset your password';
 
         app.models.Email.send({

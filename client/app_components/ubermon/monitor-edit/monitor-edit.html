@@ -1,0 +1,36 @@
+<!--<div class="form-group">-->
+    <!--<label for="type">Type</label>-->
+    <!--<select ng-model="monitor.type" id="type">-->
+        <!--<option value="h" ng-bind="monitorTypes['h']"></option>-->
+        <!--&lt;!&ndash;<option value="p" ng-bind="monitorTypes['p']"></option>&ndash;&gt;-->
+        <!--&lt;!&ndash;<option value="o" ng-bind="monitorTypes['o']"></option>&ndash;&gt;-->
+        <!--&lt;!&ndash;<option value="k" ng-bind="monitorTypes['k']"></option>&ndash;&gt;-->
+    <!--</select>-->
+<!--</div>-->
+<div class="form-group">
+    <label for="name">Name</label>
+    <input ng-model="monitor.name" type="text" class="form-control" id="name">
+</div>
+<div class="form-group">
+    <label for="url">URL (or IP)</label>
+    <input ng-model="monitor.url" type="text" class="form-control" id="url">
+</div>
+<div class="form-group">
+    <label for="interval">Monitoring Interval</label>
+    <select ng-model="monitor.interval" id="interval" ng-options="+(key) as value for (key , value) in monitorIntervals"></select>
+</div>
+
+<div class="form-group">
+    <label>Contacts to Alert</label>
+    <!--<a ng-click="popCreateContactModal()" href="javascript:void(0)">-->
+        <!--+ Create New Contact-->
+    <!--</a>-->
+    <div ng-repeat="contact in contacts">
+        <label style="font-weight: normal">
+            <input type="checkbox" ng-name="contact.id" value="1"
+                   ng-checked="selectedContacts.indexOf(contact.id) > -1"
+                   ng-click="toogleSelectedContact(contact.id)">&nbsp;
+            <span ng-bind="contact.email"></span>
+        </label>
+    </div>
+</div>

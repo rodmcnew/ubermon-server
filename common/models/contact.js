@@ -3,6 +3,7 @@
  * @param Contact
  */
 var remoteWhitelist = require(__dirname + '/remoteWhitelist');
+var app = require('../../server/server');
 module.exports = function (Contact) {
     remoteWhitelist(Contact, ['create']);
     // email validation regex
@@ -38,7 +39,45 @@ module.exports = function (Contact) {
             accepts: {arg: 'req', type: 'object', http: {source: 'req'}},
             returns: {arg: 'contacts', type: 'array'},
             http: {verb: 'GET'},
-            description:'List all that are owned by the current user.'
+            description: 'List all that are owned by the current user.'
+        }
+    );
+
+    /**
+     * @TODO Move this somewhere else since its not very related to contacts
+     * @param req
+     * @param cb
+     */
+    Contact.sendMessageToAdmin = function (req, cb) {
+        if(!req.body.email || !req.body.body){
+            cb('A from-email and a message body are required.');
+            return;
+        }
+        var outgoingBody = "From: " + req.body.email + "\n\nMessage:\n" + req.body.body;
+        app.models.Email.send({
+            from: 'Ubermon <' + process.env.FROM_EMAIL + '>',
+            to: 'rodmcnew+' + 'ubermon' + '@' + 'gmail.com', //@TODO remove hard coded email
+            subject: 'Ubermon message from ' + req.body.email, // Subject line
+            html: '<pre>'+ outgoingBody + '</pre>',
+            text: outgoingBody
+        }, function (err) {
+            if (err) {
+                console.error(err);
+            }
+            cb(null);
+        });
+    };
+
+    /**
+     * @TODO Move this somewhere else since its not very related to contacts
+     */
+    Contact.remoteMethod(
+        'sendMessageToAdmin',
+        {
+            accepts: {arg: 'req', type: 'object', http: {source: 'req'}},
+            returns: {},
+            http: {verb: 'POST'},
+            description: 'Sends a message to the admin of the website.'
         }
     );
 };
