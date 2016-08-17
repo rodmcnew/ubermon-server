@@ -1,21 +1,19 @@
 MUST
 ----------
-contact us form
 
 SHOULD
 ----------
-allow password and email to be changed
-support "email to sms" contact type
-show duration in events view
-contacts - allow contacts to be deleted
+allow email to be changed
 contacts - require verification of contacts and re-enable "create new contact"
-contacts - limit number of contacts per account to 100
+contacts - support "email to sms" contact type
+contacts - allow contacts to be deleted
+show duration in events view
 auto select newly created monitors
-use ssl/ssh for db workbench conn
 have email link to remove self from contacts on a monitor
 re-enable event cleaner after fixing a UI issue related to it (see docblock there)
 pause monitor while waiting for remote to check so don't get 2 emails on long timeouts
-turn off display errors on prod
+use ssl/ssh for db workbench conn
+allow password to be changed without resetting it
 
 COULD
 ----------
@@ -34,6 +32,7 @@ show if monitor is advanced or not in monitor list
 allow bulk monitor actions
 expire accounts after 3-12 months no login activity? send email first to confirm?
 don't keep showing monitor on right side if it was the last one deleted
+contacts - limit number of contacts per account to 100
 
 WOULD
 ----------
