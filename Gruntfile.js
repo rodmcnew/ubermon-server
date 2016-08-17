@@ -30,6 +30,7 @@ module.exports = function (grunt) {
                                 'client/app_components/ubermon/dashboard/dashboard.js',
                                 'client/app_components/ubermon/home/home.js',
                                 'client/app_components/ubermon/contact-us-form/contact-us-form.js',
+                                'client/app_components/ubermon/reset-password/reset-password.js',
 
                                 'client/app_components/google-analytics/google-analytics.js'
                             ]
