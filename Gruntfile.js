@@ -11,11 +11,11 @@ module.exports = function (grunt) {
                             dest: 'client/dist/all.js',
                             src: [
 
-                                'client/bower_components_not_installed_with_bower/Chart.js-skip-xlabels/Chart.min.js',
 
                                 'client/bower_components/angular/angular.min.js',
 
-                                'client/bower_components/angular-chart/angular-chart.min.js',
+                                'client/bower_components_not_installed_with_bower/Chart.js-skip-xlabels/Chart.min.js',
+                                'client/bower_components_not_installed_with_bower/angular-chart.js/angular-chart.js',
                                 'client/bower_components/angular-recaptcha/release/angular-recaptcha.min.js',
                                 'client/bower_components_not_installed_with_bower/angular/angular-resource.js',
 
@@ -51,7 +51,7 @@ module.exports = function (grunt) {
             },
             watch: {
                 src: {
-                    files: ['client/app_components/ubermon/*.js', 'client/app_components/ubermon/**/*.js'],
+                    files: ['Gruntfile.js','client/app_components/ubermon/*.js', 'client/app_components/ubermon/**/*.js'],
                     tasks: ['uglify', 'concat']
                 }
             }

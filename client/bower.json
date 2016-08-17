@@ -18,8 +18,7 @@
   ],
   "dependencies": {
     "angular": "~1.5.8",
-    "angular-recaptcha": "~2.2.5",
-    "angular-chart": "~0.5.0"
+    "angular-recaptcha": "~2.2.5"
   },
   "commented-out- dependencies": {
     "angular-chart.js": "~0.8.5"
