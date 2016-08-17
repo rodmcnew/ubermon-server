@@ -53,3 +53,4 @@ allow access to dashboard before creating account?
 Combine monitors from different users that use the same URL
 clicking in url should put cursor at end if "http://" is in it
 delete events and pings when a monitor is deleted
+fix forgot password for iphone gmail app
