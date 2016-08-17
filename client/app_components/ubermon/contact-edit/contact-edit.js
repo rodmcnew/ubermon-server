@@ -11,9 +11,10 @@ angular.module('ubermon').directive('ubermonContactEdit', function () {
     // Return the directive configuration
     return {
         link: link,
+        restrict: 'E',
         scope: {
             'contact': '='
         },
-        templateUrl: '/partial/contact-edit.html'
+        templateUrl: 'client/app_components/ubermon/contact-edit/contact-edit.html'
     }
 });

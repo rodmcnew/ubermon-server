@@ -1,8 +1,6 @@
 MUST
 ----------
 contact us form
-bug - do not close dialogs when there is an error
-bug - go to login page if lost session
 bug - delete events and pings when a monitor is deleted to avoid id crossover
 
 SHOULD

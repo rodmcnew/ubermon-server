@@ -1,0 +1,193 @@
+<div class="row">
+    <div class="col-sm-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">My Monitors</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover">
+                    <td colspan="4">
+                        <a ng-click="popCreateMonitorModal()" href="javascript:void(0)">+ Create New
+                            Monitor</a>
+                    </td>
+                    <tr data-monitor-id="{{monitor.id}}"
+                        ng-repeat="monitor in monitors"
+                        ng-click="selectMonitor(monitor)"
+                        style="cursor: pointer;"
+                        ng-class="{'active':monitor.id==currentMonitor.id}">
+                        <td style="">
+                                    <span ng-show="monitor.up===true"
+                                          class="text-success glyphicon glyphicon-ok"
+                                          title="Status: Up"></span>
+                                    <span ng-show="monitor.up===false"
+                                          class="text-danger glyphicon glyphicon-remove"
+                                          title="Status: Down"></span>
+                                    <span ng-show="monitor.up===null"
+                                          class="text-primary glyphicon glyphicon-question-sign"
+                                          title="Status: Starting"></span>
+                            &nbsp;
+                            <span ng-bind="monitor.name"></span>
+
+                            <button ng-click="deleteMonitor(monitor)" style="float:right"
+                                    class="btn btn-default btn-xs">
+                                        <span class="glyphicon glyphicon-trash"
+                                              title="Delete"
+                                                ></span>
+                            </button>
+                            <span style="float:right">&nbsp;</span>
+                            <button ng-click="editMonitor(monitor)" style="float:right" class="btn btn-default btn-xs">
+                                        <span class="glyphicon glyphicon-edit"
+                                              title="Edit"
+                                                ></span>
+                            </button>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8" ng-show="currentMonitor.url">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Selected Monitor</h3>
+            </div>
+            <div class="panel-body">
+                <!--<div>-->
+                <!--Type: <span ng-bind="monitorTypes[currentMonitor.type]"></span>-->
+                <!--</div>-->
+                <div>
+                    Name: <span ng-bind="currentMonitor.name"></span>
+                </div>
+                <div>
+                    URL: <span ng-bind="currentMonitor.url"></span>
+                </div>
+                <div>
+                    Status:
+                    <span ng-show="currentMonitor.up===true">Up</span>
+                    <span ng-show="currentMonitor.up===false">Down</span>
+                    <span ng-show="currentMonitor.up===null">Starting</span>
+                </div>
+                <div>
+                    Interval: <span ng-bind="monitorIntervals[currentMonitor.interval]"></span>
+                </div>
+                <!--<div>-->
+                <!--Uptime: <strike>Unknown</strike>-->
+                <!--</div>-->
+                <br>
+
+                <div ng-hide="currentMonitor.events.length > 0">
+                    <h4>Loading...</h4>
+                </div>
+                <div ng-show="currentMonitor.events.length > 0">
+                    <h4 style="display: inline">Response Time</h4> (ms)
+                    <div ng-show="currentMonitor.pingChart.data[0]">
+                        <canvas id="line" class="chart chart-line" width="100" height="30"
+                                chart-data="currentMonitor.pingChart.data"
+                                chart-labels="currentMonitor.pingChart.labels"
+                                chart-click="onClick"
+                                chart-options="{showXLabels: 5, showTooltips: false, bezierCurve : false, animation: false}">
+                        </canvas>
+                    </div>
+                    <h4>Latest Events</h4>
+                    <table class="table">
+                        <tr>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Reason</th>
+                            <!--<th>Duration</th>-->
+                        </tr>
+                        <tr ng-repeat="event in currentMonitor.events">
+                            <td>
+                                <span ng-show="event.type=='u'">Up</span>
+                                <span ng-show="event.type=='d'">Down</span>
+                                <span ng-show="event.type=='p'">Paused</span>
+                                <span ng-show="event.type=='s'">Started</span>
+                            </td>
+                            <td ng-bind="event.date"></td>
+                            <td ng-bind="event.reason"></td>
+                            <!--<td><strike>Unknown</strike></td>-->
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade in" ng-class="{show: showCreateMonitorModal}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Create New Monitor</h4>
+            </div>
+            <div class="modal-body">
+                <form ng-submit="createMonitor(newMonitor)" role="form">
+                    <ubermon-monitor-edit
+                            monitor="newMonitor"
+                            monitor-types="monitorTypes"
+                            monitor-intervals="monitorIntervals"
+                            contacts="contacts"
+                            pop-create-contact-modal="popCreateContactModal"
+                            selected-contacts="newMonitor.contactIds"></ubermon-monitor-edit>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="showCreateMonitorModal=false">Cancel
+                </button>
+                <button type="button" class="btn btn-primary" ng-click="createMonitor(newMonitor)">Create
+                    Monitor
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade in" ng-class="{show: showEditMonitorModal}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Monitor</h4>
+            </div>
+            <div class="modal-body">
+                <form ng-submit="updateMonitor(currentMonitor)" role="form">
+                    <ubermon-monitor-edit
+                            monitor="currentMonitor"
+                            monitor-types="monitorTypes"
+                            monitor-intervals="monitorIntervals"
+                            contacts="contacts"
+                            pop-create-contact-modal="popCreateContactModal"
+                            selected-contacts="currentMonitor.contactIds"
+                            ></ubermon-monitor-edit>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="cancelEditMonitor()">Cancel
+                </button>
+                <button type="button" class="btn btn-primary" ng-click="updateMonitor(currentMonitor)">Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--<div class="modal fade in" ng-class="{show: showCreateContactModal}">-->
+    <!--<div class="modal-dialog">-->
+        <!--<div class="modal-content">-->
+            <!--<div class="modal-header">-->
+                <!--<h4 class="modal-title">Create New Contact</h4>-->
+            <!--</div>-->
+            <!--<div class="modal-body">-->
+                <!--<form ng-submit="createContact(newContact)" role="form">-->
+                    <!--<ubermon-contact-edit contact="newContact"></ubermon-contact-edit>-->
+                <!--</form>-->
+            <!--</div>-->
+            <!--<div class="modal-footer">-->
+                <!--<button type="button" class="btn btn-default" ng-click="showCreateContactModal=false">Cancel-->
+                <!--</button>-->
+                <!--<button type="button" class="btn btn-primary" ng-click="createContact(newContact)">Create-->
+                    <!--Contact-->
+                <!--</button>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
