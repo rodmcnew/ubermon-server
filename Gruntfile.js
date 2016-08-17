@@ -8,7 +8,7 @@ module.exports = function (grunt) {
                 generated: {
                     files: [
                         {
-                            dest: 'client/dist/all.min.js',
+                            dest: 'client/dist/all.js',
                             src: [
 
                                 'client/bower_components_not_installed_with_bower/Chart.js-skip-xlabels/Chart.min.js',
@@ -37,12 +37,16 @@ module.exports = function (grunt) {
             },
             uglify: {
                 generated: {
-                    //files: [
-                    //    {
-                    //        dest: 'client/dist/all.min.js',
-                    //        src: ['client/dist/all.js']
-                    //    }
-                    //]
+                    options: {
+                        mangle: false,
+                        sourceMap: true
+                    },
+                    files: [
+                        {
+                            dest: 'client/dist/all.min.js',
+                            src: ['client/dist/all.js']
+                        }
+                    ]
                 }
             },
             watch: {
