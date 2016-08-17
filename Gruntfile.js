@@ -10,12 +10,12 @@ module.exports = function (grunt) {
                         {
                             dest: 'client/dist/all.js',
                             src: [
-                                'bower_components/angular/angular.min.js',
-                                'bower_components/angular-chart.js/dist/angular-chart.min.js',
-                                'bower_components/angular-recaptcha/release/angular-recaptcha.min.js',
+                                'client/bower_components/angular/angular.min.js',
+                                'client/bower_components/angular-chart.js/dist/angular-chart.min.js',
+                                'client/bower_components/angular-recaptcha/release/angular-recaptcha.min.js',
 
-                                'bower_components_not_installed_with_bower/Chart.js-skip-xlabels/Chart.min.js',
-                                'bower_components_not_installed_with_bower/angular/angular-resource.js',
+                                'client/bower_components_not_installed_with_bower/Chart.js-skip-xlabels/Chart.min.js',
+                                'client/bower_components_not_installed_with_bower/angular/angular-resource.js',
 
                                 'client/app_components/ubermon/config.js',
                                 'client/app_components/ubermon/module.js',
