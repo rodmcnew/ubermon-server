@@ -8,7 +8,7 @@ angular.module('ubermon').controller('ubermonHome', function (User, Contact, $sc
     $scope.emailJustVerified = $window.location.href.indexOf('emailJustVerified') != -1;
     $scope.error = '';
 
-    function handleLBError(res) {
+    function handleServerError(res) {
         $scope.error = res.data.error.message;
     }
 
@@ -19,7 +19,7 @@ angular.module('ubermon').controller('ubermonHome', function (User, Contact, $sc
             function () {
                 $window.location.href = '/dashboard';
             },
-            handleLBError
+            handleServerError
         )
     };
 
@@ -37,7 +37,7 @@ angular.module('ubermon').controller('ubermonHome', function (User, Contact, $sc
                 // In case of a failed validation you need to reload the captcha
                 // because each response can be checked just once
                 vcRecaptchaService.reload($scope.widgetId);
-                handleLBError(res);
+                handleServerError(res);
             }
         );
     };
