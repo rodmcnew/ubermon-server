@@ -17,7 +17,7 @@ angular.module('ubermon').directive('ubermonCreateMonitorDialog', function (Moni
                 function (newMonitor) {
                     //data.id = newMonitor.id;
                     //saveMonitorContacts(data);
-                    $scope.monitors.push(newMonitor);
+                    $scope.monitors.push(newMonitor);//Ensures UI doesn't jerk or look weird
                     $scope.selectMonitor(newMonitor);
                     $scope.watchForPendingUpdate();
                     $scope.newMonitor = null; //Hides dialog
@@ -40,7 +40,7 @@ angular.module('ubermon').directive('ubermonCreateMonitorDialog', function (Moni
             'watchForPendingUpdate': '=',
             'monitorIntervals': '=',
             'selectMonitor': '=',
-            'monitors': '=',
+            'monitors': '=',//@TODO remove the dependency on this
             'contacts': '='
         },
         templateUrl: '/app_components/ubermon/create-monitor-dialog/create-monitor-dialog.html'
