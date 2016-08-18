@@ -1,0 +1,4 @@
+node_modules
+.strong-pm
+.idea
+.ds_store
