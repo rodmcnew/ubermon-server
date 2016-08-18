@@ -19,6 +19,7 @@ re-enable event cleaner after fixing a UI issue related to it (see docblock ther
 pause monitor while waiting for remote to check so don't get 2 emails on long timeouts
 use ssl/ssh for db workbench conn
 allow password to be changed without resetting it
+help tool-tips on create monitor dialog and edit monitor dialog
 
 COULD
 ----------
