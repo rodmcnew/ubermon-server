@@ -31,6 +31,8 @@ module.exports = function (grunt) {
                                 'client/app_components/ubermon/home/home.js',
                                 'client/app_components/ubermon/contact-us-form/contact-us-form.js',
                                 'client/app_components/ubermon/reset-password/reset-password.js',
+                                'client/app_components/ubermon/monitor-details-display/monitor-details-display.js',
+                                'client/app_components/ubermon/edit-monitor-dialog/edit-monitor-dialog.js',
 
                                 'client/app_components/google-analytics/google-analytics.js'
                             ]
@@ -63,10 +65,19 @@ module.exports = function (grunt) {
                     ],
                     tasks: ['uglify', 'concat']
                 }
+            },
+            forever: {//@todo remove doesn't work (and uninstall package)
+                server: {
+                    options: {
+                        index: 'server/server.js',
+                        logDir: 'logs'
+                    }
+                }
             }
         }
     );
 
+    grunt.loadNpmTasks('grunt-forever');//@todo remove doesn't work
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');

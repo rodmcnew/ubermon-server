@@ -23,7 +23,7 @@ angular.module('ubermon').directive('ubermonResetPassword', function (User, $win
         $scope.passwordChanged = false;
         $scope.error = '';
 
-        function handleLBError(res) {
+        function handleServerError(res) {
             $scope.error = res.data.error.message;
         }
 
@@ -35,7 +35,7 @@ angular.module('ubermon').directive('ubermonResetPassword', function (User, $win
                 function () {
                     $scope.resetEmailSent = true;
                 },
-                handleLBError
+                handleServerError
             )
         };
 
@@ -50,9 +50,9 @@ angular.module('ubermon').directive('ubermonResetPassword', function (User, $win
                 $scope.passwordChanged = true;
             }, function (response) {
                 if (response.error) {
-                    handleLBError(response.error.message);
+                    handleServerError(response.error.message);
                 } else {
-                    handleLBError('An error occurred.');
+                    handleServerError('An error occurred.');
                 }
             });
         };

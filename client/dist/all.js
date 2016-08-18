@@ -3549,7 +3549,7 @@ angular.module('ubermon').directive('ubermonResetPassword', function (User, $win
         $scope.passwordChanged = false;
         $scope.error = '';
 
-        function handleLBError(res) {
+        function handleServerError(res) {
             $scope.error = res.data.error.message;
         }
 
@@ -3561,7 +3561,7 @@ angular.module('ubermon').directive('ubermonResetPassword', function (User, $win
                 function () {
                     $scope.resetEmailSent = true;
                 },
-                handleLBError
+                handleServerError
             )
         };
 
@@ -3576,9 +3576,9 @@ angular.module('ubermon').directive('ubermonResetPassword', function (User, $win
                 $scope.passwordChanged = true;
             }, function (response) {
                 if (response.error) {
-                    handleLBError(response.error.message);
+                    handleServerError(response.error.message);
                 } else {
-                    handleLBError('An error occurred.');
+                    handleServerError('An error occurred.');
                 }
             });
         };
@@ -3594,9 +3594,11 @@ angular.module('ubermon').directive('ubermonResetPassword', function (User, $win
 
 
 
-angular.module('ubermon').directive('ubermonDashboard', function (Monitor, MonitorEvent, MonitorPing, Contact) {
+angular.module('ubermon').directive('ubermonDashboard', function (Monitor, Contact) {
 
     function link($scope) {
+        $scope.monitors = [];
+        $scope.selectedMonitor = null;
         $scope.monitorTypes = {
             'h': 'HTTP(s)',
             'p': 'Ping',
@@ -3614,92 +3616,104 @@ angular.module('ubermon').directive('ubermonDashboard', function (Monitor, Monit
             60: 'Every 60 minutes'
         };
 
-        function handleLBError(res) {
-            if (res.headers.status = 401) {
-                window.location.href = '/';
-            } else {
-                alert(res.data.error.message);
-            }
-        }
-
-        function updateCurrentMonitor() {
-            if (!$scope.currentMonitor) {
-                return;
-            }
-            MonitorEvent.find(
-                {
-                    filter: {
-                        where: {monitorId: $scope.currentMonitor.id},
-                        order: 'date DESC',
-                        limit: 10
-                    }
-                }, function (res) {
-                    $scope.currentMonitor.events = res;
-                }, handleLBError);
-            MonitorPing.find(
-                {
-                    filter: {
-                        where: {monitorId: $scope.currentMonitor.id},
-                        order: 'date DESC',
-                        limit: 20
-                    }
-                }, function (res) {
-                    var pingChart = {
-                        data: [[]],
-                        labels: []
-                    };
-                    res.forEach(function (ping) {
-                        pingChart.data[0].unshift(ping.latency);
-                        var date = new Date(ping.date);
-                        var minutes = date.getMinutes().toString();
-                        if (minutes.length == 1) {
-                            minutes = '0' + minutes;
-                        }
-                        pingChart.labels.unshift(date.getHours() + ':' + minutes);
-                    });
-                    //Fix 1 point charts which don't display properly
-                    if (pingChart.data[0].length == 1) {
-                        pingChart.data[0].unshift(pingChart.data[0][0]);
-                        pingChart.labels.unshift(pingChart.labels[0]);
-                    }
-                    $scope.currentMonitor.pingChart = pingChart;
-                    /**
-                     * @TODO add chart hover
-                     */
-                }, handleLBError);
-        }
-
+        /**
+         * Refresh monitor list from server
+         */
         function updateMonitorList() {
-            Monitor.listMine(function (res) {
-                $scope.monitors = res.monitors;
-                if ($scope.monitors.length && !$scope.currentMonitor) {
-                    $scope.selectMonitor($scope.monitors[0])
-                }
-            }, handleLBError);
-        }
+            Monitor.listMine(
+                function (res) {
 
-        function updateContacts() {
-            Contact.listMine(function (res) {
-                $scope.contacts = res.contacts;
-            }, handleLBError);
-        }
+                    var selectedMonitorId = null;
 
-        function update() {
-            updateMonitorList();
-            updateCurrentMonitor();
+                    if ($scope.selectedMonitor) {
+                        selectedMonitorId = $scope.selectedMonitor.id;
+                    }
+
+                    //If nothing changed, prevent UI jerking by avoiding a re-render
+                    if (angular.toJson($scope.monitors) != angular.toJson(res.monitors)) {
+                        $scope.monitors = res.monitors;
+                    }
+
+                    //Needed to ensure status display stays up to date on "Selected Monitor" UI area
+                    if (selectedMonitorId) {
+                        selectMonitorById(selectedMonitorId);
+                    }
+
+                    //Try to ensure a monitor is selected
+                    if (!$scope.selectedMonitor) {
+                        selectAnyMonitor();
+                    }
+                },
+                $scope.handleServerError
+            );
         }
 
         /**
-         * This runs after an update is made and we are in a hurry to show
-         * the results.
+         * Refresh contacts list from server
          */
-        function updateSoon() {
+        function updateContacts() {
+            Contact.listMine(function (res) {
+                $scope.contacts = res.contacts;
+            }, $scope.handleServerError);
+        }
+
+        /**
+         * Updates all the list and the data for the selected monitor
+         */
+        function update() {
+            updateMonitorList();
+        }
+
+        /**
+         * Attempts to ensure a monitor is selected. Useful after deletes and other changes.
+         */
+        function selectAnyMonitor() {
+            if ($scope.monitors.length) {
+                $scope.selectMonitor($scope.monitors[0]);
+            } else {
+                $scope.selectMonitor(null);
+            }
+        }
+
+        /**
+         * Select the monitor with the given id
+         *
+         * @param monitorId
+         */
+        function selectMonitorById(monitorId) {
+            for (var i = 0, len = $scope.monitors.length; i < len; i++) {
+                if ($scope.monitors[i].id == monitorId) {
+                    $scope.selectMonitor($scope.monitors[i]);
+                    return;
+                }
+            }
+            //If something happened where the monitorId doesn't exist, fix things.
+            selectAnyMonitor();
+        }
+
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        /**
+         * This runs after an change is made so we show the results faster.
+         */
+        $scope.watchForPendingUpdate = function () {
+            update();
             setTimeout(update, 1000);
             setTimeout(update, 2000);
             setTimeout(update, 3000);
             setTimeout(update, 4000);
             setTimeout(update, 5000);
-        }
+        };
+
+        $scope.handleServerError = function (res) {
+            if (res.headers.status = 401) {
+                window.location.href = '/';
+            } else {
+                alert(res.data.error.message);
+            }
+        };
 
         $scope.popCreateMonitorModal = function () {
             updateContacts();
@@ -3713,17 +3727,18 @@ angular.module('ubermon').directive('ubermonDashboard', function (Monitor, Monit
         };
 
         $scope.createMonitor = function (data) {
+            data.name = capitalizeFirstLetter(data.name);
             Monitor.create(
                 data,
                 function (newMonitor) {
-                    //data.id = parseInt(newMonitor.id);
+                    //data.id = newMonitor.id;
                     //saveMonitorContacts(data);
-                    update();
-                    updateSoon();
-                    $scope.showCreateMonitorModal = false;
+                    $scope.monitors.push(newMonitor);
                     $scope.selectMonitor(newMonitor);
+                    $scope.watchForPendingUpdate();
+                    $scope.showCreateMonitorModal = false;
                 },
-                handleLBError
+                $scope.handleServerError
             );
         };
 
@@ -3733,7 +3748,7 @@ angular.module('ubermon').directive('ubermonDashboard', function (Monitor, Monit
                 function () {
                     updateContacts();
                 },
-                handleLBError
+                $scope.handleServerError
             );
             $scope.showCreateContactModal = false;
         };
@@ -3743,9 +3758,9 @@ angular.module('ubermon').directive('ubermonDashboard', function (Monitor, Monit
                 Monitor.deleteById(
                     {id: monitor.id},
                     function () {
-                        updateMonitorList();
+                        update()
                     },
-                    handleLBError
+                    $scope.handleServerError
                 );
             }
         };
@@ -3753,47 +3768,28 @@ angular.module('ubermon').directive('ubermonDashboard', function (Monitor, Monit
         $scope.editMonitor = function (monitor) {
             updateContacts();
             $scope.selectMonitor(monitor);
-            $scope.showEditMonitorModal = true;
+            $scope.editableMonitor = angular.copy(monitor);
+            //$scope.showEditMonitorModal = true;
         };
 
-        $scope.cancelEditMonitor = function () {
-            updateMonitorList();
-            updateCurrentMonitor();
-            $scope.showEditMonitorModal = false;
-        };
-
-        $scope.updateMonitor = function (monitor) {
-            Monitor.prototype$updateAttributes(
-                {id: monitor.id},
-                monitor,
-                function () {
-                    //saveMonitorContacts(monitor);
-                    updateMonitorList();
-                    updateSoon();
-                    $scope.showEditMonitorModal = false;
-                },
-                handleLBError
-            );
-        };
-
+        /**
+         * Select the given monitor
+         *
+         * @param monitor
+         */
         $scope.selectMonitor = function (monitor) {
-            $scope.currentMonitor = monitor;
-            updateCurrentMonitor();
+            $scope.selectedMonitor = monitor;
         };
 
-        updateMonitorList();
+        update();
 
         setInterval(update, 10000)
     }
-
 
     // Return the directive configuration
     return {
         link: link,
         restrict: 'E',
-        scope: {
-            'contact': '='
-        },
         templateUrl: '/app_components/ubermon/dashboard/dashboard.html'
     }
 });
@@ -3808,7 +3804,7 @@ angular.module('ubermon').controller('ubermonHome', function (User, Contact, $sc
     $scope.emailJustVerified = $window.location.href.indexOf('emailJustVerified') != -1;
     $scope.error = '';
 
-    function handleLBError(res) {
+    function handleServerError(res) {
         $scope.error = res.data.error.message;
     }
 
@@ -3819,7 +3815,7 @@ angular.module('ubermon').controller('ubermonHome', function (User, Contact, $sc
             function () {
                 $window.location.href = '/dashboard';
             },
-            handleLBError
+            handleServerError
         )
     };
 
@@ -3837,7 +3833,7 @@ angular.module('ubermon').controller('ubermonHome', function (User, Contact, $sc
                 // In case of a failed validation you need to reload the captcha
                 // because each response can be checked just once
                 vcRecaptchaService.reload($scope.widgetId);
-                handleLBError(res);
+                handleServerError(res);
             }
         );
     };
@@ -3884,6 +3880,153 @@ angular.module('ubermon').directive('ubermonContactUsForm', function (Contact) {
         link: link,
         restrict: 'E',
         templateUrl: '/app_components/ubermon/contact-us-form/contact-us-form.html'
+    }
+});
+
+angular.module('ubermon').directive('ubermonMonitorDetailsDisplay', function (MonitorEvent, MonitorPing) {
+
+    /**
+     * The link function for this directive. Runs when directive is loaded
+     *
+     * @param $scope
+     */
+    function link($scope) {
+        $scope.selectedMonitorPingChart = {};
+        $scope.selectedMonitorEvents = {};
+
+        /**
+         * Converts a ping list response from the server into the format that the UI likes
+         * @TODO add chart hover data
+         *
+         * @param res Response from ping list rest api
+         */
+        function formatPingData(res) {
+            var pingChart = {
+                data: [[]],
+                labels: []
+            };
+            res.forEach(function (ping) {
+                pingChart.data[0].unshift(ping.latency);
+                var date = new Date(ping.date);
+                var minutes = date.getMinutes().toString();
+                if (minutes.length == 1) {
+                    minutes = '0' + minutes;
+                }
+                pingChart.labels.unshift(date.getHours() + ':' + minutes);
+            });
+            //Fix 1 point charts which don't display properly
+            if (pingChart.data[0].length == 1) {
+                pingChart.data[0].unshift(pingChart.data[0][0]);
+                pingChart.labels.unshift(pingChart.labels[0]);
+            }
+            return pingChart;
+        }
+
+        function updateCurrentMonitor() {
+            if (!$scope.selectedMonitor) {
+                return;
+            }
+            MonitorEvent.find(
+                {
+                    filter: {
+                        where: {monitorId: $scope.selectedMonitor.id},
+                        order: 'date DESC',
+                        limit: 10
+                    }
+                }, function (res) {
+                    //If nothing changed, prevent UI jerking by avoiding a re-render
+                    if (angular.toJson($scope.selectedMonitorEvents) != angular.toJson(res)) {
+                        $scope.selectedMonitorEvents = res;
+                    }
+
+                }, $scope.handleServerError);
+            MonitorPing.find(
+                {
+                    filter: {
+                        where: {monitorId: $scope.selectedMonitor.id},
+                        order: 'date DESC',
+                        limit: 20
+                    }
+                }, function (res) {
+
+                    var pingChart = formatPingData(res);
+
+                    //If nothing changed, prevent UI jerking by avoiding a re-render
+                    if (angular.toJson($scope.selectedMonitorPingChart) != angular.toJson(pingChart)) {
+                        $scope.selectedMonitorPingChart = pingChart;
+                    }
+                }, $scope.handleServerError);
+        }
+
+        $scope.$watch('selectedMonitor', function (newValue, oldValue, scope) {
+            //If nothing changed, prevent UI jerking by avoiding a re-render
+            if (angular.toJson(newValue) != angular.toJson(oldValue)) {
+                $scope.selectedMonitorPingChart = null;
+                $scope.selectedMonitorEvents = null;
+            }
+            updateCurrentMonitor();
+        });
+
+        setInterval(updateCurrentMonitor, 10000);
+    }
+
+    // Return the directive configuration
+    return {
+        link: link,
+        restrict: 'E',
+        scope: {
+            'selectedMonitor': '=',
+            'handleServerError': '=',
+            'monitorIntervals': '='
+        },
+        templateUrl: '/app_components/ubermon/monitor-details-display/monitor-details-display.html'
+    }
+});
+
+angular.module('ubermon').directive('ubermonEditMonitorDialog', function (Monitor) {
+
+    /**
+     * The link function for this directive. Runs when directive is loaded
+     *
+     * @param $scope
+     */
+    function link($scope) {
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        //$scope.editableMonitor = null;
+
+        $scope.updateMonitor = function (monitor) {
+            monitor.name = capitalizeFirstLetter(monitor.name);
+            Monitor.prototype$updateAttributes(
+                {id: monitor.id},
+                monitor,
+                function () {
+                    //saveMonitorContacts(monitor);
+                    $scope.watchForPendingUpdate();
+                    $scope.editableMonitor = null;//Hides the dialog
+                },
+                $scope.handleServerError
+            );
+        };
+
+        $scope.cancelEditMonitor = function () {
+            $scope.editableMonitor = null;//Hides the dialog
+        };
+    }
+
+    // Return the directive configuration
+    return {
+        link: link,
+        restrict: 'E',
+        scope: {
+            'editableMonitor': '=',
+            'watchForPendingUpdate': '=',
+            'monitorIntervals': '=',
+            'contacts': '='
+        },
+        templateUrl: '/app_components/ubermon/edit-monitor-dialog/edit-monitor-dialog.html'
     }
 });
 

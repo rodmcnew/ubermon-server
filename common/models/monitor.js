@@ -159,7 +159,7 @@ module.exports = function (Monitor) {
         body.modifiedDate = Date.now();
         body.userId = context.req.accessToken.userId;
         var startTime = new Date();
-        startTime.setSeconds(startTime.getSeconds() + 2);// Ensure monitor starts in 2 seconds
+        startTime.setSeconds(startTime.getSeconds() + 1);// Ensure monitor starts in 2 seconds
         body.startSecond = startTime.getSeconds();
         body.startMinute = startTime.getMinutes();
         body.up = null;
