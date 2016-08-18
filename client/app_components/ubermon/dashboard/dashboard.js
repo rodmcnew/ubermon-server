@@ -120,22 +120,6 @@ angular.module('ubermon').directive('ubermonDashboard', function (Monitor, Conta
             $scope.newMonitor = {type: 'h', interval: 5, url: 'http://', contactIds: []};//h for http;
         };
 
-        //$scope.popCreateContactModal = function () {
-        //    $scope.showCreateContactModal = true;
-        //    $scope.newContact = {email: ''};
-        //};
-
-        //$scope.createContact = function (data) {
-        //    Contact.create(
-        //        data,
-        //        function () {
-        //            updateContacts();
-        //        },
-        //        $scope.handleServerError
-        //    );
-        //    $scope.showCreateContactModal = false;
-        //};
-
         $scope.deleteMonitor = function (monitor) {
             if (confirm('Delete monitor ' + monitor.name + '?')) {
                 Monitor.deleteById(
@@ -162,6 +146,22 @@ angular.module('ubermon').directive('ubermonDashboard', function (Monitor, Conta
         $scope.selectMonitor = function (monitor) {
             $scope.selectedMonitor = monitor;
         };
+
+        //$scope.popCreateContactModal = function () {
+        //    $scope.showCreateContactModal = true;
+        //    $scope.newContact = {email: ''};
+        //};
+
+        //$scope.createContact = function (data) {
+        //    Contact.create(
+        //        data,
+        //        function () {
+        //            updateContacts();
+        //        },
+        //        $scope.handleServerError
+        //    );
+        //    $scope.showCreateContactModal = false;
+        //};
 
         update();
 
