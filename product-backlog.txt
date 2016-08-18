@@ -3,6 +3,7 @@ MUST
 
 SHOULD
 ----------
+bug - status stays on "Starting" on right side screen when making new monitors
 allow email to be changed
 contacts - require verification of contacts and re-enable "create new contact"
 contacts - support "email to sms" contact type
