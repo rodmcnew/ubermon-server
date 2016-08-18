@@ -1,5 +1,6 @@
 MUST
 ----------
+bug - show validation errors in edit dialog and create dialog
 
 SHOULD
 ----------
@@ -10,6 +11,7 @@ allow email to be changed
 contacts - require verification of contacts and re-enable "create new contact"
 contacts - support "email to sms" contact type
 contacts - allow contacts to be deleted
+Show URL on up/down emails.
 show duration in events view
 auto select newly created monitors
 have email link to remove self from contacts on a monitor
@@ -37,6 +39,7 @@ expire accounts after 3-12 months no login activity? send email first to confirm
 don't keep showing monitor on right side if it was the last one deleted
 contacts - limit number of contacts per account to 100
 pressing enter in monitor editor dialog should submit it
+logout button
 
 WOULD
 ----------

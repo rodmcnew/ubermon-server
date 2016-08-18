@@ -1,24 +1,10 @@
-angular.module('ubermon').directive('ubermonDashboard', function (Monitor, Contact) {
+angular.module('ubermon').directive('ubermonDashboard', function (Monitor, Contact, ubermonConfig) {
 
     function link($scope) {
         $scope.monitors = [];
         $scope.selectedMonitor = null;
-        $scope.monitorTypes = {
-            'h': 'HTTP(s)',
-            'p': 'Ping',
-            'o': 'Port',
-            'k': 'Keyword'
-        };
-        $scope.monitorIntervals = {
-            1: 'Every minute',
-            2: 'Every 2 minutes',
-            5: 'Every 5 minutes',
-            10: 'Every 10 minutes',
-            15: 'Every 15 minutes',
-            20: 'Every 20 minutes',
-            30: 'Every 30 minutes',
-            60: 'Every 60 minutes'
-        };
+        $scope.monitorTypes = ubermonConfig.monitorTypes;
+        $scope.monitorIntervals = ubermonConfig.monitorIntervals;
 
         /**
          * Refresh monitor list from server

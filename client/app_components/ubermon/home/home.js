@@ -1,7 +1,7 @@
 /**
  * @TODO move the "create user" and "login" forms to directives
  */
-angular.module('ubermon').controller('ubermonHome', function (User, Contact, $scope, $window, vcRecaptchaService) {
+angular.module('ubermon').controller('ubermonHome', function (User, Contact, $scope, $window, vcRecaptchaService, ubermonConfig) {
 
     $scope.newUser = {};
     $scope.loginUser = {};

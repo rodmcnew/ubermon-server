@@ -3459,9 +3459,27 @@ angular.module(
     ]
 );
 
-var ubermonConfig = {
-    recaptchaPubKey: '6LcCeRMTAAAAAJOmu2kbjXyOs07yf28tFt2sn9bF'
-};
+angular.module('ubermon').factory('ubermonConfig', function () {
+    return {
+        monitorTypes: {
+            'h': 'HTTP(s)',
+            'p': 'Ping',
+            'o': 'Port',
+            'k': 'Keyword'
+        },
+        monitorIntervals: {
+            1: 'Every minute',
+            2: 'Every 2 minutes',
+            5: 'Every 5 minutes',
+            10: 'Every 10 minutes',
+            15: 'Every 15 minutes',
+            20: 'Every 20 minutes',
+            30: 'Every 30 minutes',
+            60: 'Every 60 minutes'
+        },
+        recaptchaPubKey: '6LcCeRMTAAAAAJOmu2kbjXyOs07yf28tFt2sn9bF'
+    };
+});
 
 angular.module('ubermon').directive('ubermonContactEdit', function () {
 
@@ -3594,27 +3612,13 @@ angular.module('ubermon').directive('ubermonResetPassword', function (User, $win
 
 
 
-angular.module('ubermon').directive('ubermonDashboard', function (Monitor, Contact) {
+angular.module('ubermon').directive('ubermonDashboard', function (Monitor, Contact, ubermonConfig) {
 
     function link($scope) {
         $scope.monitors = [];
         $scope.selectedMonitor = null;
-        $scope.monitorTypes = {
-            'h': 'HTTP(s)',
-            'p': 'Ping',
-            'o': 'Port',
-            'k': 'Keyword'
-        };
-        $scope.monitorIntervals = {
-            1: 'Every minute',
-            2: 'Every 2 minutes',
-            5: 'Every 5 minutes',
-            10: 'Every 10 minutes',
-            15: 'Every 15 minutes',
-            20: 'Every 20 minutes',
-            30: 'Every 30 minutes',
-            60: 'Every 60 minutes'
-        };
+        $scope.monitorTypes = ubermonConfig.monitorTypes;
+        $scope.monitorIntervals = ubermonConfig.monitorIntervals;
 
         /**
          * Refresh monitor list from server
@@ -3716,22 +3720,6 @@ angular.module('ubermon').directive('ubermonDashboard', function (Monitor, Conta
             $scope.newMonitor = {type: 'h', interval: 5, url: 'http://', contactIds: []};//h for http;
         };
 
-        //$scope.popCreateContactModal = function () {
-        //    $scope.showCreateContactModal = true;
-        //    $scope.newContact = {email: ''};
-        //};
-
-        //$scope.createContact = function (data) {
-        //    Contact.create(
-        //        data,
-        //        function () {
-        //            updateContacts();
-        //        },
-        //        $scope.handleServerError
-        //    );
-        //    $scope.showCreateContactModal = false;
-        //};
-
         $scope.deleteMonitor = function (monitor) {
             if (confirm('Delete monitor ' + monitor.name + '?')) {
                 Monitor.deleteById(
@@ -3759,6 +3747,22 @@ angular.module('ubermon').directive('ubermonDashboard', function (Monitor, Conta
             $scope.selectedMonitor = monitor;
         };
 
+        //$scope.popCreateContactModal = function () {
+        //    $scope.showCreateContactModal = true;
+        //    $scope.newContact = {email: ''};
+        //};
+
+        //$scope.createContact = function (data) {
+        //    Contact.create(
+        //        data,
+        //        function () {
+        //            updateContacts();
+        //        },
+        //        $scope.handleServerError
+        //    );
+        //    $scope.showCreateContactModal = false;
+        //};
+
         update();
 
         setInterval(update, 10000)
@@ -3775,7 +3779,7 @@ angular.module('ubermon').directive('ubermonDashboard', function (Monitor, Conta
 /**
  * @TODO move the "create user" and "login" forms to directives
  */
-angular.module('ubermon').controller('ubermonHome', function (User, Contact, $scope, $window, vcRecaptchaService) {
+angular.module('ubermon').controller('ubermonHome', function (User, Contact, $scope, $window, vcRecaptchaService, ubermonConfig) {
 
     $scope.newUser = {};
     $scope.loginUser = {};
@@ -3970,6 +3974,9 @@ angular.module('ubermon').directive('ubermonEditMonitorDialog', function (Monito
      */
     function link($scope) {
         function capitalizeFirstLetter(string) {
+            if (string.length < 1) {
+                return string;
+            }
             return string.charAt(0).toUpperCase() + string.slice(1);
         }
 
@@ -4015,6 +4022,9 @@ angular.module('ubermon').directive('ubermonCreateMonitorDialog', function (Moni
      */
     function link($scope) {
         function capitalizeFirstLetter(string) {
+            if (string.length < 1) {
+                return string;
+            }
             return string.charAt(0).toUpperCase() + string.slice(1);
         }
 
@@ -4025,7 +4035,7 @@ angular.module('ubermon').directive('ubermonCreateMonitorDialog', function (Moni
                 function (newMonitor) {
                     //data.id = newMonitor.id;
                     //saveMonitorContacts(data);
-                    $scope.monitors.push(newMonitor);
+                    $scope.monitors.push(newMonitor);//Ensures UI doesn't jerk or look weird
                     $scope.selectMonitor(newMonitor);
                     $scope.watchForPendingUpdate();
                     $scope.newMonitor = null; //Hides dialog
@@ -4048,7 +4058,7 @@ angular.module('ubermon').directive('ubermonCreateMonitorDialog', function (Moni
             'watchForPendingUpdate': '=',
             'monitorIntervals': '=',
             'selectMonitor': '=',
-            'monitors': '=',
+            'monitors': '=',//@TODO remove the dependency on this
             'contacts': '='
         },
         templateUrl: '/app_components/ubermon/create-monitor-dialog/create-monitor-dialog.html'
