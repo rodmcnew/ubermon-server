@@ -1842,7 +1842,40 @@ module.factory(
          *
          * @description
          *
-         * Update an existing model instance or insert a new one into the data source.
+         * Patch an existing model instance or insert a new one into the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `data` – `{object=}` - Model instance data
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `User` object.)
+         * </em>
+         */
+        "upsert": {
+          url: urlBase + "/Users",
+          method: "PATCH"
+        },
+
+        /**
+         * @ngdoc method
+         * @name lbServices.User#replaceOrCreate
+         * @methodOf lbServices.User
+         *
+         * @description
+         *
+         * Replace an existing model instance or insert a new one into the data source.
          *
          * @param {Object=} parameters Request parameters.
          *
@@ -1868,9 +1901,9 @@ module.factory(
          * This usually means the response is a `User` object.)
          * </em>
          */
-        "upsert": {
-          url: urlBase + "/Users",
-          method: "PUT"
+        "replaceOrCreate": {
+          url: urlBase + "/Users/replaceOrCreate",
+          method: "POST"
         },
 
         /**
@@ -1912,7 +1945,7 @@ module.factory(
          *
          * @description
          *
-         * Find a model instance by id from the data source.
+         * Find a model instance by {{id}} from the data source.
          *
          * @param {Object=} parameters Request parameters.
          *
@@ -1938,6 +1971,43 @@ module.factory(
         "findById": {
           url: urlBase + "/Users/:id",
           method: "GET"
+        },
+
+        /**
+         * @ngdoc method
+         * @name lbServices.User#replaceById
+         * @methodOf lbServices.User
+         *
+         * @description
+         *
+         * Replace attributes for a model instance and persist it into the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - Model id
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `User` object.)
+         * </em>
+         */
+        "replaceById": {
+          url: urlBase + "/Users/:id/replace",
+          method: "POST"
         },
 
         /**
@@ -2014,7 +2084,7 @@ module.factory(
          *
          * @description
          *
-         * Update instances of the model matched by where from the data source.
+         * Update instances of the model matched by {{where}} from the data source.
          *
          * @param {Object=} parameters Request parameters.
          *
@@ -2048,7 +2118,7 @@ module.factory(
          *
          * @description
          *
-         * Delete a model instance by id from the data source.
+         * Delete a model instance by {{id}} from the data source.
          *
          * @param {Object=} parameters Request parameters.
          *
@@ -2113,15 +2183,13 @@ module.factory(
          *
          * @description
          *
-         * Update attributes for a model instance and persist it into the data source.
+         * Patch attributes for a model instance and persist it into the data source.
          *
          * @param {Object=} parameters Request parameters.
          *
          *  - `id` – `{*}` - User id
          *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
+         *  - `data` – `{object=}` - An object of model property name/value pairs
          *
          * @param {function(Object,Object)=} successCb
          *   Success callback with two arguments: `value`, `responseHeaders`.
@@ -2140,7 +2208,7 @@ module.factory(
          */
         "prototype$updateAttributes": {
           url: urlBase + "/Users/:id",
-          method: "PUT"
+          method: "PATCH"
         },
 
         /**
@@ -2215,7 +2283,7 @@ module.factory(
          * The response body contains properties of the AccessToken created on login.
          * Depending on the value of `include` parameter, the body may contain additional properties:
          * 
-         *   - `user` - `{User}` - Data of the currently logged in user. (`include=user`)
+         *   - `user` - `U+007BUserU+007D` - Data of the currently logged in user. (`include=user`)
          * 
          *
          */
@@ -2392,21 +2460,46 @@ module.factory(
 
         /**
          * @ngdoc method
+         * @name lbServices.User#patchOrCreate
+         * @methodOf lbServices.User
+         *
+         * @description
+         *
+         * Patch an existing model instance or insert a new one into the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `data` – `{object=}` - Model instance data
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `User` object.)
+         * </em>
+         */
+        R["patchOrCreate"] = R["upsert"];
+
+        /**
+         * @ngdoc method
          * @name lbServices.User#updateOrCreate
          * @methodOf lbServices.User
          *
          * @description
          *
-         * Update an existing model instance or insert a new one into the data source.
+         * Patch an existing model instance or insert a new one into the data source.
          *
          * @param {Object=} parameters Request parameters.
          *
-         *   This method does not accept any parameters.
-         *   Supply an empty object or omit this argument altogether.
-         *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
+         *  - `data` – `{object=}` - Model instance data
          *
          * @param {function(Object,Object)=} successCb
          *   Success callback with two arguments: `value`, `responseHeaders`.
@@ -2432,7 +2525,7 @@ module.factory(
          *
          * @description
          *
-         * Update instances of the model matched by where from the data source.
+         * Update instances of the model matched by {{where}} from the data source.
          *
          * @param {Object=} parameters Request parameters.
          *
@@ -2463,7 +2556,7 @@ module.factory(
          *
          * @description
          *
-         * Delete a model instance by id from the data source.
+         * Delete a model instance by {{id}} from the data source.
          *
          * @param {Object=} parameters Request parameters.
          *
@@ -2493,7 +2586,7 @@ module.factory(
          *
          * @description
          *
-         * Delete a model instance by id from the data source.
+         * Delete a model instance by {{id}} from the data source.
          *
          * @param {Object=} parameters Request parameters.
          *
@@ -2515,6 +2608,38 @@ module.factory(
          * </em>
          */
         R["removeById"] = R["deleteById"];
+
+        /**
+         * @ngdoc method
+         * @name lbServices.User#patchAttributes
+         * @methodOf lbServices.User
+         *
+         * @description
+         *
+         * Patch attributes for a model instance and persist it into the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - User id
+         *
+         *  - `data` – `{object=}` - An object of model property name/value pairs
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `User` object.)
+         * </em>
+         */
+        R["patchAttributes"] = R["prototype$updateAttributes"];
 
         /**
          * @ngdoc method
@@ -2681,7 +2806,7 @@ module.factory(
          *
          * @description
          *
-         * Delete a model instance by id from the data source.
+         * Delete a model instance by {{id}} from the data source.
          *
          * @param {Object=} parameters Request parameters.
          *
@@ -2714,15 +2839,13 @@ module.factory(
          *
          * @description
          *
-         * Update attributes for a model instance and persist it into the data source.
+         * Patch attributes for a model instance and persist it into the data source.
          *
          * @param {Object=} parameters Request parameters.
          *
          *  - `id` – `{*}` - PersistedModel id
          *
-         * @param {Object} postData Request data.
-         *
-         * This method expects a subset of model properties as request parameters.
+         *  - `data` – `{object=}` - An object of model property name/value pairs
          *
          * @param {function(Object,Object)=} successCb
          *   Success callback with two arguments: `value`, `responseHeaders`.
@@ -2741,7 +2864,7 @@ module.factory(
          */
         "prototype$updateAttributes": {
           url: urlBase + "/Monitors/:id",
-          method: "PUT"
+          method: "PATCH"
         },
 
         /**
@@ -2824,7 +2947,7 @@ module.factory(
          *
          * @description
          *
-         * Delete a model instance by id from the data source.
+         * Delete a model instance by {{id}} from the data source.
          *
          * @param {Object=} parameters Request parameters.
          *
@@ -2854,7 +2977,7 @@ module.factory(
          *
          * @description
          *
-         * Delete a model instance by id from the data source.
+         * Delete a model instance by {{id}} from the data source.
          *
          * @param {Object=} parameters Request parameters.
          *
@@ -2876,6 +2999,38 @@ module.factory(
          * </em>
          */
         R["removeById"] = R["deleteById"];
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Monitor#patchAttributes
+         * @methodOf lbServices.Monitor
+         *
+         * @description
+         *
+         * Patch attributes for a model instance and persist it into the data source.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - PersistedModel id
+         *
+         *  - `data` – `{object=}` - An object of model property name/value pairs
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `Monitor` object.)
+         * </em>
+         */
+        R["patchAttributes"] = R["prototype$updateAttributes"];
 
 
     /**
