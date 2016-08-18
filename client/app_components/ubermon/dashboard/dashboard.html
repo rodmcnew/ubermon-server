@@ -10,8 +10,10 @@
                     &nbsp;
                     Create new monitor
                 </button>
-                <br><br>
-                <table class="table table-hover">
+                <div ng-show="monitors.length != 0">
+                    <br>
+                </div>
+                <table class="table table-hover" ng-show="monitors.length != 0">
                     <tr data-monitor-id="{{monitor.id}}"
                         ng-repeat="monitor in monitors"
                         ng-click="selectMonitor(monitor)"
