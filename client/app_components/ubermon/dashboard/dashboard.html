@@ -5,13 +5,11 @@
                 <h3 class="panel-title">My Monitors</h3>
             </div>
             <div class="panel-body">
-                <a ng-click="popCreateMonitorModal()" href="javascript:void(0)">
-                    <button class="btn btn-default btn-sm" style="width:100%">
-                        <span class="glyphicon glyphicon-plus"></span>
-                        &nbsp;
-                        Create new monitor
-                    </button>
-                </a>
+                <button ng-click="popCreateMonitorModal()" class="btn btn-default btn-sm" style="width:100%">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    &nbsp;
+                    Create new monitor
+                </button>
                 <br><br>
                 <table class="table table-hover">
                     <tr data-monitor-id="{{monitor.id}}"
