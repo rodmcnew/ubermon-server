@@ -3708,7 +3708,7 @@ angular.module('ubermon').directive('ubermonDashboard', function (Monitor, Conta
         };
 
         $scope.handleServerError = function (res) {
-            if (res.headers.status = 401) {
+            if (res.headers.status == 401) {
                 window.location.href = '/';
             } else {
                 alert(res.data.error.message);
@@ -3974,7 +3974,7 @@ angular.module('ubermon').directive('ubermonEditMonitorDialog', function (Monito
      */
     function link($scope) {
         function capitalizeFirstLetter(string) {
-            if (string.length < 1) {
+            if (!string || string.length < 1) {
                 return string;
             }
             return string.charAt(0).toUpperCase() + string.slice(1);
@@ -4007,7 +4007,8 @@ angular.module('ubermon').directive('ubermonEditMonitorDialog', function (Monito
             'editableMonitor': '=',
             'watchForPendingUpdate': '=',
             'monitorIntervals': '=',
-            'contacts': '='
+            'contacts': '=',
+            'handleServerError': '='
         },
         templateUrl: '/app_components/ubermon/edit-monitor-dialog/edit-monitor-dialog.html'
     }
@@ -4022,7 +4023,7 @@ angular.module('ubermon').directive('ubermonCreateMonitorDialog', function (Moni
      */
     function link($scope) {
         function capitalizeFirstLetter(string) {
-            if (string.length < 1) {
+            if (!string || string.length < 1) {
                 return string;
             }
             return string.charAt(0).toUpperCase() + string.slice(1);
@@ -4059,7 +4060,8 @@ angular.module('ubermon').directive('ubermonCreateMonitorDialog', function (Moni
             'monitorIntervals': '=',
             'selectMonitor': '=',
             'monitors': '=',//@TODO remove the dependency on this
-            'contacts': '='
+            'contacts': '=',
+            'handleServerError': '='
         },
         templateUrl: '/app_components/ubermon/create-monitor-dialog/create-monitor-dialog.html'
     }

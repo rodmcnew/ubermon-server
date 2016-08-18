@@ -7,7 +7,7 @@ angular.module('ubermon').directive('ubermonEditMonitorDialog', function (Monito
      */
     function link($scope) {
         function capitalizeFirstLetter(string) {
-            if (string.length < 1) {
+            if (!string || string.length < 1) {
                 return string;
             }
             return string.charAt(0).toUpperCase() + string.slice(1);
@@ -40,7 +40,8 @@ angular.module('ubermon').directive('ubermonEditMonitorDialog', function (Monito
             'editableMonitor': '=',
             'watchForPendingUpdate': '=',
             'monitorIntervals': '=',
-            'contacts': '='
+            'contacts': '=',
+            'handleServerError': '='
         },
         templateUrl: '/app_components/ubermon/edit-monitor-dialog/edit-monitor-dialog.html'
     }
