@@ -11,6 +11,7 @@ allow email to be changed
 contacts - require verification of contacts and re-enable "create new contact"
 contacts - support "email to sms" contact type
 contacts - allow contacts to be deleted
+Show URL on up/down emails.
 show duration in events view
 auto select newly created monitors
 have email link to remove self from contacts on a monitor
