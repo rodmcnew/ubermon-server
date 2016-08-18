@@ -1,5 +1,6 @@
 MUST
 ----------
+bug - show validation errors in edit dialog and create dialog
 
 SHOULD
 ----------

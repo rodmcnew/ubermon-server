@@ -7,6 +7,9 @@ angular.module('ubermon').directive('ubermonEditMonitorDialog', function (Monito
      */
     function link($scope) {
         function capitalizeFirstLetter(string) {
+            if (string.length < 1) {
+                return string;
+            }
             return string.charAt(0).toUpperCase() + string.slice(1);
         }
 
