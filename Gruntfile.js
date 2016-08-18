@@ -33,6 +33,7 @@ module.exports = function (grunt) {
                                 'client/app_components/ubermon/reset-password/reset-password.js',
                                 'client/app_components/ubermon/monitor-details-display/monitor-details-display.js',
                                 'client/app_components/ubermon/edit-monitor-dialog/edit-monitor-dialog.js',
+                                'client/app_components/ubermon/create-monitor-dialog/create-monitor-dialog.js',
 
                                 'client/app_components/google-analytics/google-analytics.js'
                             ]

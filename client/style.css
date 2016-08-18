@@ -10,7 +10,7 @@ h2 a, h2 a:hover, h2 a:visited, h2 a:active, h2 a:focus {
     color: inherit;
 }
 
-tr.active{
-    background-color: rgba(151,187,205,1);
+.table>tbody>tr.active>td, .table>tbody>tr.active>th, .table>tbody>tr>td.active, .table>tbody>tr>th.active, .table>tfoot>tr.active>td, .table>tfoot>tr.active>th, .table>tfoot>tr>td.active, .table>tfoot>tr>th.active, .table>thead>tr.active>td, .table>thead>tr.active>th, .table>thead>tr>td.active, .table>thead>tr>th.active {
+    /*background-color: #d9edf7;*/
     font-weight: bold;
 }

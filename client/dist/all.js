@@ -3691,10 +3691,6 @@ angular.module('ubermon').directive('ubermonDashboard', function (Monitor, Conta
             selectAnyMonitor();
         }
 
-        function capitalizeFirstLetter(string) {
-            return string.charAt(0).toUpperCase() + string.slice(1);
-        }
-
         /**
          * This runs after an change is made so we show the results faster.
          */
@@ -3717,41 +3713,24 @@ angular.module('ubermon').directive('ubermonDashboard', function (Monitor, Conta
 
         $scope.popCreateMonitorModal = function () {
             updateContacts();
-            $scope.showCreateMonitorModal = true;
             $scope.newMonitor = {type: 'h', interval: 5, url: 'http://', contactIds: []};//h for http;
         };
 
-        $scope.popCreateContactModal = function () {
-            $scope.showCreateContactModal = true;
-            $scope.newContact = {email: ''};
-        };
+        //$scope.popCreateContactModal = function () {
+        //    $scope.showCreateContactModal = true;
+        //    $scope.newContact = {email: ''};
+        //};
 
-        $scope.createMonitor = function (data) {
-            data.name = capitalizeFirstLetter(data.name);
-            Monitor.create(
-                data,
-                function (newMonitor) {
-                    //data.id = newMonitor.id;
-                    //saveMonitorContacts(data);
-                    $scope.monitors.push(newMonitor);
-                    $scope.selectMonitor(newMonitor);
-                    $scope.watchForPendingUpdate();
-                    $scope.showCreateMonitorModal = false;
-                },
-                $scope.handleServerError
-            );
-        };
-
-        $scope.createContact = function (data) {
-            Contact.create(
-                data,
-                function () {
-                    updateContacts();
-                },
-                $scope.handleServerError
-            );
-            $scope.showCreateContactModal = false;
-        };
+        //$scope.createContact = function (data) {
+        //    Contact.create(
+        //        data,
+        //        function () {
+        //            updateContacts();
+        //        },
+        //        $scope.handleServerError
+        //    );
+        //    $scope.showCreateContactModal = false;
+        //};
 
         $scope.deleteMonitor = function (monitor) {
             if (confirm('Delete monitor ' + monitor.name + '?')) {
@@ -3765,11 +3744,10 @@ angular.module('ubermon').directive('ubermonDashboard', function (Monitor, Conta
             }
         };
 
-        $scope.editMonitor = function (monitor) {
+        $scope.popEditMonitorModal = function (monitor) {
             updateContacts();
             $scope.selectMonitor(monitor);
             $scope.editableMonitor = angular.copy(monitor);
-            //$scope.showEditMonitorModal = true;
         };
 
         /**
@@ -3995,8 +3973,6 @@ angular.module('ubermon').directive('ubermonEditMonitorDialog', function (Monito
             return string.charAt(0).toUpperCase() + string.slice(1);
         }
 
-        //$scope.editableMonitor = null;
-
         $scope.updateMonitor = function (monitor) {
             monitor.name = capitalizeFirstLetter(monitor.name);
             Monitor.prototype$updateAttributes(
@@ -4027,6 +4003,55 @@ angular.module('ubermon').directive('ubermonEditMonitorDialog', function (Monito
             'contacts': '='
         },
         templateUrl: '/app_components/ubermon/edit-monitor-dialog/edit-monitor-dialog.html'
+    }
+});
+
+angular.module('ubermon').directive('ubermonCreateMonitorDialog', function (Monitor) {
+
+    /**
+     * The link function for this directive. Runs when directive is loaded
+     *
+     * @param $scope
+     */
+    function link($scope) {
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        $scope.createMonitor = function (data) {
+            data.name = capitalizeFirstLetter(data.name);
+            Monitor.create(
+                data,
+                function (newMonitor) {
+                    //data.id = newMonitor.id;
+                    //saveMonitorContacts(data);
+                    $scope.monitors.push(newMonitor);
+                    $scope.selectMonitor(newMonitor);
+                    $scope.watchForPendingUpdate();
+                    $scope.newMonitor = null; //Hides dialog
+                },
+                $scope.handleServerError
+            );
+        };
+
+        $scope.cancelCreateMonitor = function () {
+            $scope.newMonitor = null;//Hides the dialog
+        };
+    }
+
+    // Return the directive configuration
+    return {
+        link: link,
+        restrict: 'E',
+        scope: {
+            'newMonitor': '=',
+            'watchForPendingUpdate': '=',
+            'monitorIntervals': '=',
+            'selectMonitor': '=',
+            'monitors': '=',
+            'contacts': '='
+        },
+        templateUrl: '/app_components/ubermon/create-monitor-dialog/create-monitor-dialog.html'
     }
 });
 

@@ -10,8 +10,6 @@ angular.module('ubermon').directive('ubermonEditMonitorDialog', function (Monito
             return string.charAt(0).toUpperCase() + string.slice(1);
         }
 
-        //$scope.editableMonitor = null;
-
         $scope.updateMonitor = function (monitor) {
             monitor.name = capitalizeFirstLetter(monitor.name);
             Monitor.prototype$updateAttributes(

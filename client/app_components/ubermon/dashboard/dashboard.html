@@ -35,7 +35,8 @@
                                                 ></span>
                             </button>
                             <span style="float:right">&nbsp;</span>
-                            <button ng-click="editMonitor(monitor)" style="float:right" class="btn btn-default btn-xs">
+                            <button ng-click="popEditMonitorModal(monitor)" style="float:right"
+                                    class="btn btn-default btn-xs">
                                         <span class="glyphicon glyphicon-edit"
                                               title="Edit"
                                                 ></span>
@@ -61,33 +62,13 @@
 </div>
 
 
-<div class="modal fade in" ng-class="{show: showCreateMonitorModal}">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Create New Monitor</h4>
-            </div>
-            <div class="modal-body">
-                <form ng-submit="createMonitor(newMonitor)" role="form">
-                    <ubermon-monitor-edit
-                            monitor="newMonitor"
-                            monitor-types="monitorTypes"
-                            monitor-intervals="monitorIntervals"
-                            contacts="contacts"
-                            pop-create-contact-modal="popCreateContactModal"
-                            selected-contacts="newMonitor.contactIds"></ubermon-monitor-edit>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" ng-click="showCreateMonitorModal=false">Cancel
-                </button>
-                <button type="button" class="btn btn-primary" ng-click="createMonitor(newMonitor)">Create
-                    Monitor
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
+<ubermon-create-monitor-dialog new-monitor="newMonitor"
+                               watch-for-pending-update="watchForPendingUpdate"
+                               monitor-intervals="monitorIntervals"
+                               select-monitor="selectMonitor"
+                               monitors="monitors"
+                               contacts="contacts">
+</ubermon-create-monitor-dialog>
 
 <ubermon-edit-monitor-dialog editable-monitor="editableMonitor"
                              watch-for-pending-update="watchForPendingUpdate"

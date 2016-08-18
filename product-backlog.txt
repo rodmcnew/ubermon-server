@@ -5,6 +5,7 @@ SHOULD
 ----------
 bug - status stays on "Starting" on right side screen when making new monitors
 bug - deleted monitors should not continue to show on right side
+make monitor list selected highlight color same as chart fill color
 allow email to be changed
 contacts - require verification of contacts and re-enable "create new contact"
 contacts - support "email to sms" contact type
