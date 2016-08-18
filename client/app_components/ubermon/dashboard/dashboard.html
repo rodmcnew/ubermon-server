@@ -7,8 +7,10 @@
             <div class="panel-body">
                 <table class="table table-hover">
                     <td colspan="4">
-                        <a ng-click="popCreateMonitorModal()" href="javascript:void(0)">+ Create New
-                            Monitor</a>
+                        <a ng-click="popCreateMonitorModal()" href="javascript:void(0)">
+                            <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;
+                            Create New Monitor
+                        </a>
                     </td>
                     <tr data-monitor-id="{{monitor.id}}"
                         ng-repeat="monitor in monitors"
