@@ -7,7 +7,7 @@ angular.module('ubermon').directive('ubermonCreateMonitorDialog', function (Moni
      */
     function link($scope) {
         function capitalizeFirstLetter(string) {
-            if (string.length < 1) {
+            if (!string || string.length < 1) {
                 return string;
             }
             return string.charAt(0).toUpperCase() + string.slice(1);
@@ -44,7 +44,8 @@ angular.module('ubermon').directive('ubermonCreateMonitorDialog', function (Moni
             'monitorIntervals': '=',
             'selectMonitor': '=',
             'monitors': '=',//@TODO remove the dependency on this
-            'contacts': '='
+            'contacts': '=',
+            'handleServerError': '='
         },
         templateUrl: '/app_components/ubermon/create-monitor-dialog/create-monitor-dialog.html'
     }

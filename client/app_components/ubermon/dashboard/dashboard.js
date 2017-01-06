@@ -94,7 +94,7 @@ angular.module('ubermon').directive('ubermonDashboard', function (Monitor, Conta
         };
 
         $scope.handleServerError = function (res) {
-            if (res.headers.status = 401) {
+            if (res.headers.status == 401) {
                 window.location.href = '/';
             } else {
                 alert(res.data.error.message);
