@@ -79,7 +79,7 @@ module.exports = function (app) {
             from: 'Ubermon <' + process.env.FROM_EMAIL + '>',
             subject: 'Ubermon - Email Verification',
             template: path.resolve(__dirname, '../../server/views/activationEmail.ejs'),
-            redirect: '/?emailJustVerified=1',
+            redirect: 'http://ubermon.com/?emailJustVerified=1',
             user: user,
             host: 'api.ubermon.com',
             port: 80
