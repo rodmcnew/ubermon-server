@@ -81,7 +81,7 @@ module.exports = function (app) {
             template: path.resolve(__dirname, '../../server/views/activationEmail.ejs'),
             redirect: '/?emailJustVerified=1',
             user: user,
-            host: 'ubermon.com',
+            host: 'api.ubermon.com',
             port: 80
         };
 
