@@ -1,1 +1,0 @@
-https://github.com/hay-wire/Chart.js/tree/skip-xlabels
