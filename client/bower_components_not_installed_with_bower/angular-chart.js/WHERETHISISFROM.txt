@@ -1,1 +1,0 @@
-https://raw.githubusercontent.com/jtblin/angular-chart.js/0.10.2/dist/angular-chart.js
