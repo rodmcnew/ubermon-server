@@ -11,7 +11,8 @@ SMTP_USER
 UBERMON_REMOTE_KEY
 UBERMON_REMOTE_URL http://remote1.ubermon.com/api/Monitors/ping
 CLEARDB_DATABASE_URL not used?
-
+process.env.SERVER_HOST - domain name the server is running on
+process.env.CLIENT_URL - https://ubermon.github.io
 
 OPTIONS FOR REMOTE:
 IS_REMOTE 0=NO, 1=YES
