@@ -29,9 +29,9 @@ module.exports.start = function (app) {
                     subject: monitor.name + ' is ' + statusWord + '.', // Subject line
                     html: '<p><strong>' + monitor.name + ' is ' + statusWord + '.</strong></p>'
                     + '<p>Monitor Name: ' + monitor.name + '<br>Monitor URL: ' + monitor.url + '<br>Monitor Status: ' + statusWord + '</p>'
-                    + '<p>Login at <a href="http://www.ubermon.com">Ubermon.com</a> '
+                    + '<p>Login at <a href="' + process.env.CLIENT_URL + '">' + process.env.CLIENT_URL + '</a> '
                     + 'to change your notification settings.</p>',
-                    text: monitor.name + ' is ' + statusWord + ".\n\nLogin at Ubermon.com to change your notification settings."
+                    text: monitor.name + ' is ' + statusWord + ".\n\nLogin at ' + process.env.CLIENT_URL + ' to change your notification settings."
                 }, function (err) {
                     if (err) {
                         console.error(err);
